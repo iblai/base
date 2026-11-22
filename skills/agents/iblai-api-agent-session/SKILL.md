@@ -1,6 +1,6 @@
 ---
 name: iblai-api-agent-session
-description: Talk to a deployed ibl.ai agent directly over REST/SSE (or WebSocket) and manage its chat sessions — POST a prompt to the agent chat endpoint, attach arbitrary metadata (surfaced later as client_context), list/read sessions and per-task history exports, and give the agent client tools that run on the user's machine (client_tools, the client_tool_call frame, chat-tool-results). The direct-transport counterpart to iblai-api-agent-chat's MCP wiring; use when you want raw streamed chat + session records rather than an MCP server.
+description: Talk to a deployed ibl.ai agent directly over REST/SSE (or WebSocket) and manage its chat sessions — POST a prompt to the agent chat endpoint, attach arbitrary metadata (surfaced later as client_context), list/read sessions and per-task history exports, and give the agent client tools that run on the user's machine (client_tools, the client_tool_call frame, /v1/chat/tool-results). The direct-transport counterpart to iblai-api-agent-chat's MCP wiring; use when you want raw streamed chat + session records rather than an MCP server.
 metadata:
   kind: api
 ---
@@ -66,7 +66,7 @@ not guaranteed to be retrieved if higher-scoring eligible documents fill the top
 **`client_tools` → tools the client runs.** A turn may also carry `client_tools`:
 OpenAI-style function definitions for tools that run on the user's machine (`read_page`,
 `click`). When the agent calls one, the stream carries a `client_tool_call` frame; the
-client runs the tool and posts the output to `chat-tool-results/`, and the agent continues
+client runs the tool and posts the output to `/v1/chat/tool-results`, and the agent continues
 on the same turn. The agent must have `enable_client_tools` on, the definitions are sent
 on every turn that may use them (nothing is stored on the session), and an unanswered call
 fails after at most 300 seconds. Frame shapes, limits and status codes:
@@ -114,7 +114,7 @@ fails after at most 300 seconds. Frame shapes, limits and status codes:
   persisted (see Concepts and Schema). `client_tools` is optional and defaults to null;
   the turn is refused with a `400` error frame when the agent's `enable_client_tools` is
   off. The **same payload** works over WebSocket at `wss://asgi.data.iblai.app/ws/chat/`.
-- **POST** `…/dm/api/ai-mentor/orgs/{org}/users/{user}/chat-tool-results/` — return the
+- **POST** `https://api.iblai.app/dm/v1/chat/tool-results` — return the
   output of a client tool the agent called. Body:
   ```json
   {
@@ -205,7 +205,7 @@ tagging documents at ingestion (the `custom_metadata` field on `documents/train/
 
 - [`references/client-tools.md`](references/client-tools.md) — tools the client runs:
   the `client_tools` definition and its limits, the `client_tool_call` frame, the
-  `chat-tool-results/` endpoint and its status codes, timeouts and stop, and every reason
+  `/v1/chat/tool-results` endpoint and its status codes, timeouts and stop, and every reason
   a turn that sends `client_tools` is refused.
 - [`references/metadata-passthrough.md`](references/metadata-passthrough.md) — the
   `metadata` pass-through companion: the `<CONTEXT METADATA>` prompt-injection format,

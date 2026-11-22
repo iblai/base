@@ -4,8 +4,8 @@ Companion to `/iblai-api-agent-session`. A chat client can give the agent tools
 that run **on the client** — `read_page`, `click`, `keyboard` in a browser
 extension or desktop app. The agent decides when to call one; the client runs it
 and returns the result; the agent continues. Auth is unchanged:
-`Authorization: Api-Token $IBLAI_API_KEY`, `{org}` = `$IBLAI_ORG`, `{user}` =
-`$IBLAI_USERNAME`.
+`Authorization: Api-Token $IBLAI_API_KEY`; where a path below has `{org}` or
+`{user}`, they are `$IBLAI_ORG` and `$IBLAI_USERNAME`.
 
 > **Availability.** Client tools need a platform release that has the
 > `enable_client_tools` agent setting. On an earlier release the `client_tools`
@@ -19,7 +19,7 @@ and returns the result; the agent continues. Auth is unchanged:
 2. **Send the tool definitions with the chat turn**, as `client_tools` on the
    same payload `/api/agent/chat/` and `/ws/chat/` already take.
 3. **Watch the stream for `client_tool_call`.** The agent is now waiting.
-4. **Run the tool and post its output** to `chat-tool-results/`.
+4. **Run the tool and post its output** to `/v1/chat/tool-results`.
 5. **Keep reading the stream.** The agent's reply continues on the same turn.
 
 The result goes over HTTP, not back up the socket: the server does not read the
@@ -58,7 +58,8 @@ chat connection while a turn is running.
 - **Limits:** at most 32 tools; `name` matches `^[A-Za-z0-9_-]{1,64}$` and is
   unique in the list; `description` ≤ 1024 characters; `parameters` is valid
   JSON Schema with top-level `"type": "object"`, ≤ 16 KB serialized, without
-  `$ref`, and with no parameter named `config` or `run_manager`.
+  `$ref`, not nested too deeply to check (a few hundred levels), and with no
+  parameter named `config`, `run_manager` or `self`.
 
 ## The `client_tool_call` frame
 
@@ -85,7 +86,7 @@ chat connection while a turn is running.
 
 ## Returning the result
 
-**POST** `https://api.iblai.app/dm/api/ai-mentor/orgs/{org}/users/{user}/chat-tool-results/`
+**POST** `https://api.iblai.app/dm/v1/chat/tool-results`
 
 ```json
 {
@@ -100,14 +101,16 @@ chat connection while a turn is running.
   output as JSON. When the tool failed, set `is_error` to `true` and describe
   the failure in `output`; the agent sees it and can try something else.
 - Post with **the same credential that started the turn**: only the user whose
-  turn made the call can answer it, and `{user}` must be that user.
+  turn made the call can answer it. The org and user come from the credential;
+  there is nothing to put in the path. `iblai-org` and `iblai-user` headers are
+  optional and may only name the caller. A service account cannot answer a call.
 - This is REST on the `api.iblai.app/dm` gateway, not the ASGI host.
 
 | Status | Meaning |
 |---|---|
 | `200` `{"detail": "Accepted"}` | Delivered; the agent continues. |
 | `400` | Missing field, or `output` over the limit. |
-| `403` | `{org}` or `{user}` is not the caller's, or the caller lacks `Ibl.Mentor/ChatToolResults/action` (granted to every member by the platform's seeded Student policy). |
+| `403` | `iblai-org` or `iblai-user` names someone other than the caller, the caller is a service account, or the caller lacks `Ibl.Mentor/ChatToolResults/action` (granted to every member by the platform's seeded Student policy). |
 | `404` | No call of yours is waiting under that id: it timed out, already finished, or is not yours. Treat all three the same. |
 | `409` | The call was already answered. The first result stands. |
 
@@ -143,7 +146,10 @@ A turn that sends `client_tools` is refused with an error frame
 
 ## Security notes
 
-- Tool output is content from the user's page or machine. If the organization
-  has tool-output sanitization on, it is applied to client tool output too.
+- Tool output is content from the user's page or machine, so the agent always
+  receives it wrapped in markers that tell it to treat the text as data, not
+  instructions. HTML tags are stripped from it only when the organization has
+  tool-output sanitization on; otherwise markup you return reaches the agent
+  as sent.
 - A client tool can do whatever your client lets it. Decide in the client which
   actions need the user's confirmation; the platform does not ask.
