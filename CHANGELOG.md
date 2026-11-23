@@ -3,6 +3,12 @@
 All notable changes to the [vibe](https://github.com/iblai/vibe) toolkit.
 
 
+## [2.27.0] - 2026-11-23
+
+### Added
+
+- the Assistant, the Default Agent docked beside every page; starter to @iblai/iblai-js 2.85.1
+
 ## [2.26.1] - 2026-11-20
 
 ### Documentation
