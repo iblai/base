@@ -9,9 +9,13 @@
 
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { initializeDataLayer } from "@iblai/iblai-js/data-layer";
+import {
+  initializeDataLayer,
+  type TokenResponse,
+} from "@iblai/iblai-js/data-layer";
 import { AuthProvider, TenantProvider } from "@iblai/iblai-js/web-utils";
 import { config } from "@/lib/config";
+import { redirectToAuthSpa, tokenRefreshUrl } from "@/lib/utils";
 import { resolveAppTenant, checkTenantMismatch } from "@/lib/iblai/tenant";
 
 // ---------------------------------------------------------------------------
@@ -39,46 +43,6 @@ class LocalStorageService {
 }
 
 const storageService = LocalStorageService.getInstance();
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function getRedirectOrigin(): string {
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  if (typeof window !== "undefined" && "__TAURI_INTERNALS__" in window) {
-    const scheme = config.tauriCustomScheme();
-    if (scheme && /android|iphone|ipad|ipod/i.test(navigator.userAgent)) {
-      return `${scheme}://`;
-    }
-  }
-  return origin;
-}
-
-async function redirectToAuthSpa(
-  redirectTo?: string,
-  platformKey?: string,
-  logout?: boolean,
-  saveRedirect?: boolean,
-) {
-  const redirectOrigin = getRedirectOrigin();
-  const path = redirectTo ?? (typeof window !== "undefined" ? window.location.pathname : "/");
-  if (saveRedirect) localStorage.setItem("redirectTo", path);
-
-  let authUrl = `${config.authUrl()}/login?app=agent&redirect-to=${redirectOrigin}`;
-  if (platformKey) authUrl += `&tenant=${encodeURIComponent(platformKey)}`;
-  if (logout) authUrl += `&logout=1`;
-
-  window.location.href = authUrl;
-}
-
-function hasNonExpiredAuthToken(): boolean {
-  const token = window.localStorage.getItem("axd_token");
-  if (!token) return false;
-  const tokenExpiry = window.localStorage.getItem("axd_token_expires");
-  if (!tokenExpiry) return false;
-  return new Date(tokenExpiry) > new Date();
-}
 
 // Routes that skip auth
 const PUBLIC_ROUTES = new Map<RegExp, () => Promise<boolean>>([
@@ -108,8 +72,8 @@ export function Providers({ children }: { children: ReactNode }) {
   const [isInitialized] = useState(() => {
     if (typeof window === "undefined") return false;
     try {
-      // The data-layer v1.2+ initializeDataLayer signature is:
-      // (dmUrl, lmsUrl, legacyLmsUrl, storageService, httpErrorHandler)
+      // (dmUrl, lmsUrl, legacyLmsUrl, storageService, httpErrorHandler,
+      //  studioUrl, refreshAuthToken)
       // legacyLmsUrl is the non-consolidated LMS URL (same as lmsUrl here).
       initializeDataLayer(
         config.dmUrl(),
@@ -118,6 +82,14 @@ export function Providers({ children }: { children: ReactNode }) {
         storageService,
         {
           401: () => redirectToAuthSpa(undefined, undefined, true),
+        },
+        undefined,
+        // An expired session goes back through the Auth SPA, as in iblai/os,
+        // instead of a re-mint from the edX JWT. Never settles: the page is
+        // leaving, and `false` would run the 401 handler, a logout.
+        () => {
+          window.location.href = tokenRefreshUrl();
+          return new Promise<boolean>(() => {});
         },
       );
     } catch (e) {
@@ -142,7 +114,7 @@ export function Providers({ children }: { children: ReactNode }) {
       localStorage.setItem("current_tenant", JSON.stringify({ key: tenant }));
       localStorage.setItem("tenant", tenant);
       if (saveRedirect && typeof window !== "undefined") {
-        localStorage.setItem("redirectTo", window.location.pathname);
+        localStorage.setItem("redirect-to", window.location.pathname);
       }
       // Reload so the app re-initializes with the new tenant
       window.location.reload();
@@ -197,6 +169,18 @@ export function Providers({ children }: { children: ReactNode }) {
         handleTenantSwitch={handleTenantSwitch}
         saveCurrentTenant={saveCurrentTenant}
         saveUserTenants={saveUserTenants}
+        // The fresh org-scoped pair from a re-auth; unsaved, the provider
+        // loops on "User still does not belong to tenant after re-auth".
+        saveUserTokens={(tokens: TokenResponse) => {
+          if (tokens?.axd_token) {
+            localStorage.setItem("axd_token", tokens.axd_token.token);
+            localStorage.setItem("axd_token_expires", tokens.axd_token.expires);
+          }
+          if (tokens?.dm_token) {
+            localStorage.setItem("dm_token", tokens.dm_token.token);
+            localStorage.setItem("dm_token_expires", tokens.dm_token.expires);
+          }
+        }}
         redirectToAuthSpa={redirectToAuthSpa}
         username={username}
         fallback={LOADING}

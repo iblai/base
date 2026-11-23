@@ -2,9 +2,18 @@
 /**
  * ibl.ai auth helper utilities.
  *
- * These are thin wrappers used by IblaiProviders. You can customise the
- * redirect behaviour here without touching the provider component.
+ * Sign-in and sign-out are the SDK's own (`@iblai/iblai-js/web-utils/auth`,
+ * the functions iblai/os calls); this file supplies the app's settings. That
+ * subpath carries no React, so any module may import it.
  */
+
+import {
+  handleLogout as sdkHandleLogout,
+  hasNonExpiredAuthToken,
+  isInIframe,
+  redirectToAuthSpa as sdkRedirectToAuthSpa,
+  setCookieForAuth,
+} from "@iblai/iblai-js/web-utils/auth";
 
 import config from "./config";
 import { resolveAppTenant } from "./tenant";
@@ -15,49 +24,55 @@ export function isTauri(): boolean {
   return "__TAURI_INTERNALS__" in window || "__TAURI__" in window;
 }
 
-/** Check if running inside a Tauri mobile app (iOS/Android). */
-export function isTauriMobile(): boolean {
-  if (!isTauri()) return false;
-  return /android|iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-
-/** Get the redirect origin for the Auth SPA.
- *  - Mobile Tauri: custom scheme (e.g. `iblai-skills://`)
- *  - Desktop Tauri / Web: window.location.origin
+/**
+ * Redirect to the ibl.ai Auth SPA for login. The SDK clears the stored
+ * session, saves the path to come back to, and inside a frame asks the host
+ * for a session instead of navigating.
  */
-function getRedirectOrigin(): string {
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  if (isTauriMobile()) {
-    const scheme = config.tauriCustomScheme();
-    if (scheme) return `${scheme}://`;
-  }
-  return origin;
-}
-
-/** Redirect the browser to the ibl.ai Auth SPA for login. */
 export async function redirectToAuthSpa(
   redirectTo?: string,
   platformKey?: string,
   logout?: boolean,
-  saveRedirect?: boolean,
+  saveRedirect = true,
 ) {
-  const redirectOrigin = getRedirectOrigin();
-  const path = redirectTo ?? (typeof window !== "undefined" ? window.location.pathname : "/");
+  return sdkRedirectToAuthSpa({
+    redirectTo,
+    platformKey: platformKey || resolveAppTenant() || undefined,
+    logout,
+    saveRedirect,
+    authUrl: config.authUrl(),
+    appName: "custom",
+    // Where the path to come back to waits; /sso-login-complete reads it.
+    redirectPathStorageKey: "redirect-to",
+    hasNonExpiredAuthToken,
+    // Tauri: the Auth SPA returns a Google/Apple sign-in on this scheme.
+    isNativeApp: isTauri,
+    scheme: config.tauriCustomScheme(),
+  });
+}
 
-  if (saveRedirect) {
-    localStorage.setItem("redirectTo", path);
-  }
+/**
+ * Where an expired session goes: the Auth SPA's `/login/complete` mints fresh
+ * tokens from its own session and returns to this page through
+ * `/sso-login-complete` — a refresh, not a logout (iblai/os, lib/token-refresh.ts).
+ */
+export function tokenRefreshUrl(): string {
+  const params = new URLSearchParams({
+    "redirect-to": window.location.origin,
+    "redirect-path": `${window.location.pathname}${window.location.search}`,
+  });
+  const tenant = resolveAppTenant();
+  if (tenant) params.set("tenant", tenant);
+  return `${config.authUrl()}/login/complete?${params}`;
+}
 
-  const tenant = platformKey || resolveAppTenant();
-  let authUrl = `${config.authUrl()}/login?app=custom&redirect-to=${redirectOrigin}`;
-  if (tenant) authUrl += `&tenant=${encodeURIComponent(tenant)}`;
-  if (logout) authUrl += "&logout=1";
-
-  // All platforms (web, desktop Tauri, mobile Tauri): navigate the window
-  // to the Auth SPA.  On desktop Tauri the auth page loads in-app, and
-  // the Rust on_navigation filter opens OAuth providers (Google, Apple)
-  // in a popup window automatically.
-  window.location.href = authUrl;
+/**
+ * The landing guard for SsoLogin, which goes to `location.origin + path` and
+ * takes `path` from `?redirect-path=` when none was saved: only a path with a
+ * single leading slash stays on this origin (`@evil.example` would not).
+ */
+export function safeRedirectPath(path: string): string {
+  return /^\/(?![/\\])/.test(path) ? path : "/";
 }
 
 /**
@@ -71,20 +86,14 @@ export function loginReturnUrl(origin: string = config.appUrl()): string {
   return `${config.authUrl()}/login?app=custom&redirect-to=${encodeURIComponent(origin)}`;
 }
 
-/** Check whether a non-expired auth token exists in localStorage. */
-export function hasNonExpiredAuthToken(): boolean {
-  if (typeof window === "undefined") return false;
-  const token = localStorage.getItem("axd_token");
-  if (!token) return false;
-  const expiry = localStorage.getItem("axd_token_expires");
-  if (!expiry) return false;
-  return new Date(expiry) > new Date();
-}
-
-/** Handle logout: clear state and redirect to the Auth SPA logout page. */
+/**
+ * Handle logout: clear the session (keeping `tenant`) and the cookies, end at
+ * the Auth SPA's logout page, and signal sibling apps on this domain.
+ */
 export function handleLogout() {
-  const tenant = resolveAppTenant();
-  const redirectOrigin = getRedirectOrigin();
-  localStorage.clear();
-  window.location.href = `${config.authUrl()}/logout?redirect-to=${redirectOrigin}&tenant=${encodeURIComponent(tenant)}`;
+  sdkHandleLogout({ authUrl: config.authUrl() });
+  // Set after the SDK's cookie clear, which removes its own copy (as iblai/os).
+  if (!isInIframe()) {
+    setCookieForAuth("ibl_logout_timestamp", Date.now().toString());
+  }
 }
