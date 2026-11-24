@@ -17,6 +17,11 @@ customizes — reads return the default with `is_inherited: true`.
   toggle state; loses all content edits.
 - **Toggle** (enabled/disabled, via `templates/{type}/toggle/`) is a separate
   record from content — see the delivery-gate note in `guide.md`.
+- **Content edits need the org to be enabled.** Until ibl.ai enables
+  `NOTIFICATION_TEMPLATE_EDITING_ENABLED` for the org, a `PATCH` that changes
+  content returns `403` and `can_customize` is `false`; the first `PATCH`
+  can still clone the default for config-only edits. See **Notes** in
+  `SKILL.md`.
 - **System-managed types** (`HUMAN_SUPPORT_NOTIFICATION`, `POLICY_ASSIGNMENT`,
   `PROACTIVE_LEARNER_NOTIFICATION`) expose only their config fields;
   `message_body`, `short_message_body`, `email_html_template` are read-only. Their
