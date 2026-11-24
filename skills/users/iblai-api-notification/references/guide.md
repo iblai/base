@@ -68,7 +68,9 @@ message): `draft` (preview created) → `previewed` (recipients resolved) →
 delivered) or `failed` (delivery error). A `queued` build moves to `sending` once
 `process_on` is reached.
 
-One preview body — custom content to two combined sources:
+One preview body — custom content to two combined sources (custom
+`template_data` needs the org to be enabled for authoring by ibl.ai; otherwise
+`preview/` returns `403` and you send a predefined `template_id` instead):
 
 ```json
 {
@@ -127,6 +129,6 @@ Two independent state machines per notification:
 - Prefer `bulk-update/` over marking one-by-one.
 - Test a template (`templates/{type}/test/`) before enabling it org-wide; disable
   types the org doesn't use.
-- Errors: `401` bad/missing token · `403` insufficient role or RBAC grant · `404`
+- Errors: `401` bad/missing token · `403` insufficient role or RBAC grant, or authoring not enabled for the org (template content edits, custom builder messages) · `404`
   check `org` / `username` / `notification_id` / `type` in the path · `400`
   malformed body.
