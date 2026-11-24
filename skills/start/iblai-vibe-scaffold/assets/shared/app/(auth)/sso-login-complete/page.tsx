@@ -2,6 +2,7 @@
 
 import React, { Suspense } from "react";
 import { SsoLogin as SsoLoginComponent } from "@iblai/iblai-js/web-containers/next";
+import { safeRedirectPath } from "@/lib/utils";
 
 const LOCAL_STORAGE_KEYS = {
   CURRENT_TENANT: "current_tenant",
@@ -30,8 +31,9 @@ function SsoLoginCompleteContent() {
         DM_TOKEN_EXPIRES: LOCAL_STORAGE_KEYS.DM_TOKEN_EXPIRY,
         EDX_TOKEN_KEY: LOCAL_STORAGE_KEYS.EDX_TOKEN_KEY,
       }}
-      redirectPathKey="redirectTo"
+      redirectPathKey="redirect-to"
       defaultRedirectPath={defaultRedirectPath}
+      resolveRedirectPath={safeRedirectPath}
     />
   );
 }

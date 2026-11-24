@@ -6,27 +6,29 @@
  * were laid out.
  */
 
+import {
+  handleLogout as sdkHandleLogout,
+  isInIframe,
+  setCookieForAuth,
+} from "@iblai/iblai-js/web-utils/auth";
 import { config } from "@/lib/config";
-import { resolveAppTenant } from "@/lib/iblai/tenant";
 
-export { redirectToAuthSpa } from "@/lib/utils";
+export {
+  redirectToAuthSpa,
+  safeRedirectPath,
+  tokenRefreshUrl,
+} from "@/lib/utils";
 
-/** Check whether a non-expired auth token exists in localStorage. */
-export function hasNonExpiredAuthToken(): boolean {
-  if (typeof window === "undefined") return false;
-  const token = localStorage.getItem("axd_token");
-  if (!token) return false;
-  const expiry = localStorage.getItem("axd_token_expires");
-  if (!expiry) return false;
-  return new Date(expiry) > new Date();
-}
-
-/** Clear state and redirect to the Auth SPA logout page. */
+/**
+ * Clear the session (keeping `tenant`) and the cookies, end at the Auth SPA's
+ * logout page, and signal sibling apps on this domain.
+ */
 export function handleLogout() {
-  const tenant = resolveAppTenant();
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  localStorage.clear();
-  window.location.href = `${config.authUrl()}/logout?redirect-to=${origin}&tenant=${tenant}`;
+  sdkHandleLogout({ authUrl: config.authUrl() });
+  // Set after the SDK's cookie clear, which removes its own copy (as iblai/os).
+  if (!isInIframe()) {
+    setCookieForAuth("ibl_logout_timestamp", Date.now().toString());
+  }
 }
 
 /**

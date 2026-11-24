@@ -3,6 +3,8 @@
 import { Suspense } from "react";
 import { SsoLogin } from "@iblai/iblai-js/web-containers/next";
 
+import { safeRedirectPath } from "@/lib/iblai/auth-utils";
+
 /**
  * SSO Login Complete page.
  *
@@ -12,7 +14,7 @@ import { SsoLogin } from "@iblai/iblai-js/web-containers/next";
  */
 export default function SsoLoginCompletePage() {
   return (
-    <Suspense fallback={<div>Completing login…</div>}>
+    <Suspense fallback={null}>
       <SsoLogin
         localStorageKeys={{
           CURRENT_TENANT: "current_tenant",
@@ -24,8 +26,9 @@ export default function SsoLoginCompletePage() {
           DM_TOKEN_EXPIRES: "dm_token_expires",
           EDX_TOKEN_KEY: "edx_jwt_token",
         }}
-        redirectPathKey="redirectTo"
+        redirectPathKey="redirect-to"
         defaultRedirectPath="/"
+        resolveRedirectPath={safeRedirectPath}
       />
     </Suspense>
   );

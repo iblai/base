@@ -37,7 +37,7 @@ import { iblaiStore } from "@/store/iblai-store";
 import { LocalStorageService } from "@/lib/iblai/storage-service";
 import config from "@/lib/iblai/config";
 import { resolveAppTenant, checkTenantMismatch } from "@/lib/iblai/tenant";
-import { redirectToAuthSpa } from "@/lib/iblai/auth-utils";
+import { redirectToAuthSpa, tokenRefreshUrl } from "@/lib/iblai/auth-utils";
 
 const storageService = LocalStorageService.getInstance();
 
@@ -83,8 +83,8 @@ export function IblaiProviders({ children }: { children: ReactNode }) {
   const [isInitialized] = useState(() => {
     if (typeof window === "undefined") return false;
     try {
-      // data-layer v1.2+ signature:
-      // (dmUrl, lmsUrl, legacyLmsUrl, storageService, httpErrorHandler)
+      // (dmUrl, lmsUrl, legacyLmsUrl, storageService, httpErrorHandler,
+      //  studioUrl, refreshAuthToken)
       initializeDataLayer(
         config.dmUrl(),
         config.lmsUrl(),
@@ -113,6 +113,14 @@ export function IblaiProviders({ children }: { children: ReactNode }) {
               }),
             );
           },
+        },
+        undefined,
+        // An expired session goes back through the Auth SPA, as in iblai/os,
+        // instead of a re-mint from the edX JWT. Never settles: the page is
+        // leaving, and `false` would run the 401 handler, a logout.
+        () => {
+          window.location.href = tokenRefreshUrl();
+          return new Promise<boolean>(() => {});
         },
       );
     } catch (e) {
