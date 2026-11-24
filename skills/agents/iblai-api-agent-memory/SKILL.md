@@ -8,7 +8,7 @@ metadata:
 
 # iblai-api-agent-memory
 
-> ★ **Core family.** **With a screen:** `/iblai-vibe-memory-guide` mounts the memory surfaces — org-wide admin, one agent's tab, the member's own view — this skill is the headless twin (same data, exact endpoints).
+> ★ **Core family.** **With a screen:** `/iblai-ui-memory-guide` mounts the memory surfaces — org-wide admin, one agent's tab, the member's own view — this skill is the headless twin (same data, exact endpoints).
 
 Manage an agent's memories through the API: browse and filter what an agent has
 remembered, curate global (cross-agent) memories, add / edit / delete individual

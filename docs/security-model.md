@@ -62,8 +62,8 @@ Check what a deployed app sends: `curl -sI https://<your-app>/ | grep -i content
   session `dm_token`; the server verifies it against
   `GET /dm/api/core/token/verify/`) and **that they administer the org**
   (`requireAdmin`), and only then acts with the org's key.
-- `iblai.env*` and `.env*` are gitignored; the `/iblai-vibe-ops-init` skill
-  never echoes the token; `/iblai-vibe-ops-deploy` passes it to the hosting
+- `iblai.env*` and `.env*` are gitignored; the `/iblai-ui-ops-init` skill
+  never echoes the token; `/iblai-ui-ops-deploy` passes it to the hosting
   platform as a server env var.
 - `.npmrc` (written by ops-init) pins `minimum-release-age` and
   `save-exact` to blunt supply-chain attacks on dependencies.
@@ -79,4 +79,4 @@ Check what a deployed app sends: `curl -sI https://<your-app>/ | grep -i content
   Mobile sign-in goes through the system browser and returns via a custom
   scheme — list that scheme in the org's allowed redirect origins.
 
-Related: [glossary.md](glossary.md) · `/iblai-vibe-auth` · `/iblai-vibe-api` · `/iblai-vibe-ops-deploy`.
+Related: [glossary.md](glossary.md) · `/iblai-ui-auth` · `/iblai-ui-api` · `/iblai-ui-ops-deploy`.

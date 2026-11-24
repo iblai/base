@@ -6,7 +6,7 @@ import { join } from "node:path";
 export const ROOT = new URL("../..", import.meta.url).pathname.replace(/\/$/, "");
 export const SKILLS_DIR = join(ROOT, "skills");
 export const CATEGORIES = JSON.parse(readFileSync(join(ROOT, "scripts", "skill-categories.json"), "utf8"));
-export const STARTER_DIR = join(SKILLS_DIR, "start", "iblai-vibe-ops-init", "assets", "vibe-starter");
+export const STARTER_DIR = join(SKILLS_DIR, "start", "iblai-ui-ops-init", "assets", "vibe-starter");
 
 /** Every skill: { name, category, dir, file } sorted by category order, then name. */
 export function listSkills() {

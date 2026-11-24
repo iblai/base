@@ -4,7 +4,7 @@ This is the **build layer** in depth: how [iblai/base](https://github.com/iblai/
 and the `iblai-app-cli` scaffolder let you (and your AI agent) go from zero to a
 deployed AI app on the ibl.ai backend in minutes — with authentication, AI chat,
 profiles, notifications, and analytics already wired up. Unlike this repo
-(the `iblai-api-*` skills, now in this same repo), which authenticate with an Api-Token to *operate* the platform, the `iblai-vibe-*` skills
+(the `iblai-api-*` skills, now in this same repo), which authenticate with an Api-Token to *operate* the platform, the `iblai-ui-*` skills
 apps authenticate with **client-side SSO** — there are no API tokens to store, rotate,
 or leak. Two production apps are built this way: **Agentic OS**
 ([os.ibl.ai](https://os.ibl.ai)) and **Agentic LMS** ([lms.ibl.ai](https://lms.ibl.ai)).
@@ -105,8 +105,8 @@ action-definitions endpoint, and the Roles + Policies management UI components).
 `/iblai-agent-history`, `/iblai-agent-llm`, `/iblai-agent-memory`, `/iblai-agent-prompt`,
 `/iblai-agent-safety`, `/iblai-agent-tool`.
 
-**Ops skills** — `/iblai-vibe-ops-build` (build + run on desktop and mobile), `/iblai-vibe-ops-test`
-(validate the app before showing the user), `/iblai-vibe-ops-upgrade` (upgrade the ibl.ai
+**Ops skills** — `/iblai-ui-ops-build` (build + run on desktop and mobile), `/iblai-ui-ops-test`
+(validate the app before showing the user), `/iblai-ui-ops-upgrade` (upgrade the ibl.ai
 CLI, SDK, and vibe skills). *(Earlier docs list these as `/iblai-build`, `/iblai-test`,
 and a `/iblai-screenshot` skill for capturing app-store screenshots for web/iOS/Android;
 `/iblai-chat` was the earlier name for the chat skill.)*

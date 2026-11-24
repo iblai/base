@@ -1,38 +1,38 @@
 {
   "_comment": "Per-skill skips for scripts/test-skills-render.mjs fence extraction. '<skill>': 'all' skips every fence; {'targets': ['store/index.ts']} skips fences by declared destination path; {'fences': [0,2]} skips by fence index (brittle — prefer targets; indexes count ts/tsx fences top-to-bottom). Fences with no import/export line, or with elided '...' import lists, are auto-skipped as docs shapes. Keep entries justified — every skip is untested prose code.",
-  "iblai-vibe-agent-assistant": {
+  "iblai-ui-agent-assistant": {
     "targets": ["app/(app)/layout.tsx", "components/navbar/nav-bar.tsx"],
     "reason": "partial edits to vibe-starter's layout and navbar (the imports plus the lines to add around existing code), not compilable modules; the provider itself is an overlay asset, and the full edit was built in vibe-starter"
   },
-  "iblai-vibe-agent-chat": {
+  "iblai-ui-agent-chat": {
     "targets": ["store/index.ts"],
     "reason": "partial store-wiring fragment (imports + bare reducer map to merge into an existing store), not a compilable module"
   },
-  "iblai-vibe-agent-sandbox": {
+  "iblai-ui-agent-sandbox": {
     "fences": [1, 3],
     "reason": "SDK v2 d.ts gap: useGetMentorSettingsQuery / useEditMentorJsonMutation exist at runtime but are missing from data-layer typings"
   },
-  "iblai-vibe-agent-skills": {
+  "iblai-ui-agent-skills": {
     "fences": [4],
-    "reason": "Partial snippet: shows only the useAgentGrants call and the slashSkillsEnabled prop on <Chat>, whose required props (config, username, …) come from /iblai-vibe-agent-chat"
+    "reason": "Partial snippet: shows only the useAgentGrants call and the slashSkillsEnabled prop on <Chat>, whose required props (config, username, …) come from /iblai-ui-agent-chat"
   },
-  "iblai-vibe-profile": {
+  "iblai-ui-profile": {
     "fences": [6],
     "reason": "SDK v2 d.ts gap: the career-profile CRUD hooks (useGetUserEducationQuery et al.) exist at runtime but are missing from data-layer typings"
   },
-  "iblai-vibe-ops-test": {
+  "iblai-ui-ops-test": {
     "fences": [1, 4],
     "reason": "snippets assume @testing-library/jest-dom matcher typings, which the skill installs into the target app; vibe-starter does not ship them"
   },
-  "iblai-vibe-monetization-checkout": {
+  "iblai-ui-monetization-checkout": {
     "all": true,
     "reason": "documents v1-era monetization hooks: useCheckAccessQuery/useGetPublicPricingQuery are absent from the v2 runtime, the rest from typings — needs an SDK/API verification pass and a skill refresh"
   },
-  "iblai-vibe-monetization-onboard": {
+  "iblai-ui-monetization-onboard": {
     "all": true,
     "reason": "Stripe-Connect onboarding hooks absent from v2 data-layer typings — same refresh needed as monetization-checkout"
   },
-  "iblai-vibe-course-access": {
+  "iblai-ui-course-access": {
     "all": true,
     "reason": "documents v1-era course hooks: useGetDepartmentMemberCheckQuery is gone from the v2 runtime entirely, useCourseNavigator/exam/enrollment hooks are d.ts gaps — the skill needs a v2 rewrite"
   }

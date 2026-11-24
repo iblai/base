@@ -8,7 +8,7 @@
 // Source of truth: the live schema at
 //   https://api.iblai.app/dm/api/docs/schema/?format=json
 // vibe bundles no copy, and the skills already treat this endpoint as canonical
-// (docs/api-skills.md, iblai-vibe-api). Override with a cached file for
+// (docs/api-skills.md, iblai-ui-api). Override with a cached file for
 // offline/CI runs:  IBLAI_SCHEMA_FILE=/path/to/schema.json
 //
 // SCOPE (v1): endpoint EXISTENCE (method + path), not request field names —

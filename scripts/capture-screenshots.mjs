@@ -2,7 +2,7 @@
 // Capture the vibe-starter screenshot set (docs/screenshots/README.md).
 //
 //   node scripts/capture-screenshots.mjs --app http://localhost:3000 \
-//     --starter skills/start/iblai-vibe-ops-init/assets/vibe-starter
+//     --starter skills/start/iblai-ui-ops-init/assets/vibe-starter
 //
 // Runs the starter's Playwright auth setup (real SSO, credentials from
 // <starter>/e2e/.env.development) to obtain a storage state, then walks the
@@ -20,7 +20,7 @@ const opt = (name, def) => {
   return i === -1 ? def : args[i + 1];
 };
 const APP = opt("--app", "http://localhost:3000");
-const STARTER = resolve(opt("--starter", "skills/start/iblai-vibe-ops-init/assets/vibe-starter"));
+const STARTER = resolve(opt("--starter", "skills/start/iblai-ui-ops-init/assets/vibe-starter"));
 const OUT = join(ROOT, "docs", "screenshots", "journey");
 mkdirSync(OUT, { recursive: true });
 
@@ -186,15 +186,15 @@ await shot("03-starter-home-chat.png", "/", {
   settle: 5000,
   waitFor: "#chat-input-textarea",
   before: () => seedChat("What can you help me with?"),
-  skillCopy: ["iblai-vibe-ops-init", "iblai-vibe-ops-init-1-home.png"],
+  skillCopy: ["iblai-ui-ops-init", "iblai-ui-ops-init-1-home.png"],
 });
-await shot("05-starter-agents.png", "/agents", { settle: 6000, skillCopy: ["iblai-vibe-agent-search", "iblai-vibe-agent-search.png"] });
+await shot("05-starter-agents.png", "/agents", { settle: 6000, skillCopy: ["iblai-ui-agent-search", "iblai-ui-agent-search.png"] });
 // The App preferences card sits below the SDK <Profile> panel; frame the card.
 await shot("06-starter-profile-preferences.png", "/profile", {
   settle: 5000,
   waitFor: "text=App preferences",
   scrollBottom: true,
-  skillCopy: ["iblai-vibe-user-metadata", "iblai-vibe-user-metadata-1-preferences.png"],
+  skillCopy: ["iblai-ui-user-metadata", "iblai-ui-user-metadata-1-preferences.png"],
 });
 
 if (isAdmin) {
@@ -202,7 +202,7 @@ if (isAdmin) {
   await shot("07-admin-users.png", "/admin/users", {
     settle: 8000,
     waitFor: "table, [role='table'], [role='tablist']",
-    skillCopy: ["iblai-vibe-admin", "iblai-vibe-admin-3-users.png"],
+    skillCopy: ["iblai-ui-admin", "iblai-ui-admin-3-users.png"],
   });
   await shot("08-admin-analytics.png", "/admin/analytics", { settle: 6000 });
   // The App settings form sits below the SDK <Account> panel; frame the form.
@@ -210,21 +210,21 @@ if (isAdmin) {
     settle: 5000,
     waitFor: "#support-url",
     scrollTo: "#support-url",
-    skillCopy: ["iblai-vibe-org-metadata", "iblai-vibe-org-metadata-1-settings.png"],
+    skillCopy: ["iblai-ui-org-metadata", "iblai-ui-org-metadata-1-settings.png"],
   });
   await shot("04-starter-setup.png", "/setup?step=agent", {
     settle: 5000,
     waitFor: "#agent-name, fieldset",
-    skillCopy: ["iblai-vibe-agent-create", "iblai-vibe-agent-create-1-dialog.png"],
+    skillCopy: ["iblai-ui-agent-create", "iblai-ui-agent-create-1-dialog.png"],
   });
   // Admin mode (navbar with the cluster) …
-  await shot("02x-admin-mode.png", "/", { settle: 5000, waitFor: "#chat-input-textarea", skillCopy: ["iblai-vibe-admin", "iblai-vibe-admin-2-admin-mode.png"] });
+  await shot("02x-admin-mode.png", "/", { settle: 5000, waitFor: "#chat-input-textarea", skillCopy: ["iblai-ui-admin", "iblai-ui-admin-2-admin-mode.png"] });
   // … then User mode.
   await page.getByRole("switch", { name: /admin mode/i }).click();
   await page.waitForTimeout(1000);
   const target = join(OUT, "10-user-mode.png");
   await page.screenshot({ path: target });
-  copyFileSync(target, join(skillDir("iblai-vibe-admin"), "iblai-vibe-admin-1-user-mode.png"));
+  copyFileSync(target, join(skillDir("iblai-ui-admin"), "iblai-ui-admin-1-user-mode.png"));
   console.log("  wrote", target);
 }
 

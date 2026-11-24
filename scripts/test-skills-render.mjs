@@ -303,15 +303,15 @@ copyStarterSources(SCRATCH);
 ensureNodeModules(SCRATCH);
 writeDummyEnv(SCRATCH);
 
-log("• vibe-starter itself (iblai-vibe-ops-init)");
-if (!ONLY || ONLY.includes("iblai-vibe-ops-init")) {
+log("• vibe-starter itself (iblai-ui-ops-init)");
+if (!ONLY || ONLY.includes("iblai-ui-ops-init")) {
   for (const [label, cmdArgs] of [
     ["typecheck", ["typecheck"]],
     ["unit tests", ["test"]],
     ...(RUN_BUILD ? [["build", ["build"]]] : []),
   ]) {
     const err = run("pnpm", cmdArgs, SCRATCH);
-    if (err) failures.push(`iblai-vibe-ops-init: starter ${label} failed\n${indent(err)}`);
+    if (err) failures.push(`iblai-ui-ops-init: starter ${label} failed\n${indent(err)}`);
     else log(`  ✓ starter ${label}`);
   }
 }

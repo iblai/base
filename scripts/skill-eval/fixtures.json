@@ -3,52 +3,52 @@
   "cases": [
     {
       "goal": "let me charge users to enter my whole app",
-      "expectAny": ["iblai-vibe-monetization-app-paywall"],
-      "forbid": ["iblai-vibe-credit", "iblai-vibe-monetization-checkout"]
+      "expectAny": ["iblai-ui-monetization-app-paywall"],
+      "forbid": ["iblai-ui-credit", "iblai-ui-monetization-checkout"]
     },
     {
       "goal": "sell a single course to buyers",
-      "expectAny": ["iblai-vibe-monetization-checkout", "iblai-vibe-monetization-configure"],
-      "forbid": ["iblai-vibe-monetization-app-paywall", "iblai-vibe-credit"]
+      "expectAny": ["iblai-ui-monetization-checkout", "iblai-ui-monetization-configure"],
+      "forbid": ["iblai-ui-monetization-app-paywall", "iblai-ui-credit"]
     },
     {
       "goal": "give each user a rechargeable credit balance to spend on the AI",
-      "expectAny": ["iblai-vibe-credit"],
-      "forbid": ["iblai-vibe-monetization-app-paywall"]
+      "expectAny": ["iblai-ui-credit"],
+      "forbid": ["iblai-ui-monetization-app-paywall"]
     },
     {
       "goal": "add sign in with ibl.ai to my app",
-      "expectAny": ["iblai-vibe-auth"],
+      "expectAny": ["iblai-ui-auth"],
       "forbid": []
     },
     {
       "goal": "let org admins manage users, roles and permissions",
-      "expectAny": ["iblai-vibe-admin", "iblai-vibe-rbac"],
+      "expectAny": ["iblai-ui-admin", "iblai-ui-rbac"],
       "forbid": []
     },
     {
       "goal": "add a chat with an AI agent to my app",
-      "expectAny": ["iblai-vibe-agent-chat"],
+      "expectAny": ["iblai-ui-agent-chat"],
       "forbid": []
     },
     {
       "goal": "train an agent on my PDF documents so it answers from them",
-      "expectAny": ["iblai-vibe-agent-dataset", "iblai-api-agent-dataset"],
+      "expectAny": ["iblai-ui-agent-dataset", "iblai-api-agent-dataset"],
       "forbid": []
     },
     {
       "goal": "show usage and LLM cost analytics for my organization",
-      "expectAny": ["iblai-vibe-analytics", "iblai-api-analytics"],
+      "expectAny": ["iblai-ui-analytics", "iblai-api-analytics"],
       "forbid": []
     },
     {
       "goal": "create a brand new agent from a template",
-      "expectAny": ["iblai-vibe-agent-create", "iblai-api-agent-create"],
+      "expectAny": ["iblai-ui-agent-create", "iblai-api-agent-create"],
       "forbid": []
     },
     {
       "goal": "deploy and publish my app to the web",
-      "expectAny": ["iblai-vibe-ops-deploy"],
+      "expectAny": ["iblai-ui-ops-deploy"],
       "forbid": []
     }
   ]

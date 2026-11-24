@@ -7,8 +7,8 @@ metadata:
 
 # iblai-api-agent-voice
 
-> **With a screen:** `/iblai-vibe-agent-voice` (Voice tab) and
-> `/iblai-vibe-agent-screenshare` (Screen tab) mount the same data — this
+> **With a screen:** `/iblai-ui-agent-voice` (Voice tab) and
+> `/iblai-ui-agent-screenshare` (Screen tab) mount the same data — this
 > skill is their headless twin.
 
 Configure how an agent speaks and listens. **Scope: per agent** — every field

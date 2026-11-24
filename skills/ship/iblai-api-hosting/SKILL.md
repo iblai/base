@@ -1,13 +1,13 @@
 ---
 name: iblai-api-hosting
-description: Deploy and manage ibl.ai-hosted web apps headlessly via the Data Manager API — upload a build as a zip, poll the deployment until it is live, read the deployed URL, attach and verify custom domains, and delete projects. Covers the deployment lifecycle, the DNS records a domain needs, the public project-to-organization lookup a hosted app calls at boot, and the admin-only access rule. Use when deploying an app, checking a deploy's status, wiring a custom domain, or debugging a failed push; see /iblai-vibe-ops-deploy for the guided runbook.
+description: Deploy and manage ibl.ai-hosted web apps headlessly via the Data Manager API — upload a build as a zip, poll the deployment until it is live, read the deployed URL, attach and verify custom domains, and delete projects. Covers the deployment lifecycle, the DNS records a domain needs, the public project-to-organization lookup a hosted app calls at boot, and the admin-only access rule. Use when deploying an app, checking a deploy's status, wiring a custom domain, or debugging a failed push; see /iblai-ui-ops-deploy for the guided runbook.
 metadata:
   kind: api
 ---
 
 # iblai-api-hosting
 
-> **With a runbook:** `/iblai-vibe-ops-deploy` walks a human through building and
+> **With a runbook:** `/iblai-ui-ops-deploy` walks a human through building and
 > shipping an app step by step — this skill is the headless twin (same endpoints,
 > no narrative). That runbook writes its URLs with the older `ai-mentor` prefix;
 > both prefixes resolve to the same views.
@@ -261,7 +261,7 @@ curl -s -X POST "$base/dns/" -H "Authorization: Api-Token $IBLAI_API_KEY" \
   `return_url`, a hosted checkout's `success_url`/`cancel_url` — is accepted only for
   a confirmed hosting alias or an attached custom domain of the same organization
   (plus localhost). A URL reconstructed from the project name gets rejected. See
-  `/iblai-vibe-monetization-app-paywall`.
+  `/iblai-ui-monetization-app-paywall`.
 - **`409` on deploy means a push is already in flight** for that project. Poll until
   terminal and retry; a stuck push clears itself after about 15 minutes, after which
   it reads as `failed` and a new deploy is accepted.

@@ -7,7 +7,7 @@ metadata:
 
 # iblai-api-agent-skill
 
-> **With a screen:** `/iblai-vibe-agent-skills` mounts `AgentSkillsTab` on the
+> **With a screen:** `/iblai-ui-agent-skills` mounts `AgentSkillsTab` on the
 > same data — this skill is its headless twin.
 
 Manage an agent's skills via the API: browse the org's skill catalog, toggle

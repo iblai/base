@@ -6,7 +6,7 @@ skills. Each skill links here instead of repeating this boilerplate.
 ## Pre-flight (every skill)
 
 If `iblai.env` does not record `ARCHITECTURE=` (and `PROJECT=`, `ACCESS=`,
-`DOMAIN_FOCUS=`), stop and run `/iblai-vibe-start` — four questions that
+`DOMAIN_FOCUS=`), stop and run `/iblai-ui-start` — four questions that
 decide new/existing, single-org / multi-org / headless, who signs in, and
 what the app is about. Then continue. This is the same in Claude Code,
 OpenAI Codex, Cursor, and OpenCode: the answers live in the project, not in
@@ -49,7 +49,7 @@ outside the scale, a new accent colour, restyling SDK internals, a hand-rolled
 shell or spinner, a card around an SDK panel, dark mode — stop and ask the
 user: what the language says, what would change, what it costs. The wiring,
 the type scale and the canonical components (page header, empty state, loading
-screen, badges, forms, dialogs, tables) are in `/iblai-vibe-component`
+screen, badges, forms, dialogs, tables) are in `/iblai-ui-component`
 (House components) and BRAND.md.
 
 Full brand guidelines:
@@ -73,7 +73,7 @@ Full brand guidelines:
 
 ## Two skill families, one set of credentials
 
-`iblai-vibe-*` skills (kind `ui`/`ops`) read `iblai.env` (`DOMAIN`,
+`iblai-ui-*` skills (kind `ui`/`ops`) read `iblai.env` (`DOMAIN`,
 `PLATFORM`, `TOKEN`, `IBLAI_USERNAME`) and, for Next.js, `.env.local`.
 `iblai-api-*` skills (kind `api`, headless) read `.env` (`IBLAI_ORG`,
 `IBLAI_USERNAME`, `IBLAI_API_KEY`). Same three values, family-specific names:
@@ -104,11 +104,11 @@ populate `iblai.env` instead.
 
 ## Verification
 
-You MUST run `/iblai-vibe-ops-test` before telling the user the work is ready:
+You MUST run `/iblai-ui-ops-test` before telling the user the work is ready:
 
 1. `pnpm build` — must pass with zero errors.
 2. `pnpm test` — vitest must pass.
-3. Touch test the route in a real browser, as `/iblai-vibe-ops-test` says: with
+3. Touch test the route in a real browser, as `/iblai-ui-ops-test` says: with
    Claude in Chrome (`claude --chrome`) or the `chrome-devtools` MCP server in
    `.mcp.json`, open `http://localhost:3000/<route>` on the running dev server,
    use every control you added, read the console and the failed requests, check

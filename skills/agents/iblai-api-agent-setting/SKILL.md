@@ -8,7 +8,7 @@ metadata:
 
 # iblai-api-agent-setting
 
-> ★ **Core family.** **With a screen:** `/iblai-vibe-agent-setting` mounts the agent Settings tab — this skill is the headless twin (same data, exact endpoints).
+> ★ **Core family.** **With a screen:** `/iblai-ui-agent-setting` mounts the agent Settings tab — this skill is the headless twin (same data, exact endpoints).
 
 Read and write an agent's core settings: identity (name, description, category,
 profile image), discovery/visibility, and capability flags (anonymous, featured,
@@ -74,7 +74,7 @@ when configuring an agent's basic identity and capabilities.
   `show_explore_mentors` shows the additional-agents section on the agent's
   welcome screen ("Show additional agents"). `disable_chathistory` makes every
   conversation with this agent incognito; the Privacy tab’s Incognito policy
-  sets it (see `/iblai-vibe-incognito`). `show_reasoning` shows the agent’s
+  sets it (see `/iblai-ui-incognito`). `show_reasoning` shows the agent’s
   reasoning steps while it responds; `enable_prompt_caching` caches repeated
   prompt context to cut latency and cost on Anthropic models, and also turns
   off document retrieval, memory and the current date/time in the system
@@ -84,7 +84,7 @@ when configuring an agent's basic identity and capabilities.
   `/iblai-api-agent-embed`.
   The three `virtual_machine_*` keys configure the agent's Linux VM sandbox;
   the networks and environment variables they reference are managed per
-  organization — see `/iblai-vibe-agent-sandbox` ("Virtual machine networks &
+  organization — see `/iblai-ui-agent-sandbox` ("Virtual machine networks &
   environment variables").
 - **POST** `…/users/{username}/mentors/{mentor}/fork/` — copy / duplicate agent:
   ```json

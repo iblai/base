@@ -10,7 +10,7 @@ six data families almost every app reads or writes (the section right below).
 | Folder | What it covers | Skills |
 |---|---|---|
 | [`start/`](#start) | Get an app running: the first conversation, credentials, sign-in, the starter, the REST bridge, keeping skills current. | 11 |
-| [`agents/`](#agents) | Chat with agents, browse and create them, and configure every setting tab — with a screen (`iblai-vibe-*`) or headless (`iblai-api-*`). | 63 |
+| [`agents/`](#agents) | Chat with agents, browse and create them, and configure every setting tab — with a screen (`iblai-ui-*`) or headless (`iblai-api-*`). | 63 |
 | [`users/`](#users) | Profiles, custom per-user data, memories, roles and admins, invitations, notifications, onboarding. | 19 |
 | [`organizations/`](#organizations) | Org settings and custom metadata, branding, integrations and tokens, CRM. | 10 |
 | [`billing/`](#billing) | How you are charged, credits, spend caps, and which rail to charge your users on. | 6 |
@@ -25,26 +25,26 @@ six data families almost every app reads or writes (the section right below).
 Whatever the app is about, it reads or writes these six families — so their
 skills are the deepest in the repo: a screenshot, verified endpoints, a
 starter journey, and a link to the twin that does the same thing the other way.
-Each row has a component door (`iblai-vibe-*`) and a headless door (`iblai-api-*`).
+Each row has a component door (`iblai-ui-*`) and a headless door (`iblai-api-*`).
 
 | Capability | What it stores | With a screen | Headless |
 |---|---|---|---|
-| ★ **Custom data per user** | one schemaless JSON object per user × organization — preferences, flags, onboarding, app state | [`/iblai-vibe-user-metadata`](../skills/users/iblai-vibe-user-metadata/SKILL.md) | [`/iblai-api-profile-metadata`](../skills/users/iblai-api-profile-metadata/SKILL.md) |
-| ★ **The user's own profile** | account fields, image, education, experience, résumé | [`/iblai-vibe-profile`](../skills/users/iblai-vibe-profile/SKILL.md) | [`/iblai-api-profile`](../skills/users/iblai-api-profile/SKILL.md) |
-| ★ **Memory** | user-global · per user × agent (by category) · agent knowledge | [`/iblai-vibe-memory-guide`](../skills/users/iblai-vibe-memory-guide/SKILL.md) → [`/iblai-vibe-memory`](../skills/users/iblai-vibe-memory/SKILL.md) → [`/iblai-vibe-agent-memory`](../skills/agents/iblai-vibe-agent-memory/SKILL.md) | [`/iblai-api-agent-memory`](../skills/agents/iblai-api-agent-memory/SKILL.md) |
-| ★ **Custom data per organization** | one metadata object per organization (GET-merge-PUT) — branding, feature toggles, defaults | [`/iblai-vibe-org-metadata`](../skills/organizations/iblai-vibe-org-metadata/SKILL.md) | [`/iblai-api-org`](../skills/organizations/iblai-api-org/SKILL.md) |
-| ★ **Agent configuration** | create an agent; identity, visibility, capability flags | [`/iblai-vibe-agent-create`](../skills/agents/iblai-vibe-agent-create/SKILL.md) → [`/iblai-vibe-agent-setting`](../skills/agents/iblai-vibe-agent-setting/SKILL.md) | [`/iblai-api-agent-create`](../skills/agents/iblai-api-agent-create/SKILL.md), [`/iblai-api-agent-setting`](../skills/agents/iblai-api-agent-setting/SKILL.md) |
-| ★ **Analytics** | org-wide or one agent: usage, users, topics, transcripts, costs, audit, reports | [`/iblai-vibe-analytics`](../skills/analytics/iblai-vibe-analytics/SKILL.md) | [`/iblai-api-analytics`](../skills/analytics/iblai-api-analytics/SKILL.md) |
+| ★ **Custom data per user** | one schemaless JSON object per user × organization — preferences, flags, onboarding, app state | [`/iblai-ui-user-metadata`](../skills/users/iblai-ui-user-metadata/SKILL.md) | [`/iblai-api-profile-metadata`](../skills/users/iblai-api-profile-metadata/SKILL.md) |
+| ★ **The user's own profile** | account fields, image, education, experience, résumé | [`/iblai-ui-profile`](../skills/users/iblai-ui-profile/SKILL.md) | [`/iblai-api-profile`](../skills/users/iblai-api-profile/SKILL.md) |
+| ★ **Memory** | user-global · per user × agent (by category) · agent knowledge | [`/iblai-ui-memory-guide`](../skills/users/iblai-ui-memory-guide/SKILL.md) → [`/iblai-ui-memory`](../skills/users/iblai-ui-memory/SKILL.md) → [`/iblai-ui-agent-memory`](../skills/agents/iblai-ui-agent-memory/SKILL.md) | [`/iblai-api-agent-memory`](../skills/agents/iblai-api-agent-memory/SKILL.md) |
+| ★ **Custom data per organization** | one metadata object per organization (GET-merge-PUT) — branding, feature toggles, defaults | [`/iblai-ui-org-metadata`](../skills/organizations/iblai-ui-org-metadata/SKILL.md) | [`/iblai-api-org`](../skills/organizations/iblai-api-org/SKILL.md) |
+| ★ **Agent configuration** | create an agent; identity, visibility, capability flags | [`/iblai-ui-agent-create`](../skills/agents/iblai-ui-agent-create/SKILL.md) → [`/iblai-ui-agent-setting`](../skills/agents/iblai-ui-agent-setting/SKILL.md) | [`/iblai-api-agent-create`](../skills/agents/iblai-api-agent-create/SKILL.md), [`/iblai-api-agent-setting`](../skills/agents/iblai-api-agent-setting/SKILL.md) |
+| ★ **Analytics** | org-wide or one agent: usage, users, topics, transcripts, costs, audit, reports | [`/iblai-ui-analytics`](../skills/analytics/iblai-ui-analytics/SKILL.md) | [`/iblai-api-analytics`](../skills/analytics/iblai-api-analytics/SKILL.md) |
 
 **Which scope stores what.** The one place people pick the wrong skill: the same
 word ("memory", "settings", "metadata") exists at four scopes.
 
 | Scope | Custom data | Memory | Configuration |
 |---|---|---|---|
-| **Per user** | [`/iblai-vibe-user-metadata`](../skills/users/iblai-vibe-user-metadata/SKILL.md) | global memories — [`/iblai-vibe-memory`](../skills/users/iblai-vibe-memory/SKILL.md) (admin), the Profile › Memory tab (member) | [`/iblai-vibe-profile`](../skills/users/iblai-vibe-profile/SKILL.md) |
-| **Per user × agent** | — | agent memories, by category — [`/iblai-vibe-agent-memory`](../skills/agents/iblai-vibe-agent-memory/SKILL.md) | — |
-| **Per agent** | — | agent knowledge (no user) — [`/iblai-api-agent-memory`](../skills/agents/iblai-api-agent-memory/SKILL.md) | [`/iblai-vibe-agent-setting`](../skills/agents/iblai-vibe-agent-setting/SKILL.md) |
-| **Per organization** | [`/iblai-vibe-org-metadata`](../skills/organizations/iblai-vibe-org-metadata/SKILL.md) | the `enable_memsearch` gate — [`/iblai-vibe-memory-guide`](../skills/users/iblai-vibe-memory-guide/SKILL.md) | [`/iblai-vibe-account`](../skills/organizations/iblai-vibe-account/SKILL.md) |
+| **Per user** | [`/iblai-ui-user-metadata`](../skills/users/iblai-ui-user-metadata/SKILL.md) | global memories — [`/iblai-ui-memory`](../skills/users/iblai-ui-memory/SKILL.md) (admin), the Profile › Memory tab (member) | [`/iblai-ui-profile`](../skills/users/iblai-ui-profile/SKILL.md) |
+| **Per user × agent** | — | agent memories, by category — [`/iblai-ui-agent-memory`](../skills/agents/iblai-ui-agent-memory/SKILL.md) | — |
+| **Per agent** | — | agent knowledge (no user) — [`/iblai-api-agent-memory`](../skills/agents/iblai-api-agent-memory/SKILL.md) | [`/iblai-ui-agent-setting`](../skills/agents/iblai-ui-agent-setting/SKILL.md) |
+| **Per organization** | [`/iblai-ui-org-metadata`](../skills/organizations/iblai-ui-org-metadata/SKILL.md) | the `enable_memsearch` gate — [`/iblai-ui-memory-guide`](../skills/users/iblai-ui-memory-guide/SKILL.md) | [`/iblai-ui-account`](../skills/organizations/iblai-ui-account/SKILL.md) |
 
 ## Start
 
@@ -53,29 +53,29 @@ word ("memory", "settings", "metadata") exists at four scopes.
 | Skill | Kind | What it does |
 |---|---|---|
 | [`/iblai-api-login`](../skills/start/iblai-api-login/SKILL.md) | 🔌 api | Connect an ibl.ai organization for API access |
-| [`/iblai-vibe`](../skills/start/iblai-vibe/SKILL.md) | 📖 guide | Start here for anything on the ibl.ai platform |
-| [`/iblai-vibe-api`](../skills/start/iblai-vibe-api/SKILL.md) | 🔌 api | When there is no SDK component or hook for what the user wants, the ibl.ai REST API is fair game |
-| [`/iblai-vibe-auth`](../skills/start/iblai-vibe-auth/SKILL.md) | 🖥️ ui | Add ibl.ai SSO authentication to a vanilla Next.js app |
-| [`/iblai-vibe-component`](../skills/start/iblai-vibe-component/SKILL.md) | 📖 guide | Add an iblai component or feature to your app |
-| [`/iblai-vibe-connect`](../skills/start/iblai-vibe-connect/SKILL.md) | 📖 guide | Connect an ibl.ai organization in one browser round trip |
-| [`/iblai-vibe-navbar`](../skills/start/iblai-vibe-navbar/SKILL.md) | 🖥️ ui | Add a responsive navbar with logo, page links, notification bell, and profile dropdown |
-| [`/iblai-vibe-ops-init`](../skills/start/iblai-vibe-ops-init/SKILL.md) | 🛠️ ops | Start a new ibl.ai project by default, scaffold from the bundled vibe-starter template, and write the project CLAUDE.md with ibl.ai platf… |
-| [`/iblai-vibe-ops-upgrade`](../skills/start/iblai-vibe-ops-upgrade/SKILL.md) | 🛠️ ops | Upgrade the @iblai/iblai-js SDK and refresh every ibl.ai skill (both families |
-| [`/iblai-vibe-scaffold`](../skills/start/iblai-vibe-scaffold/SKILL.md) | 📖 guide | Scaffold a new ibl.ai app or add ibl.ai features to an existing Next.js project |
-| [`/iblai-vibe-start`](../skills/start/iblai-vibe-start/SKILL.md) | 📖 guide | The first conversation for anything on ibl.ai |
+| [`/iblai-ui`](../skills/start/iblai-ui/SKILL.md) | 📖 guide | Start here for anything on the ibl.ai platform |
+| [`/iblai-ui-api`](../skills/start/iblai-ui-api/SKILL.md) | 🔌 api | When there is no SDK component or hook for what the user wants, the ibl.ai REST API is fair game |
+| [`/iblai-ui-auth`](../skills/start/iblai-ui-auth/SKILL.md) | 🖥️ ui | Add ibl.ai SSO authentication to a vanilla Next.js app |
+| [`/iblai-ui-component`](../skills/start/iblai-ui-component/SKILL.md) | 📖 guide | Add an iblai component or feature to your app |
+| [`/iblai-ui-connect`](../skills/start/iblai-ui-connect/SKILL.md) | 📖 guide | Connect an ibl.ai organization in one browser round trip |
+| [`/iblai-ui-navbar`](../skills/start/iblai-ui-navbar/SKILL.md) | 🖥️ ui | Add a responsive navbar with logo, page links, notification bell, and profile dropdown |
+| [`/iblai-ui-ops-init`](../skills/start/iblai-ui-ops-init/SKILL.md) | 🛠️ ops | Start a new ibl.ai project by default, scaffold from the bundled vibe-starter template, and write the project CLAUDE.md with ibl.ai platf… |
+| [`/iblai-ui-ops-upgrade`](../skills/start/iblai-ui-ops-upgrade/SKILL.md) | 🛠️ ops | Upgrade the @iblai/iblai-js SDK and refresh every ibl.ai skill (both families |
+| [`/iblai-ui-scaffold`](../skills/start/iblai-ui-scaffold/SKILL.md) | 📖 guide | Scaffold a new ibl.ai app or add ibl.ai features to an existing Next.js project |
+| [`/iblai-ui-start`](../skills/start/iblai-ui-start/SKILL.md) | 📖 guide | The first conversation for anything on ibl.ai |
 
 ## Agents
 
-`skills/agents/` — Chat with agents, browse and create them, and configure every setting tab — with a screen (`iblai-vibe-*`) or headless (`iblai-api-*`).
+`skills/agents/` — Chat with agents, browse and create them, and configure every setting tab — with a screen (`iblai-ui-*`) or headless (`iblai-api-*`).
 
 | Skill | Kind | What it does |
 |---|---|---|
 | ★ [`/iblai-api-agent-create`](../skills/agents/iblai-api-agent-create/SKILL.md) | 🔌 api | Create a new ibl.ai agent from a template via the platform API |
 | ★ [`/iblai-api-agent-memory`](../skills/agents/iblai-api-agent-memory/SKILL.md) | 🔌 api | Manage an ibl.ai agent's memories via the platform API |
 | ★ [`/iblai-api-agent-setting`](../skills/agents/iblai-api-agent-setting/SKILL.md) | 🔌 api | Read and write an ibl.ai agent's core settings via the platform API |
-| ★ [`/iblai-vibe-agent-create`](../skills/agents/iblai-vibe-agent-create/SKILL.md) | 🖥️ ui | Create an ibl.ai agent from inside your app |
-| ★ [`/iblai-vibe-agent-memory`](../skills/agents/iblai-vibe-agent-memory/SKILL.md) | 🖥️ ui | Add the agent Memory tab |
-| ★ [`/iblai-vibe-agent-setting`](../skills/agents/iblai-vibe-agent-setting/SKILL.md) | 🖥️ ui | Add the agent Settings tab (Basic, Discovery, Capabilities, Welcome Screen sub-tabs; copy, delete) to your Next.js app |
+| ★ [`/iblai-ui-agent-create`](../skills/agents/iblai-ui-agent-create/SKILL.md) | 🖥️ ui | Create an ibl.ai agent from inside your app |
+| ★ [`/iblai-ui-agent-memory`](../skills/agents/iblai-ui-agent-memory/SKILL.md) | 🖥️ ui | Add the agent Memory tab |
+| ★ [`/iblai-ui-agent-setting`](../skills/agents/iblai-ui-agent-setting/SKILL.md) | 🖥️ ui | Add the agent Settings tab (Basic, Discovery, Capabilities, Welcome Screen sub-tabs; copy, delete) to your Next.js app |
 | [`/iblai-api-agent-access`](../skills/agents/iblai-api-agent-access/SKILL.md) | 🔌 api | Manage role-based access to an ibl.ai agent via the platform API |
 | [`/iblai-api-agent-audit`](../skills/agents/iblai-api-agent-audit/SKILL.md) | 🔌 api | Read an ibl.ai agent's audit log via the platform API |
 | [`/iblai-api-agent-chat`](../skills/agents/iblai-api-agent-chat/SKILL.md) | 🔌 api | Set up live chat with a deployed ibl.ai agent by wiring the hosted iblai-api-agent-chat MCP server into the project (.mcp.json / claude m… |
@@ -97,42 +97,42 @@ word ("memory", "settings", "metadata") exists at four scopes.
 | [`/iblai-api-agent-voice`](../skills/agents/iblai-api-agent-voice/SKILL.md) | 🔌 api | Read and write an ibl.ai agent's voice settings via the platform API |
 | [`/iblai-api-inference`](../skills/agents/iblai-api-inference/SKILL.md) | 🔌 api | Run inference against an ibl.ai deployment through its OpenAI-compatible API |
 | [`/iblai-api-search`](../skills/agents/iblai-api-search/SKILL.md) | 🔌 api | Discover agents and learning content in an ibl.ai organization via the platform API |
-| [`/iblai-vibe-agent`](../skills/agents/iblai-vibe-agent/SKILL.md) | 📖 guide | Family index for configuring one ibl.ai agent from your app |
-| [`/iblai-vibe-agent-access`](../skills/agents/iblai-vibe-agent-access/SKILL.md) | 🖥️ ui | Add the agent Access tab (role-based access control for editor and chat roles) to your Next.js app |
-| [`/iblai-vibe-agent-analytics`](../skills/agents/iblai-vibe-agent-analytics/SKILL.md) | 🖥️ ui | Add the agent Analytics tab (AgentAnalyticsTab, a hub of report cards for one agent that hands off to your full analytics pages) to your … |
-| [`/iblai-vibe-agent-api`](../skills/agents/iblai-vibe-agent-api/SKILL.md) | 🖥️ ui | Add the agent API tab (list, add, edit and delete the API keys apps use to call the agent; the secret is shown once) to your Next.js app |
-| [`/iblai-vibe-agent-assistant`](../skills/agents/iblai-vibe-agent-assistant/SKILL.md) | 🖥️ ui | Add the Assistant to your vibe Next.js app, an agent one click away on every page |
-| [`/iblai-vibe-agent-audit`](../skills/agents/iblai-vibe-agent-audit/SKILL.md) | 🖥️ ui | Add the agent Audit tab (audit log of who changed what and when, with user/date/action filters) to your Next.js app |
-| [`/iblai-vibe-agent-billing`](../skills/agents/iblai-vibe-agent-billing/SKILL.md) | 🖥️ ui | Add the agent Billing tab (LLM spend limits for the agent and per user, with usage bars, block or alert-only enforcement, and near-limit … |
-| [`/iblai-vibe-agent-chat`](../skills/agents/iblai-vibe-agent-chat/SKILL.md) | 🖥️ ui | Add the in-process Chat SDK component (full agent surface |
-| [`/iblai-vibe-agent-chat-sidebar`](../skills/agents/iblai-vibe-agent-chat-sidebar/SKILL.md) | 🖥️ ui | Wrap the Chat surface with the SDK's AppSidebar |
-| [`/iblai-vibe-agent-dataset`](../skills/agents/iblai-vibe-agent-dataset/SKILL.md) | 🖥️ ui | Add the agent Datasets tab (the agent's knowledge base -- add files, URLs, YouTube, GitHub, cloud drives or a web crawl; train, untrain, … |
-| [`/iblai-vibe-agent-disclaimer`](../skills/agents/iblai-vibe-agent-disclaimer/SKILL.md) | 🖥️ ui | Add the agent Disclaimers tab (a User Agreement users must accept before chatting, an Advisory note shown in the chat, and the list of wh… |
-| [`/iblai-vibe-agent-embed`](../skills/agents/iblai-vibe-agent-embed/SKILL.md) | 🖥️ ui | Add the agent Embed tab (embed code, custom styling, shareable links) to your Next.js app |
-| [`/iblai-vibe-agent-evals`](../skills/agents/iblai-vibe-agent-evals/SKILL.md) | 🖥️ ui | Add the agent Evals tab (run the agent against a benchmark of test questions, score the answers with LLM-as-Judge reviews or manual score… |
-| [`/iblai-vibe-agent-grader`](../skills/agents/iblai-vibe-agent-grader/SKILL.md) | 🖥️ ui | Add the agent Grader tab (turn grading on, write grading instructions, build a points rubric, and review or override the grades the agent… |
-| [`/iblai-vibe-agent-history`](../skills/agents/iblai-vibe-agent-history/SKILL.md) | 🖥️ ui | Add the agent History tab (every user's conversations with this agent |
-| [`/iblai-vibe-agent-llm`](../skills/agents/iblai-vibe-agent-llm/SKILL.md) | 🖥️ ui | Add the agent LLM tab (pick the provider and model the agent answers with, allow in-chat model change, choose the models users can pick) … |
-| [`/iblai-vibe-agent-lti`](../skills/agents/iblai-vibe-agent-lti/SKILL.md) | 🖥️ ui | Add the agent LTI tab (put the agent inside an LMS course with LTI 1.3 -- the launch switch, the agent's LTI link, the organization's sig… |
-| [`/iblai-vibe-agent-mcp`](../skills/agents/iblai-vibe-agent-mcp/SKILL.md) | 🖥️ ui | Add the agent MCP tab (outside services the agent can use in chats, with Featured and Directory connectors switched on or off per agent, … |
-| [`/iblai-vibe-agent-privacy`](../skills/agents/iblai-vibe-agent-privacy/SKILL.md) | 🖥️ ui | Add the agent Privacy tab with two sub-tabs, PII Filtering (detect personal information in messages and allow, redact, mask or block it, … |
-| [`/iblai-vibe-agent-prompt`](../skills/agents/iblai-vibe-agent-prompt/SKILL.md) | 🖥️ ui | Add the agent Prompts tab (system prompts and suggested prompts) to your Next.js app |
-| [`/iblai-vibe-agent-safety`](../skills/agents/iblai-vibe-agent-safety/SKILL.md) | 🖥️ ui | Add the agent Safety tab (the moderation check on user messages, the safety check on agent replies, the reply each one sends, and a host-… |
-| [`/iblai-vibe-agent-sandbox`](../skills/agents/iblai-vibe-agent-sandbox/SKILL.md) | 🖥️ ui | Add the agent Sandbox tab (sandbox type selection |
-| [`/iblai-vibe-agent-screenshare`](../skills/agents/iblai-vibe-agent-screenshare/SKILL.md) | 🖥️ ui | Add the agent Screen tab (turn screen sharing on for voice calls and write the two screen-sharing prompts) to your Next.js app |
-| [`/iblai-vibe-agent-search`](../skills/agents/iblai-vibe-agent-search/SKILL.md) | 🖥️ ui | Add the agent search/browse page (starred, featured, custom, and default agents) to your Next.js app |
-| [`/iblai-vibe-agent-skills`](../skills/agents/iblai-vibe-agent-skills/SKILL.md) | 🖥️ ui | Add the agent Skills tab (AgentSkillsTab, with reusable Agent Skills attached per agent, the organization's skill catalog, New/Edit skill… |
-| [`/iblai-vibe-agent-support`](../skills/agents/iblai-vibe-agent-support/SKILL.md) | 🖥️ ui | Add the agent Support tab (let chat users hand the conversation to a human, then review, reply to and resolve the tickets they raise) to … |
-| [`/iblai-vibe-agent-task`](../skills/agents/iblai-vibe-agent-task/SKILL.md) | 🖥️ ui | Add the agent Tasks tab (schedule prompts the agent runs on its own -- once, daily, weekly or monthly -- and read each run's log) to your… |
-| [`/iblai-vibe-agent-tool`](../skills/agents/iblai-vibe-agent-tool/SKILL.md) | 🖥️ ui | Add the agent Tools tab (switch the agent's tools on and off -- web search, code interpreter, image generation, MCP, and more) to your Ne… |
-| [`/iblai-vibe-agent-virtual-machine`](../skills/agents/iblai-vibe-agent-virtual-machine/SKILL.md) | 🖥️ ui | Add the agent Sandbox "Network Access" section for the Virtual Machine Shell |
-| [`/iblai-vibe-agent-voice`](../skills/agents/iblai-vibe-agent-voice/SKILL.md) | 🖥️ ui | Add the agent Voice tab (voice calls on/off, the voice the agent reads replies in, voice instructions, voice-call style/language/provider… |
-| [`/iblai-vibe-incognito`](../skills/agents/iblai-vibe-incognito/SKILL.md) | 🖥️ ui | Add Incognito to your chat, the chat-header toggle that keeps a conversation out of chat history and memory, its "Enable Incognito for th… |
-| [`/iblai-vibe-local-llm`](../skills/agents/iblai-vibe-local-llm/SKILL.md) | 📖 guide | Use when adding on-device LLM inference (Ollama backend) to a vibe Next.js + Tauri app |
-| [`/iblai-vibe-os-agent-code-mode`](../skills/agents/iblai-vibe-os-agent-code-mode/SKILL.md) | 🖥️ ui | Use the ibl.ai desktop app's Code mode, or add it to your own vibe Next.js + Tauri app |
-| [`/iblai-vibe-os-agent-cowork`](../skills/agents/iblai-vibe-os-agent-cowork/SKILL.md) | 🖥️ ui | Use the ibl.ai desktop app's Cowork, or add it to your own vibe Next.js + Tauri app |
-| [`/iblai-vibe-project`](../skills/agents/iblai-vibe-project/SKILL.md) | 🖥️ ui | Add the in-process Projects surface (project landing page |
-| [`/iblai-vibe-workflow`](../skills/agents/iblai-vibe-workflow/SKILL.md) | 🖥️ ui | Add agent workflows to your Next.js app |
+| [`/iblai-ui-agent`](../skills/agents/iblai-ui-agent/SKILL.md) | 📖 guide | Family index for configuring one ibl.ai agent from your app |
+| [`/iblai-ui-agent-access`](../skills/agents/iblai-ui-agent-access/SKILL.md) | 🖥️ ui | Add the agent Access tab (role-based access control for editor and chat roles) to your Next.js app |
+| [`/iblai-ui-agent-analytics`](../skills/agents/iblai-ui-agent-analytics/SKILL.md) | 🖥️ ui | Add the agent Analytics tab (AgentAnalyticsTab, a hub of report cards for one agent that hands off to your full analytics pages) to your … |
+| [`/iblai-ui-agent-api`](../skills/agents/iblai-ui-agent-api/SKILL.md) | 🖥️ ui | Add the agent API tab (list, add, edit and delete the API keys apps use to call the agent; the secret is shown once) to your Next.js app |
+| [`/iblai-ui-agent-assistant`](../skills/agents/iblai-ui-agent-assistant/SKILL.md) | 🖥️ ui | Add the Assistant to your vibe Next.js app, an agent one click away on every page |
+| [`/iblai-ui-agent-audit`](../skills/agents/iblai-ui-agent-audit/SKILL.md) | 🖥️ ui | Add the agent Audit tab (audit log of who changed what and when, with user/date/action filters) to your Next.js app |
+| [`/iblai-ui-agent-billing`](../skills/agents/iblai-ui-agent-billing/SKILL.md) | 🖥️ ui | Add the agent Billing tab (LLM spend limits for the agent and per user, with usage bars, block or alert-only enforcement, and near-limit … |
+| [`/iblai-ui-agent-chat`](../skills/agents/iblai-ui-agent-chat/SKILL.md) | 🖥️ ui | Add the in-process Chat SDK component (full agent surface |
+| [`/iblai-ui-agent-chat-sidebar`](../skills/agents/iblai-ui-agent-chat-sidebar/SKILL.md) | 🖥️ ui | Wrap the Chat surface with the SDK's AppSidebar |
+| [`/iblai-ui-agent-dataset`](../skills/agents/iblai-ui-agent-dataset/SKILL.md) | 🖥️ ui | Add the agent Datasets tab (the agent's knowledge base -- add files, URLs, YouTube, GitHub, cloud drives or a web crawl; train, untrain, … |
+| [`/iblai-ui-agent-disclaimer`](../skills/agents/iblai-ui-agent-disclaimer/SKILL.md) | 🖥️ ui | Add the agent Disclaimers tab (a User Agreement users must accept before chatting, an Advisory note shown in the chat, and the list of wh… |
+| [`/iblai-ui-agent-embed`](../skills/agents/iblai-ui-agent-embed/SKILL.md) | 🖥️ ui | Add the agent Embed tab (embed code, custom styling, shareable links) to your Next.js app |
+| [`/iblai-ui-agent-evals`](../skills/agents/iblai-ui-agent-evals/SKILL.md) | 🖥️ ui | Add the agent Evals tab (run the agent against a benchmark of test questions, score the answers with LLM-as-Judge reviews or manual score… |
+| [`/iblai-ui-agent-grader`](../skills/agents/iblai-ui-agent-grader/SKILL.md) | 🖥️ ui | Add the agent Grader tab (turn grading on, write grading instructions, build a points rubric, and review or override the grades the agent… |
+| [`/iblai-ui-agent-history`](../skills/agents/iblai-ui-agent-history/SKILL.md) | 🖥️ ui | Add the agent History tab (every user's conversations with this agent |
+| [`/iblai-ui-agent-llm`](../skills/agents/iblai-ui-agent-llm/SKILL.md) | 🖥️ ui | Add the agent LLM tab (pick the provider and model the agent answers with, allow in-chat model change, choose the models users can pick) … |
+| [`/iblai-ui-agent-lti`](../skills/agents/iblai-ui-agent-lti/SKILL.md) | 🖥️ ui | Add the agent LTI tab (put the agent inside an LMS course with LTI 1.3 -- the launch switch, the agent's LTI link, the organization's sig… |
+| [`/iblai-ui-agent-mcp`](../skills/agents/iblai-ui-agent-mcp/SKILL.md) | 🖥️ ui | Add the agent MCP tab (outside services the agent can use in chats, with Featured and Directory connectors switched on or off per agent, … |
+| [`/iblai-ui-agent-privacy`](../skills/agents/iblai-ui-agent-privacy/SKILL.md) | 🖥️ ui | Add the agent Privacy tab with two sub-tabs, PII Filtering (detect personal information in messages and allow, redact, mask or block it, … |
+| [`/iblai-ui-agent-prompt`](../skills/agents/iblai-ui-agent-prompt/SKILL.md) | 🖥️ ui | Add the agent Prompts tab (system prompts and suggested prompts) to your Next.js app |
+| [`/iblai-ui-agent-safety`](../skills/agents/iblai-ui-agent-safety/SKILL.md) | 🖥️ ui | Add the agent Safety tab (the moderation check on user messages, the safety check on agent replies, the reply each one sends, and a host-… |
+| [`/iblai-ui-agent-sandbox`](../skills/agents/iblai-ui-agent-sandbox/SKILL.md) | 🖥️ ui | Add the agent Sandbox tab (sandbox type selection |
+| [`/iblai-ui-agent-screenshare`](../skills/agents/iblai-ui-agent-screenshare/SKILL.md) | 🖥️ ui | Add the agent Screen tab (turn screen sharing on for voice calls and write the two screen-sharing prompts) to your Next.js app |
+| [`/iblai-ui-agent-search`](../skills/agents/iblai-ui-agent-search/SKILL.md) | 🖥️ ui | Add the agent search/browse page (starred, featured, custom, and default agents) to your Next.js app |
+| [`/iblai-ui-agent-skills`](../skills/agents/iblai-ui-agent-skills/SKILL.md) | 🖥️ ui | Add the agent Skills tab (AgentSkillsTab, with reusable Agent Skills attached per agent, the organization's skill catalog, New/Edit skill… |
+| [`/iblai-ui-agent-support`](../skills/agents/iblai-ui-agent-support/SKILL.md) | 🖥️ ui | Add the agent Support tab (let chat users hand the conversation to a human, then review, reply to and resolve the tickets they raise) to … |
+| [`/iblai-ui-agent-task`](../skills/agents/iblai-ui-agent-task/SKILL.md) | 🖥️ ui | Add the agent Tasks tab (schedule prompts the agent runs on its own -- once, daily, weekly or monthly -- and read each run's log) to your… |
+| [`/iblai-ui-agent-tool`](../skills/agents/iblai-ui-agent-tool/SKILL.md) | 🖥️ ui | Add the agent Tools tab (switch the agent's tools on and off -- web search, code interpreter, image generation, MCP, and more) to your Ne… |
+| [`/iblai-ui-agent-virtual-machine`](../skills/agents/iblai-ui-agent-virtual-machine/SKILL.md) | 🖥️ ui | Add the agent Sandbox "Network Access" section for the Virtual Machine Shell |
+| [`/iblai-ui-agent-voice`](../skills/agents/iblai-ui-agent-voice/SKILL.md) | 🖥️ ui | Add the agent Voice tab (voice calls on/off, the voice the agent reads replies in, voice instructions, voice-call style/language/provider… |
+| [`/iblai-ui-incognito`](../skills/agents/iblai-ui-incognito/SKILL.md) | 🖥️ ui | Add Incognito to your chat, the chat-header toggle that keeps a conversation out of chat history and memory, its "Enable Incognito for th… |
+| [`/iblai-ui-local-llm`](../skills/agents/iblai-ui-local-llm/SKILL.md) | 📖 guide | Use when adding on-device LLM inference (Ollama backend) to a vibe Next.js + Tauri app |
+| [`/iblai-ui-os-agent-code-mode`](../skills/agents/iblai-ui-os-agent-code-mode/SKILL.md) | 🖥️ ui | Use the ibl.ai desktop app's Code mode, or add it to your own vibe Next.js + Tauri app |
+| [`/iblai-ui-os-agent-cowork`](../skills/agents/iblai-ui-os-agent-cowork/SKILL.md) | 🖥️ ui | Use the ibl.ai desktop app's Cowork, or add it to your own vibe Next.js + Tauri app |
+| [`/iblai-ui-project`](../skills/agents/iblai-ui-project/SKILL.md) | 🖥️ ui | Add the in-process Projects surface (project landing page |
+| [`/iblai-ui-workflow`](../skills/agents/iblai-ui-workflow/SKILL.md) | 🖥️ ui | Add agent workflows to your Next.js app |
 
 ## Users
 
@@ -142,23 +142,23 @@ word ("memory", "settings", "metadata") exists at four scopes.
 |---|---|---|
 | ★ [`/iblai-api-profile`](../skills/users/iblai-api-profile/SKILL.md) | 🔌 api | Read and manage the signed-in user's own profile via the platform API |
 | ★ [`/iblai-api-profile-metadata`](../skills/users/iblai-api-profile-metadata/SKILL.md) | 🔌 api | Read and write per-user, per-organization metadata via the platform API |
-| ★ [`/iblai-vibe-memory`](../skills/users/iblai-vibe-memory/SKILL.md) | 🖥️ ui | Add the organization-wide Memory settings surface (manage every user's global memories and every agent's memories from one place |
-| ★ [`/iblai-vibe-memory-guide`](../skills/users/iblai-vibe-memory-guide/SKILL.md) | 📖 guide | What memory means for an ibl.ai app and which surface to mount for which audience |
-| ★ [`/iblai-vibe-profile`](../skills/users/iblai-vibe-profile/SKILL.md) | 🖥️ ui | Add profile dropdown and settings page to your Next.js app |
-| ★ [`/iblai-vibe-user-metadata`](../skills/users/iblai-vibe-user-metadata/SKILL.md) | 🖥️ ui | Store custom data per user on the ibl.ai platform |
+| ★ [`/iblai-ui-memory`](../skills/users/iblai-ui-memory/SKILL.md) | 🖥️ ui | Add the organization-wide Memory settings surface (manage every user's global memories and every agent's memories from one place |
+| ★ [`/iblai-ui-memory-guide`](../skills/users/iblai-ui-memory-guide/SKILL.md) | 📖 guide | What memory means for an ibl.ai app and which surface to mount for which audience |
+| ★ [`/iblai-ui-profile`](../skills/users/iblai-ui-profile/SKILL.md) | 🖥️ ui | Add profile dropdown and settings page to your Next.js app |
+| ★ [`/iblai-ui-user-metadata`](../skills/users/iblai-ui-user-metadata/SKILL.md) | 🖥️ ui | Store custom data per user on the ibl.ai platform |
 | [`/iblai-api-feature`](../skills/users/iblai-api-feature/SKILL.md) | 🔌 api | Manage an ibl.ai organization's per-user feature configuration and app/onboarding state via the Data Manager (DM) API |
 | [`/iblai-api-invite`](../skills/users/iblai-api-invite/SKILL.md) | 🔌 api | Manage ibl.ai organization user invitations via the platform API |
 | [`/iblai-api-management`](../skills/users/iblai-api-management/SKILL.md) | 🔌 api | Administer an ibl.ai organization via the platform API - manage Users (list, activate, promote/demote, bulk role sync, set policies), edX… |
 | [`/iblai-api-notification`](../skills/users/iblai-api-notification/SKILL.md) | 🔌 api | Read and send ibl.ai platform notifications via the API |
 | [`/iblai-api-rbac`](../skills/users/iblai-api-rbac/SKILL.md) | 🔌 api | Manage an ibl.ai organization's RBAC via the platform API |
 | [`/iblai-api-scim`](../skills/users/iblai-api-scim/SKILL.md) | 🔌 api | Provision and manage an ibl.ai organization's directory over the SCIM 2.0 REST API |
-| [`/iblai-vibe-admin`](../skills/users/iblai-vibe-admin/SKILL.md) | 🖥️ ui | Users versus admins in an ibl.ai app |
-| [`/iblai-vibe-history`](../skills/users/iblai-vibe-history/SKILL.md) | 🖥️ ui | Add the user profile History surface (review and export conversations with AI agents |
-| [`/iblai-vibe-house-journeys`](../skills/users/iblai-vibe-house-journeys/SKILL.md) | 🖥️ ui | The three first-run journeys of an ibl.ai official app, the OS's way |
-| [`/iblai-vibe-invite`](../skills/users/iblai-vibe-invite/SKILL.md) | 🖥️ ui | Add user invitation dialogs to your Next.js app |
-| [`/iblai-vibe-notification`](../skills/users/iblai-vibe-notification/SKILL.md) | 🖥️ ui | Add notification bell and center page to your Next.js app |
-| [`/iblai-vibe-onboard`](../skills/users/iblai-vibe-onboard/SKILL.md) | 🖥️ ui | Design and build a high-converting questionnaire-style onboarding flow for your app, modelled on proven conversion patterns from top subs… |
-| [`/iblai-vibe-rbac`](../skills/users/iblai-vibe-rbac/SKILL.md) | 📖 guide | Use when building, auditing, or extending ibl.ai role-based access control |
+| [`/iblai-ui-admin`](../skills/users/iblai-ui-admin/SKILL.md) | 🖥️ ui | Users versus admins in an ibl.ai app |
+| [`/iblai-ui-history`](../skills/users/iblai-ui-history/SKILL.md) | 🖥️ ui | Add the user profile History surface (review and export conversations with AI agents |
+| [`/iblai-ui-house-journeys`](../skills/users/iblai-ui-house-journeys/SKILL.md) | 🖥️ ui | The three first-run journeys of an ibl.ai official app, the OS's way |
+| [`/iblai-ui-invite`](../skills/users/iblai-ui-invite/SKILL.md) | 🖥️ ui | Add user invitation dialogs to your Next.js app |
+| [`/iblai-ui-notification`](../skills/users/iblai-ui-notification/SKILL.md) | 🖥️ ui | Add notification bell and center page to your Next.js app |
+| [`/iblai-ui-onboard`](../skills/users/iblai-ui-onboard/SKILL.md) | 🖥️ ui | Design and build a high-converting questionnaire-style onboarding flow for your app, modelled on proven conversion patterns from top subs… |
+| [`/iblai-ui-rbac`](../skills/users/iblai-ui-rbac/SKILL.md) | 📖 guide | Use when building, auditing, or extending ibl.ai role-based access control |
 
 ## Organizations
 
@@ -167,15 +167,15 @@ word ("memory", "settings", "metadata") exists at four scopes.
 | Skill | Kind | What it does |
 |---|---|---|
 | ★ [`/iblai-api-org`](../skills/organizations/iblai-api-org/SKILL.md) | 🔌 api | Read and write an ibl.ai organization's org-wide settings via the platform API |
-| ★ [`/iblai-vibe-org-metadata`](../skills/organizations/iblai-vibe-org-metadata/SKILL.md) | 🖥️ ui | Store custom organization-wide settings for your app on the ibl.ai platform |
+| ★ [`/iblai-ui-org-metadata`](../skills/organizations/iblai-ui-org-metadata/SKILL.md) | 🖥️ ui | Store custom organization-wide settings for your app on the ibl.ai platform |
 | [`/iblai-api-crm`](../skills/organizations/iblai-api-crm/SKILL.md) | 🔌 api | Manage an ibl.ai organization's CRM via the platform API |
 | [`/iblai-api-external-service-proxy`](../skills/organizations/iblai-api-external-service-proxy/SKILL.md) | 🔌 api | Call third-party AI services through ibl.ai's External Service Proxy |
 | [`/iblai-api-integration`](../skills/organizations/iblai-api-integration/SKILL.md) | 🔌 api | Manage an organization's account-level integrations via the platform API |
 | [`/iblai-api-token`](../skills/organizations/iblai-api-token/SKILL.md) | 🔌 api | Manage an organization's Platform API Tokens via the platform API |
-| [`/iblai-vibe-account`](../skills/organizations/iblai-vibe-account/SKILL.md) | 🖥️ ui | Add account and organization settings page to your Next.js app |
-| [`/iblai-vibe-credential`](../skills/organizations/iblai-vibe-credential/SKILL.md) | 🔌 api | RBAC setup that lets an API token list and unmask integration credentials on the ibl.ai platform |
-| [`/iblai-vibe-crm-overview`](../skills/organizations/iblai-vibe-crm-overview/SKILL.md) | 📖 guide | Reference and family index for the ibl.ai Platform-scoped CRM REST API at /api/crm/ |
-| [`/iblai-vibe-virtual-machine`](../skills/organizations/iblai-vibe-virtual-machine/SKILL.md) | 🖥️ ui | Add the organization's Network page and the Environment Variables tab of Secrets |
+| [`/iblai-ui-account`](../skills/organizations/iblai-ui-account/SKILL.md) | 🖥️ ui | Add account and organization settings page to your Next.js app |
+| [`/iblai-ui-credential`](../skills/organizations/iblai-ui-credential/SKILL.md) | 🔌 api | RBAC setup that lets an API token list and unmask integration credentials on the ibl.ai platform |
+| [`/iblai-ui-crm-overview`](../skills/organizations/iblai-ui-crm-overview/SKILL.md) | 📖 guide | Reference and family index for the ibl.ai Platform-scoped CRM REST API at /api/crm/ |
+| [`/iblai-ui-virtual-machine`](../skills/organizations/iblai-ui-virtual-machine/SKILL.md) | 🖥️ ui | Add the organization's Network page and the Environment Variables tab of Secrets |
 
 ## Billing
 
@@ -185,10 +185,10 @@ word ("memory", "settings", "metadata") exists at four scopes.
 |---|---|---|
 | [`/iblai-api-billing`](../skills/billing/iblai-api-billing/SKILL.md) | 🔌 api | Operate an ibl.ai organization's billing surface via the platform API |
 | [`/iblai-api-spend-caps`](../skills/billing/iblai-api-spend-caps/SKILL.md) | 🔌 api | Manage an ibl.ai organization's LLM spend caps via the platform API |
-| [`/iblai-vibe-billing`](../skills/billing/iblai-vibe-billing/SKILL.md) | 🖥️ ui | Add the organization-wide Billing settings surface (Credits with the plan picker (Free, Pro, Max, Ultra) and Change Plan, add-credits, an… |
-| [`/iblai-vibe-credit`](../skills/billing/iblai-vibe-credit/SKILL.md) | 🖥️ ui | Add the ibl.ai credit balance widget to your Next.js app's navbar |
-| [`/iblai-vibe-credit-exhaustion`](../skills/billing/iblai-vibe-credit-exhaustion/SKILL.md) | 🖥️ ui | Add what your Next.js app does when the organization runs out of ibl.ai credits |
-| [`/iblai-vibe-pricing`](../skills/billing/iblai-vibe-pricing/SKILL.md) | 📖 guide | Decide how money works for an ibl.ai app |
+| [`/iblai-ui-billing`](../skills/billing/iblai-ui-billing/SKILL.md) | 🖥️ ui | Add the organization-wide Billing settings surface (Credits with the plan picker (Free, Pro, Max, Ultra) and Change Plan, add-credits, an… |
+| [`/iblai-ui-credit`](../skills/billing/iblai-ui-credit/SKILL.md) | 🖥️ ui | Add the ibl.ai credit balance widget to your Next.js app's navbar |
+| [`/iblai-ui-credit-exhaustion`](../skills/billing/iblai-ui-credit-exhaustion/SKILL.md) | 🖥️ ui | Add what your Next.js app does when the organization runs out of ibl.ai credits |
+| [`/iblai-ui-pricing`](../skills/billing/iblai-ui-pricing/SKILL.md) | 📖 guide | Decide how money works for an ibl.ai app |
 
 ## Monetization
 
@@ -196,13 +196,13 @@ word ("memory", "settings", "metadata") exists at four scopes.
 
 | Skill | Kind | What it does |
 |---|---|---|
-| [`/iblai-vibe-monetization`](../skills/monetization/iblai-vibe-monetization/SKILL.md) | 📖 guide | Reference and family index for ibl.ai's item-level monetization system |
-| [`/iblai-vibe-monetization-analytics`](../skills/monetization/iblai-vibe-monetization-analytics/SKILL.md) | 🖥️ ui | Add revenue analytics for ibl.ai's item monetization |
-| [`/iblai-vibe-monetization-app-paywall`](../skills/monetization/iblai-vibe-monetization-app-paywall/SKILL.md) | 🖥️ ui | Put a Stripe "pay to enter" gate on a whole app on the organization's OWN Stripe account |
-| [`/iblai-vibe-monetization-checkout`](../skills/monetization/iblai-vibe-monetization-checkout/SKILL.md) | 🖥️ ui | Build the buyer-facing PaywallModal, access-check gate, Stripe checkout flow, and public/guest buy surface for ibl.ai's item-level moneti… |
-| [`/iblai-vibe-monetization-configure`](../skills/monetization/iblai-vibe-monetization-configure/SKILL.md) | 🖥️ ui | Build the admin MonetizationTab inside the Account page |
-| [`/iblai-vibe-monetization-onboard`](../skills/monetization/iblai-vibe-monetization-onboard/SKILL.md) | 🖥️ ui | Build the Stripe Connect Express onboarding surface for Platform sellers |
-| [`/iblai-vibe-monetization-subscription`](../skills/monetization/iblai-vibe-monetization-subscription/SKILL.md) | 🖥️ ui | Build the user-facing PurchasesTab inside the Profile page |
+| [`/iblai-ui-monetization`](../skills/monetization/iblai-ui-monetization/SKILL.md) | 📖 guide | Reference and family index for ibl.ai's item-level monetization system |
+| [`/iblai-ui-monetization-analytics`](../skills/monetization/iblai-ui-monetization-analytics/SKILL.md) | 🖥️ ui | Add revenue analytics for ibl.ai's item monetization |
+| [`/iblai-ui-monetization-app-paywall`](../skills/monetization/iblai-ui-monetization-app-paywall/SKILL.md) | 🖥️ ui | Put a Stripe "pay to enter" gate on a whole app on the organization's OWN Stripe account |
+| [`/iblai-ui-monetization-checkout`](../skills/monetization/iblai-ui-monetization-checkout/SKILL.md) | 🖥️ ui | Build the buyer-facing PaywallModal, access-check gate, Stripe checkout flow, and public/guest buy surface for ibl.ai's item-level moneti… |
+| [`/iblai-ui-monetization-configure`](../skills/monetization/iblai-ui-monetization-configure/SKILL.md) | 🖥️ ui | Build the admin MonetizationTab inside the Account page |
+| [`/iblai-ui-monetization-onboard`](../skills/monetization/iblai-ui-monetization-onboard/SKILL.md) | 🖥️ ui | Build the Stripe Connect Express onboarding surface for Platform sellers |
+| [`/iblai-ui-monetization-subscription`](../skills/monetization/iblai-ui-monetization-subscription/SKILL.md) | 🖥️ ui | Build the user-facing PurchasesTab inside the Profile page |
 
 ## Analytics
 
@@ -211,7 +211,7 @@ word ("memory", "settings", "metadata") exists at four scopes.
 | Skill | Kind | What it does |
 |---|---|---|
 | ★ [`/iblai-api-analytics`](../skills/analytics/iblai-api-analytics/SKILL.md) | 🔌 api | Read ibl.ai analytics via the platform API |
-| ★ [`/iblai-vibe-analytics`](../skills/analytics/iblai-vibe-analytics/SKILL.md) | 🖥️ ui | Add the analytics dashboard (Overview, Users, Courses, Programs, Topics, Transcripts, Memory, Cost, Audit, Data Reports) to your Next.js app |
+| ★ [`/iblai-ui-analytics`](../skills/analytics/iblai-ui-analytics/SKILL.md) | 🖥️ ui | Add the analytics dashboard (Overview, Users, Courses, Programs, Topics, Transcripts, Memory, Cost, Audit, Data Reports) to your Next.js app |
 
 ## Content
 
@@ -242,9 +242,9 @@ word ("memory", "settings", "metadata") exists at four scopes.
 | [`/iblai-api-studio-subsection`](../skills/content/iblai-api-studio-subsection/SKILL.md) | 🔌 api | Manage subsections (sequential blocks) of an Open edX course on Studio |
 | [`/iblai-api-studio-team`](../skills/content/iblai-api-studio-team/SKILL.md) | 🔌 api | Manage an Open edX course team on Studio |
 | [`/iblai-api-studio-unit`](../skills/content/iblai-api-studio-unit/SKILL.md) | 🔌 api | Manage units (vertical blocks) of an Open edX course on Studio |
-| [`/iblai-vibe-application`](../skills/content/iblai-vibe-application/SKILL.md) | 🖥️ ui | Add the platform application gate (admissions) |
-| [`/iblai-vibe-course-access`](../skills/content/iblai-vibe-course-access/SKILL.md) | 🖥️ ui | Add course-content pages (the edX course-viewing UI) to your Next.js app |
-| [`/iblai-vibe-course-create`](../skills/content/iblai-vibe-course-create/SKILL.md) | 🔌 api | Use this skill when a user asks to create, draft, scaffold, generate, or publish a course on ibl.ai / OpenEdX |
+| [`/iblai-ui-application`](../skills/content/iblai-ui-application/SKILL.md) | 🖥️ ui | Add the platform application gate (admissions) |
+| [`/iblai-ui-course-access`](../skills/content/iblai-ui-course-access/SKILL.md) | 🖥️ ui | Add course-content pages (the edX course-viewing UI) to your Next.js app |
+| [`/iblai-ui-course-create`](../skills/content/iblai-ui-course-create/SKILL.md) | 🔌 api | Use this skill when a user asks to create, draft, scaffold, generate, or publish a course on ibl.ai / OpenEdX |
 
 ## Ship
 
@@ -255,15 +255,15 @@ word ("memory", "settings", "metadata") exists at four scopes.
 | [`/iblai-api-ecosystem`](../skills/ship/iblai-api-ecosystem/SKILL.md) | 📖 guide | Map of the ibl.ai open-source ecosystem |
 | [`/iblai-api-hosting`](../skills/ship/iblai-api-hosting/SKILL.md) | 🔌 api | Deploy and manage ibl.ai-hosted web apps headlessly via the Data Manager API |
 | [`/iblai-api-infrastructure`](../skills/ship/iblai-api-infrastructure/SKILL.md) | 📖 guide | Deploy and self-host the ibl.ai platform infrastructure |
-| [`/iblai-vibe-design`](../skills/ship/iblai-vibe-design/SKILL.md) | 🛠️ ops | Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize… |
-| [`/iblai-vibe-deslop`](../skills/ship/iblai-vibe-deslop/SKILL.md) | 🛠️ ops | Audit and harden existing codebases (especially AI-generated / vibe-coded ones) for production readiness |
-| [`/iblai-vibe-iconography`](../skills/ship/iblai-vibe-iconography/SKILL.md) | 🛠️ ops | Generate every required app-icon size for Tauri desktop, iOS, Windows MSIX, and macOS builds from a single source image |
-| [`/iblai-vibe-ops-build`](../skills/ship/iblai-vibe-ops-build/SKILL.md) | 🛠️ ops | Build and run your ibl.ai app as a native app with Tauri v2 |
-| [`/iblai-vibe-ops-deploy`](../skills/ship/iblai-vibe-ops-deploy/SKILL.md) | 🛠️ ops | Use this skill when the user asks to deploy, publish, host, share, or ship their ibl.ai app to the web |
-| [`/iblai-vibe-ops-release`](../skills/ship/iblai-vibe-ops-release/SKILL.md) | 🛠️ ops | Generate a Makefile + Fastlane config that builds and submits your Tauri app to the Apple App Store and Google Play |
-| [`/iblai-vibe-ops-test`](../skills/ship/iblai-vibe-ops-test/SKILL.md) | 🛠️ ops | Test an ibl.ai Next.js app before showing it or saying done |
-| [`/iblai-vibe-readme`](../skills/ship/iblai-vibe-readme/SKILL.md) | 🛠️ ops | Write or refresh the README.md |
-| [`/iblai-vibe-windows-msix`](../skills/ship/iblai-vibe-windows-msix/SKILL.md) | 🛠️ ops | Build and distribute a Tauri app as a Windows MSIX package for sideloading (test) or the Microsoft Store (release) |
+| [`/iblai-ui-design`](../skills/ship/iblai-ui-design/SKILL.md) | 🛠️ ops | Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize… |
+| [`/iblai-ui-deslop`](../skills/ship/iblai-ui-deslop/SKILL.md) | 🛠️ ops | Audit and harden existing codebases (especially AI-generated / vibe-coded ones) for production readiness |
+| [`/iblai-ui-iconography`](../skills/ship/iblai-ui-iconography/SKILL.md) | 🛠️ ops | Generate every required app-icon size for Tauri desktop, iOS, Windows MSIX, and macOS builds from a single source image |
+| [`/iblai-ui-ops-build`](../skills/ship/iblai-ui-ops-build/SKILL.md) | 🛠️ ops | Build and run your ibl.ai app as a native app with Tauri v2 |
+| [`/iblai-ui-ops-deploy`](../skills/ship/iblai-ui-ops-deploy/SKILL.md) | 🛠️ ops | Use this skill when the user asks to deploy, publish, host, share, or ship their ibl.ai app to the web |
+| [`/iblai-ui-ops-release`](../skills/ship/iblai-ui-ops-release/SKILL.md) | 🛠️ ops | Generate a Makefile + Fastlane config that builds and submits your Tauri app to the Apple App Store and Google Play |
+| [`/iblai-ui-ops-test`](../skills/ship/iblai-ui-ops-test/SKILL.md) | 🛠️ ops | Test an ibl.ai Next.js app before showing it or saying done |
+| [`/iblai-ui-readme`](../skills/ship/iblai-ui-readme/SKILL.md) | 🛠️ ops | Write or refresh the README.md |
+| [`/iblai-ui-windows-msix`](../skills/ship/iblai-ui-windows-msix/SKILL.md) | 🛠️ ops | Build and distribute a Tauri app as a Windows MSIX package for sideloading (test) or the Microsoft Store (release) |
 
 ## Security
 
@@ -271,13 +271,13 @@ word ("memory", "settings", "metadata") exists at four scopes.
 
 | Skill | Kind | What it does |
 |---|---|---|
-| [`/iblai-vibe-security-cloud-audit`](../skills/security/iblai-vibe-security-cloud-audit/SKILL.md) | 🛡️ security | Audit cloud infrastructure (AWS, GCP, Azure) for misconfigurations, excessive permissions, and security gaps |
-| [`/iblai-vibe-security-dependency-audit`](../skills/security/iblai-vibe-security-dependency-audit/SKILL.md) | 🛡️ security | Audit project dependencies, frameworks, languages, and dev tools for known vulnerabilities, CVEs, and security anti-patterns |
-| [`/iblai-vibe-security-disk-forensics`](../skills/security/iblai-vibe-security-disk-forensics/SKILL.md) | 🛡️ security | Analyze disk images and file systems for digital evidence recovery in forensic investigations and CTF challenges |
-| [`/iblai-vibe-security-incident-triage`](../skills/security/iblai-vibe-security-incident-triage/SKILL.md) | 🛡️ security | Guide rapid triage and initial response to security incidents following NIST SP 800-61 methodology |
-| [`/iblai-vibe-security-osint-recon`](../skills/security/iblai-vibe-security-osint-recon/SKILL.md) | 🛡️ security | Gather and correlate open source intelligence from public sources for authorized investigations, threat intelligence, and attack surface … |
-| [`/iblai-vibe-security-owasp-audit`](../skills/security/iblai-vibe-security-owasp-audit/SKILL.md) | 🛡️ security | Audit application source code against the OWASP Top 10 vulnerability categories |
-| [`/iblai-vibe-security-prompt-injection`](../skills/security/iblai-vibe-security-prompt-injection/SKILL.md) | 🛡️ security | Audit applications for AI prompt injection, agent security, and LLM permission boundary vulnerabilities |
-| [`/iblai-vibe-security-recon`](../skills/security/iblai-vibe-security-recon/SKILL.md) | 🛡️ security | Perform structured reconnaissance and attack surface enumeration for authorized penetration tests, CTF challenges, and bug bounty programs |
+| [`/iblai-ui-security-cloud-audit`](../skills/security/iblai-ui-security-cloud-audit/SKILL.md) | 🛡️ security | Audit cloud infrastructure (AWS, GCP, Azure) for misconfigurations, excessive permissions, and security gaps |
+| [`/iblai-ui-security-dependency-audit`](../skills/security/iblai-ui-security-dependency-audit/SKILL.md) | 🛡️ security | Audit project dependencies, frameworks, languages, and dev tools for known vulnerabilities, CVEs, and security anti-patterns |
+| [`/iblai-ui-security-disk-forensics`](../skills/security/iblai-ui-security-disk-forensics/SKILL.md) | 🛡️ security | Analyze disk images and file systems for digital evidence recovery in forensic investigations and CTF challenges |
+| [`/iblai-ui-security-incident-triage`](../skills/security/iblai-ui-security-incident-triage/SKILL.md) | 🛡️ security | Guide rapid triage and initial response to security incidents following NIST SP 800-61 methodology |
+| [`/iblai-ui-security-osint-recon`](../skills/security/iblai-ui-security-osint-recon/SKILL.md) | 🛡️ security | Gather and correlate open source intelligence from public sources for authorized investigations, threat intelligence, and attack surface … |
+| [`/iblai-ui-security-owasp-audit`](../skills/security/iblai-ui-security-owasp-audit/SKILL.md) | 🛡️ security | Audit application source code against the OWASP Top 10 vulnerability categories |
+| [`/iblai-ui-security-prompt-injection`](../skills/security/iblai-ui-security-prompt-injection/SKILL.md) | 🛡️ security | Audit applications for AI prompt injection, agent security, and LLM permission boundary vulnerabilities |
+| [`/iblai-ui-security-recon`](../skills/security/iblai-ui-security-recon/SKILL.md) | 🛡️ security | Perform structured reconnaissance and attack surface enumeration for authorized penetration tests, CTF challenges, and bug bounty programs |
 
 Total: 164 skills.

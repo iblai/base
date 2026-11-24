@@ -4,7 +4,7 @@
 
 # iblai-api-agent-create
 
-> ★ **Core family.** **With a screen:** `/iblai-vibe-agent-create` mounts the in-app create flow and `/setup` screen — this skill is the headless twin (same data, exact endpoints).
+> ★ **Core family.** **With a screen:** `/iblai-ui-agent-create` mounts the in-app create flow and `/setup` screen — this skill is the headless twin (same data, exact endpoints).
 
 Create a brand-new agent from a template. This is the step **before**
 configuring an agent: it mints a new agent and returns its `unique_id`, which

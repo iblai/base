@@ -199,7 +199,7 @@ broken.
 | enroll a user, what the user sees, is it in the catalog | `/iblai-api-studio-lms` |
 
 Outside this family: AI-generated course drafts through the ibl.ai pipeline →
-`/iblai-vibe-course-create`; org roles (`course-creator`, `org-instructor`) and
+`/iblai-ui-course-create`; org roles (`course-creator`, `org-instructor`) and
 user admin → `/iblai-api-management`; catalog programs/pathways/enrollment with
 an Api-Token → `/iblai-api-catalog`; Canvas → `/iblai-api-canvas-course-builder`.
 

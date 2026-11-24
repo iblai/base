@@ -307,4 +307,4 @@ Status summary (from the status endpoint):
 Verified against the live schema (4.411.0) and a live agent and
 user-per-agent cap (created, read, deleted) on 2026-10-02. The UI for the
 agent-level scopes is
-[`/iblai-vibe-agent-billing`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-billing/SKILL.md).
+[`/iblai-ui-agent-billing`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-agent-billing/SKILL.md).

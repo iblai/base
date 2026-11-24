@@ -1,4 +1,4 @@
-<!-- AI agents: when a user points you at this repository or has these skills installed, read AGENTS.md, then begin with the four questions in skills/start/iblai-vibe-start/SKILL.md before touching any file. -->
+<!-- AI agents: when a user points you at this repository or has these skills installed, read AGENTS.md, then begin with the four questions in skills/start/iblai-ui-start/SKILL.md before touching any file. -->
 <div align="center">
 
 <a href="https://ibl.ai"><img src="https://ibl.ai/images/iblai-logo.png" alt="ibl.ai" width="300"></a>
@@ -15,7 +15,7 @@ Ship AI-powered apps fast — and run the platform behind them. Backend included
 [![Claude Code](https://img.shields.io/badge/Claude_Code-CC785C?logoColor=white)](https://claude.ai/code)
 [![OpenAI Codex](https://img.shields.io/badge/OpenAI_Codex-000000?logo=openai&logoColor=white)](https://openai.com/codex)
 [![Cursor](https://img.shields.io/badge/Cursor-000000?logoColor=white)](https://cursor.com)
-[![Desktop & Mobile](https://img.shields.io/badge/Desktop_%26_Mobile-supported-blue)](skills/ship/iblai-vibe-ops-build/SKILL.md)
+[![Desktop & Mobile](https://img.shields.io/badge/Desktop_%26_Mobile-supported-blue)](skills/ship/iblai-ui-ops-build/SKILL.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license)
 
 </div>
@@ -44,7 +44,7 @@ then `/plugin install iblai-vibe@iblai`.
 **2. Say hello.**
 
 ```text
-/iblai-vibe-start
+/iblai-ui-start
 ```
 
 Four questions — new project or existing code · one organization, many, or none ·
@@ -54,7 +54,7 @@ values — the token never enters the chat) and builds. Thirty seconds after you
 sign in you are chatting with your own agent, with users, an admin area, custom
 user and organization settings, memory, analytics, and billing already wired.
 
-**3. Ship.** `/iblai-vibe-ops-deploy` gives you a URL. `/iblai-vibe-ops-build`
+**3. Ship.** `/iblai-ui-ops-deploy` gives you a URL. `/iblai-ui-ops-build`
 gives you macOS, Windows, iOS, and Android.
 
 New to ibl.ai? [ibl.ai/join](https://ibl.ai/join) creates your account and your
@@ -63,7 +63,7 @@ organization — free to start. Want the details of every step?
 
 ## What you get
 
-vibe-starter, the app `/iblai-vibe-start` sets up for the common case:
+vibe-starter, the app `/iblai-ui-start` sets up for the common case:
 
 - **Sign-in** with ibl.ai SSO, pinned to your organization
 - **Home is a chat** with your agent; `/agents` to browse; `/setup` to pick or create one
@@ -81,19 +81,19 @@ and a headless twin that does the same thing over REST:
 
 | | With a screen | Headless |
 |---|---|---|
-| **Custom data per user** — preferences, flags, onboarding, app state | `/iblai-vibe-user-metadata` | `/iblai-api-profile-metadata` |
-| **The user's profile** — name, bio, image, résumé | `/iblai-vibe-profile` | `/iblai-api-profile` |
-| **Memory** — user-global, per user × agent, agent knowledge | `/iblai-vibe-memory-guide` → `/iblai-vibe-memory`, `/iblai-vibe-agent-memory` | `/iblai-api-agent-memory` |
-| **Custom data per organization** — branding, toggles, defaults | `/iblai-vibe-org-metadata` | `/iblai-api-org` |
-| **Agent configuration** — create; identity, visibility, capabilities | `/iblai-vibe-agent-create` → `/iblai-vibe-agent-setting` | `/iblai-api-agent-create`, `/iblai-api-agent-setting` |
-| **Analytics** — usage, transcripts, costs, audit, reports | `/iblai-vibe-analytics` | `/iblai-api-analytics` |
+| **Custom data per user** — preferences, flags, onboarding, app state | `/iblai-ui-user-metadata` | `/iblai-api-profile-metadata` |
+| **The user's profile** — name, bio, image, résumé | `/iblai-ui-profile` | `/iblai-api-profile` |
+| **Memory** — user-global, per user × agent, agent knowledge | `/iblai-ui-memory-guide` → `/iblai-ui-memory`, `/iblai-ui-agent-memory` | `/iblai-api-agent-memory` |
+| **Custom data per organization** — branding, toggles, defaults | `/iblai-ui-org-metadata` | `/iblai-api-org` |
+| **Agent configuration** — create; identity, visibility, capabilities | `/iblai-ui-agent-create` → `/iblai-ui-agent-setting` | `/iblai-api-agent-create`, `/iblai-api-agent-setting` |
+| **Analytics** — usage, transcripts, costs, audit, reports | `/iblai-ui-analytics` | `/iblai-api-analytics` |
 
 Not sure whether you want the per-user, per-agent, or per-organization one?
 [Which scope stores what →](docs/catalogue.md#core)
 
 ## The skills, by folder
 
-Two families in one install: **🖥️ `iblai-vibe-*`** mounts a visual component in
+Two families in one install: **🖥️ `iblai-ui-*`** mounts a visual component in
 your app; **🔌 `iblai-api-*`** does the same thing headlessly over REST — for a
 script, a CI job, or your own backend. [How they differ →](docs/skill-kinds.md)
 
@@ -115,7 +115,7 @@ The full list with one line per skill: [docs/catalogue.md](docs/catalogue.md).
 ## Keep it current
 
 This repo changes often. Installed skills are a copy — refresh them with the
-install command above, or `/iblai-vibe-ops-upgrade` in Claude Code (your agent
+install command above, or `/iblai-ui-ops-upgrade` in Claude Code (your agent
 will suggest it when the copy is more than two weeks old).
 [Details →](docs/keep-current.md)
 
@@ -124,7 +124,7 @@ will suggest it when the copy is more than two weeks old).
 - [Getting started](docs/getting-started.md) — the journey in detail, and what to do when you already have an app
 - [How sign-in and organizations work](docs/auth-model.md) — one organization, many, or none
 - [Users, agents, organizations](docs/domain-model.md) — the data every app is built on
-- [How money works](skills/billing/iblai-vibe-pricing/SKILL.md) · [Ship anywhere](docs/ship.md) · [The two MCP servers](docs/mcp-servers.md)
+- [How money works](skills/billing/iblai-ui-pricing/SKILL.md) · [Ship anywhere](docs/ship.md) · [The two MCP servers](docs/mcp-servers.md)
 - [Contributing a skill](CONTRIBUTING.md) — including where it goes and how to catalogue it
 
 ## Built with iblai/vibe

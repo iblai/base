@@ -6,7 +6,7 @@ alwaysApply: false
 
 # iblai-api-login
 
-> **First time here?** If `iblai.env` has no `ARCHITECTURE=`, run `/iblai-vibe-start` first (four questions; two minutes) — it decides single-org / multi-org / headless and who signs in, and every skill reads the answer.
+> **First time here?** If `iblai.env` has no `ARCHITECTURE=`, run `/iblai-ui-start` first (four questions; two minutes) — it decides single-org / multi-org / headless and who signs in, and every skill reads the answer.
 
 Connect an organization so the other `iblai-*` skills can call the ibl.ai platform.
 Every API call needs three things — your **org key**, your **username**, and a
@@ -26,7 +26,7 @@ The base URL is fixed: `https://api.iblai.app`. Auth header on every request is
 
 ## Fastest path — the connect flow
 
-Try `/iblai-vibe-connect` first. It opens `login.iblai.app/connect` in the
+Try `/iblai-ui-connect` first. It opens `login.iblai.app/connect` in the
 browser, the user picks their organization and clicks **Connect**, and the
 script mints the Platform API Token and writes all three values into `.env`
 (and `iblai.env`, and `.env.local` when a `package.json` is present) — nothing
@@ -150,7 +150,7 @@ read the values off the page.
    ```
 
    ```dotenv
-   # iblai.env — what the iblai-vibe-* skills and vibe-starter read (same values)
+   # iblai.env — what the iblai-ui-* skills and vibe-starter read (same values)
    DOMAIN=iblai.app
    PLATFORM=<org key>
    TOKEN=<token>

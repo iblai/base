@@ -189,7 +189,7 @@ font or weight scale, a size outside the scale, a new accent colour, a restyled
 SDK component, a hand-rolled shell or spinner, a card around an SDK panel, dark
 mode: stop and ask the user first, stating what this document says, what would
 change and what it costs. The wiring and the type scale are above; the
-canonical components and the probe are in `/iblai-vibe-component` (House
+canonical components and the probe are in `/iblai-ui-component` (House
 components).
 
 ---

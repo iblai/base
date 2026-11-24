@@ -40,25 +40,25 @@ Every Tier 0/1 skill has at least one; the journey set below illustrates
 | `10-user-mode.png` | the same app in User mode (no admin links) | script |
 | `11-login-custom.png` | the customized `login.iblai.app` page | manual |
 | `12-deploy-ready.png` | terminal: READY + URL (masked) | manual |
-| `13-macos.png`, `13-ios.png`, `13-android.png`, `13-windows.png` | native shells | reuse `skills/ship/iblai-vibe-ops-build/*.png`; capture Windows |
+| `13-macos.png`, `13-ios.png`, `13-android.png`, `13-windows.png` | native shells | reuse `skills/ship/iblai-ui-ops-build/*.png`; capture Windows |
 
 The script also copies each shot into the skill that documents it:
-`iblai-vibe-ops-init-1-home.png`, `iblai-vibe-agent-search.png`,
-`iblai-vibe-user-metadata-1-preferences.png`, `iblai-vibe-org-metadata-1-settings.png`,
-`iblai-vibe-admin-{1-user-mode,2-admin-mode,3-users}.png`,
-`iblai-vibe-agent-create-1-dialog.png`.
+`iblai-ui-ops-init-1-home.png`, `iblai-ui-agent-search.png`,
+`iblai-ui-user-metadata-1-preferences.png`, `iblai-ui-org-metadata-1-settings.png`,
+`iblai-ui-admin-{1-user-mode,2-admin-mode,3-users}.png`,
+`iblai-ui-agent-create-1-dialog.png`.
 
 ## Capturing the starter set
 
 Needs a running starter (`pnpm dev` in a scaffolded app or in
-`skills/start/iblai-vibe-ops-init/assets/vibe-starter` with a real `.env.local`) and
+`skills/start/iblai-ui-ops-init/assets/vibe-starter` with a real `.env.local`) and
 an **admin** of the demo org in `e2e/.env.development` — yours (the captures
 show the account's name), or the one `pnpm e2e:accounts` creates. From the
 repo root:
 
 ```bash
 node scripts/capture-screenshots.mjs --app http://localhost:3000 \
-  --starter skills/start/iblai-vibe-ops-init/assets/vibe-starter
+  --starter skills/start/iblai-ui-ops-init/assets/vibe-starter
 ```
 
 It reuses `e2e/auth.setup.ts` for the sign-in, walks the routes in both view

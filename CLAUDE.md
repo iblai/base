@@ -2,7 +2,7 @@
 
 Guidance for AI assistants working in **iblai/vibe** — the toolkit for
 building apps on the [ibl.ai](https://ibl.ai) platform **and** for operating
-the platform headlessly. One install, two skill families: `iblai-vibe-*`
+the platform headlessly. One install, two skill families: `iblai-ui-*`
 (kind `ui`/`ops`/`guide` — mount the SDK's visual components, build, ship) and
 `iblai-api-*` (kind `api` — exact REST endpoints, no screen; the former
 `iblai/api` repository). Every skill's `metadata.kind` says which
@@ -18,40 +18,40 @@ macOS, Windows, iOS, and Android — in about twenty minutes.
 
 | The user says… | Do this |
 |---|---|
-| "I want to build…", "start", "where do I start", "add ibl.ai to my project", or describes an app without saying who signs in | `/iblai-vibe-start` — four questions (new/existing · single-org/multi-org/headless · members/public · users/memories/agents/organizations), recorded in `iblai.env` as `PROJECT`, `ARCHITECTURE`, `ACCESS`, `DOMAIN_FOCUS`; every later skill reads them |
-| "new app", "start a project", "scaffold" | `/iblai-vibe-ops-init` — copies vibe-starter, asks only for the org key and a Platform API Token (refuses `main`), verifies both, writes the env files |
-| "chat", "talk to the agent", "assistant" | The starter's `/` already chats; it needs an agent — `/setup` (pick or create) or `/iblai-vibe-agent-create`; customize with `/iblai-vibe-agent-chat` |
-| "an assistant on every page", "Default Agent in the header", "agent beside the page", "side panel chat", "master agent" | `/iblai-vibe-agent-assistant` — the SDK's Assistant (`MasterAgentProvider`, `MasterAgent`, `MasterAgentPanel`): a header button opening the Default Agent in a resizable panel beside the page |
-| "create an agent", "another agent" | `/iblai-vibe-agent-create` ★ → `/iblai-vibe-agent-setting` ★; every tab via `/iblai-vibe-agent` |
-| "users", "admins", "roles", "invite", "who can" | `/iblai-vibe-admin` (User/Admin mode, `/admin/users`), `/iblai-vibe-invite`, `/iblai-vibe-rbac` |
-| "store something per user", "preferences", "onboarding progress", "custom user fields" | `/iblai-vibe-user-metadata` ★ — never localStorage, never your own DB |
-| "organization setting", "white-label", "per-org config" | `/iblai-vibe-org-metadata` ★ (GET-merge-PUT) + `/iblai-vibe-account` |
-| "profile", "avatar", "résumé" | `/iblai-vibe-profile` ★ |
-| "remember", "memory", "personalize" | `/iblai-vibe-memory-guide` ★ → `/iblai-vibe-memory`, `/iblai-vibe-agent-memory` |
-| "incognito", "private mode", "don't save this chat", "PII", "redact personal data" | `/iblai-vibe-incognito` (the toggle + the four tiers) → `/iblai-vibe-agent-privacy` (PII filtering + the agent's Incognito policy), the Profile › Privacy tab in `/iblai-vibe-profile` |
-| "analytics", "usage", "costs", "transcripts", "who changed what" | `/iblai-vibe-analytics` ★, `/iblai-vibe-agent-audit`, `/iblai-vibe-history` |
-| "charge", "pricing", "paywall", "credits", "spend limit" | `/iblai-vibe-pricing` → the rail it picks |
-| "out of credits", "402", "plan picker", "upgrade plan", "free trial" | `/iblai-vibe-credit-exhaustion` — what the app shows when credits run out (vibe-starter ships it), the free-trial gate, the hand-off from `<agent-ai>` (once the OS ships iblai/os#677) |
-| "embed the agent", "embed the OS agent", "iframe", "`<agent-ai>`", "put the agent on another site" | `/iblai-vibe-agent-embed` (the agent's Embed tab in your app) → `/iblai-api-agent-embed` (the `<agent-ai>` element: its attributes, SSO and the frames it posts) |
-| "deploy", "URL", "share it" | `/iblai-vibe-ops-deploy` |
-| "iOS", "Android", "Mac", "Windows", "Surface", "Linux", "App Store" | `/iblai-vibe-ops-build`, `/iblai-vibe-ops-release`, `/iblai-vibe-windows-msix` |
-| "code mode", "let the agent edit my files / run commands", "opencode", "Code from my phone" | `/iblai-vibe-os-agent-code-mode` (needs the Tauri shell from `/iblai-vibe-ops-build`) |
-| "Cowork", "computer use", "let the agent use my screen / click and type for me", "Accessibility / Screen Recording permission", "record a skill" | `/iblai-vibe-os-agent-cowork` — the SDK chat's Cowork pill, its consent and macOS setup (needs the Tauri shell from `/iblai-vibe-ops-build`) |
-| "workflow", "multi-step agent", "branch / loop an agent", "route / classify a request", "chain agents", "state variables" | `/iblai-vibe-workflow` — `WorkflowsList` + `WorkflowEditor` from `/web-containers/next`; the list is organization-wide, opened from an agent |
-| "sandbox", "run code", "virtual machine", "what can the agent reach", "give the agent an API key" | `/iblai-vibe-agent-sandbox` (pick the kind) → `/iblai-vibe-agent-virtual-machine` (one agent's egress, network, environment variables), `/iblai-vibe-virtual-machine` (the org's networks + environment variables) |
-| "MCP", "connector", "connect GitHub / Google Drive / Linear to the agent", "let users switch a connector off", "OAuth client id for a connector" | `/iblai-vibe-agent-mcp` — the tab (Featured / Directory, per-agent switch, sign-in scope, the org's own OAuth app) and the chat's MCP panel; REST in `/iblai-api-agent-mcp` |
+| "I want to build…", "start", "where do I start", "add ibl.ai to my project", or describes an app without saying who signs in | `/iblai-ui-start` — four questions (new/existing · single-org/multi-org/headless · members/public · users/memories/agents/organizations), recorded in `iblai.env` as `PROJECT`, `ARCHITECTURE`, `ACCESS`, `DOMAIN_FOCUS`; every later skill reads them |
+| "new app", "start a project", "scaffold" | `/iblai-ui-ops-init` — copies vibe-starter, asks only for the org key and a Platform API Token (refuses `main`), verifies both, writes the env files |
+| "chat", "talk to the agent", "assistant" | The starter's `/` already chats; it needs an agent — `/setup` (pick or create) or `/iblai-ui-agent-create`; customize with `/iblai-ui-agent-chat` |
+| "an assistant on every page", "Default Agent in the header", "agent beside the page", "side panel chat", "master agent" | `/iblai-ui-agent-assistant` — the SDK's Assistant (`MasterAgentProvider`, `MasterAgent`, `MasterAgentPanel`): a header button opening the Default Agent in a resizable panel beside the page |
+| "create an agent", "another agent" | `/iblai-ui-agent-create` ★ → `/iblai-ui-agent-setting` ★; every tab via `/iblai-ui-agent` |
+| "users", "admins", "roles", "invite", "who can" | `/iblai-ui-admin` (User/Admin mode, `/admin/users`), `/iblai-ui-invite`, `/iblai-ui-rbac` |
+| "store something per user", "preferences", "onboarding progress", "custom user fields" | `/iblai-ui-user-metadata` ★ — never localStorage, never your own DB |
+| "organization setting", "white-label", "per-org config" | `/iblai-ui-org-metadata` ★ (GET-merge-PUT) + `/iblai-ui-account` |
+| "profile", "avatar", "résumé" | `/iblai-ui-profile` ★ |
+| "remember", "memory", "personalize" | `/iblai-ui-memory-guide` ★ → `/iblai-ui-memory`, `/iblai-ui-agent-memory` |
+| "incognito", "private mode", "don't save this chat", "PII", "redact personal data" | `/iblai-ui-incognito` (the toggle + the four tiers) → `/iblai-ui-agent-privacy` (PII filtering + the agent's Incognito policy), the Profile › Privacy tab in `/iblai-ui-profile` |
+| "analytics", "usage", "costs", "transcripts", "who changed what" | `/iblai-ui-analytics` ★, `/iblai-ui-agent-audit`, `/iblai-ui-history` |
+| "charge", "pricing", "paywall", "credits", "spend limit" | `/iblai-ui-pricing` → the rail it picks |
+| "out of credits", "402", "plan picker", "upgrade plan", "free trial" | `/iblai-ui-credit-exhaustion` — what the app shows when credits run out (vibe-starter ships it), the free-trial gate, the hand-off from `<agent-ai>` (once the OS ships iblai/os#677) |
+| "embed the agent", "embed the OS agent", "iframe", "`<agent-ai>`", "put the agent on another site" | `/iblai-ui-agent-embed` (the agent's Embed tab in your app) → `/iblai-api-agent-embed` (the `<agent-ai>` element: its attributes, SSO and the frames it posts) |
+| "deploy", "URL", "share it" | `/iblai-ui-ops-deploy` |
+| "iOS", "Android", "Mac", "Windows", "Surface", "Linux", "App Store" | `/iblai-ui-ops-build`, `/iblai-ui-ops-release`, `/iblai-ui-windows-msix` |
+| "code mode", "let the agent edit my files / run commands", "opencode", "Code from my phone" | `/iblai-ui-os-agent-code-mode` (needs the Tauri shell from `/iblai-ui-ops-build`) |
+| "Cowork", "computer use", "let the agent use my screen / click and type for me", "Accessibility / Screen Recording permission", "record a skill" | `/iblai-ui-os-agent-cowork` — the SDK chat's Cowork pill, its consent and macOS setup (needs the Tauri shell from `/iblai-ui-ops-build`) |
+| "workflow", "multi-step agent", "branch / loop an agent", "route / classify a request", "chain agents", "state variables" | `/iblai-ui-workflow` — `WorkflowsList` + `WorkflowEditor` from `/web-containers/next`; the list is organization-wide, opened from an agent |
+| "sandbox", "run code", "virtual machine", "what can the agent reach", "give the agent an API key" | `/iblai-ui-agent-sandbox` (pick the kind) → `/iblai-ui-agent-virtual-machine` (one agent's egress, network, environment variables), `/iblai-ui-virtual-machine` (the org's networks + environment variables) |
+| "MCP", "connector", "connect GitHub / Google Drive / Linear to the agent", "let users switch a connector off", "OAuth client id for a connector" | `/iblai-ui-agent-mcp` — the tab (Featured / Directory, per-agent switch, sign-in scope, the org's own OAuth app) and the chat's MCP panel; REST in `/iblai-api-agent-mcp` |
 | "Studio", "Open edX", "xblock", "build a course on our LMS", section / subsection / unit, grading policy, publish | `/iblai-api-studio` — the index; `/iblai-api-studio-auth` first (browser session → `studio.env`), then the `iblai-api-studio-*` skill for the piece |
-| anything with no component | `/iblai-vibe-api` — server route + `Api-Token`, and the matching `iblai-api-*` skill (same repo) |
+| anything with no component | `/iblai-ui-api` — server route + `Api-Token`, and the matching `iblai-api-*` skill (same repo) |
 | "configure / operate the org from the terminal, a script, CI" (no app) | `/iblai-api-login`, then the `iblai-api-*` skill for that family — `curl`, never UI |
 | "chat with a deployed agent from my assistant" | `/iblai-api-agent-chat` (hosted MCP server) or `/iblai-api-agent-session` (raw REST/SSE) |
-| "is it done?", "show me" | `/iblai-vibe-ops-test` first: `pnpm build`, `pnpm test`, then its touch test — the route in a real browser, every new control, the console, the phone width |
-| "looks off-brand", "the font", "font size", "match the OS look", "page header", "empty state", "status badge" | `/iblai-vibe-component` — House components; diverging from the ibl.ai look is a question for the user, not a decision |
-| "make an ibl.ai official app" (said in those words) | `/iblai-vibe-house-journeys` — the OS's first-run journeys: a `main`-only user gets the app trial-gated with Upgrade for free, a visitor on another organization a preview with Join / Create your own, an admin the SDK setup flow then the Stripe path. Never for any other app |
+| "is it done?", "show me" | `/iblai-ui-ops-test` first: `pnpm build`, `pnpm test`, then its touch test — the route in a real browser, every new control, the console, the phone width |
+| "looks off-brand", "the font", "font size", "match the OS look", "page header", "empty state", "status badge" | `/iblai-ui-component` — House components; diverging from the ibl.ai look is a question for the user, not a decision |
+| "make an ibl.ai official app" (said in those words) | `/iblai-ui-house-journeys` — the OS's first-run journeys: a `main`-only user gets the app trial-gated with Upgrade for free, a visitor on another organization a preview with Join / Create your own, an admin the SDK setup flow then the Stripe path. Never for any other app |
 
-**Freshness rule:** skills are a copy. If `.claude/skills/start/iblai-vibe/SKILL.md`
+**Freshness rule:** skills are a copy. If `.claude/skills/start/iblai-ui/SKILL.md`
 is older than 14 days, or older than the latest release
 (`curl -s https://api.github.com/repos/iblai/vibe/releases/latest | grep published_at`),
-suggest `/iblai-vibe-ops-upgrade` (re-runs `npx skills add iblai/vibe --all`
+suggest `/iblai-ui-ops-upgrade` (re-runs `npx skills add iblai/vibe --all`
 and bumps the SDK) before starting substantial work.
 
 Rules that never change: SDK components → shadcn/ui → custom, in that order;
@@ -61,12 +61,12 @@ current directory. Terms: *organization (org)*, *org key*, *agent*, *member*,
 *admin* — see [docs/glossary.md](docs/glossary.md); keep wire names
 (`platform_key`, `mentor`, `tenant`) verbatim in code.
 
-## The three architectures (decide once, in `/iblai-vibe-start`)
+## The three architectures (decide once, in `/iblai-ui-start`)
 
 | `ARCHITECTURE` | Who signs in | Org key | What vibe gives you |
 |---|---|---|---|
 | **single-org** (most apps) | members of one organization; `tenant=<org>` on every sign-in; a non-member is refused (or pays to join) | pinned `NEXT_PUBLIC_MAIN_TENANT_KEY`; one server-to-server `IBLAI_API_KEY` | vibe-starter as shipped |
-| **multi-org** (the os.ibl.ai model) | users of many organizations; org from the URL; switcher; re-auth per org; anonymous per agent | `main` as the community org + the route param | `/iblai-vibe-auth` → "Going multi-org"; the OS as reference |
+| **multi-org** (the os.ibl.ai model) | users of many organizations; org from the URL; switcher; re-auth per org; anonymous per agent | `main` as the community org + the route param | `/iblai-ui-auth` → "Going multi-org"; the OS as reference |
 | **headless** | nobody; scripts, CI, a backend | `IBLAI_ORG` per call | `/iblai-api-login` + the `api` family |
 
 Sign-in mechanics (the `app` / `redirect-to` / `tenant` / `logout` parameters,
@@ -86,9 +86,9 @@ tabs), organizations (metadata, people, billing) — hook by hook:
 5. Credits: prepaid, rechargeable, a hard ceiling; a free trial, then a plan picked in the app (Free, Pro, Max, Ultra); spend caps at org/agent/user scope.
 6. LLM keys: OS → Integrations → Secrets → LLMs — more models for agents.
 7. Agents: created in the OS, on `/setup`, or via the API; the UUID at the end of the OS URL is what every chat skill needs.
-8. People: OS → Management → Users (Admin/User + policies), invites; the same surface `/iblai-vibe-admin` mounts.
+8. People: OS → Management → Users (Admin/User + policies), invites; the same surface `/iblai-ui-admin` mounts.
 9. Every origin the app runs on must be in the org's allowed redirect origins, or sign-in never returns.
-10. Charging your users is a separate decision: `/iblai-vibe-pricing`.
+10. Charging your users is a separate decision: `/iblai-ui-pricing`.
 
 Full guide with screenshots: [docs/platform-lifecycle.md](docs/platform-lifecycle.md).
 Credentials, tokens, and why session tokens live in localStorage:
@@ -103,7 +103,7 @@ Both families use the same three values. `ui`/`ops` skills read `iblai.env`
 `TOKEN`. `/iblai-api-login` writes both files; the shell snippet in
 [docs/api-skills.md](docs/api-skills.md) loads either.
 
-0. `/iblai-vibe-connect` — the browser round trip (`login.iblai.app/connect` → loopback callback → files written, token never shown); falls back to the rungs below when the hosted page is unavailable ([docs/connect-flow.md](docs/connect-flow.md)).
+0. `/iblai-ui-connect` — the browser round trip (`login.iblai.app/connect` → loopback callback → files written, token never shown); falls back to the rungs below when the hosted page is unavailable ([docs/connect-flow.md](docs/connect-flow.md)).
 1. `iblai.env` already has real `PLATFORM` and `TOKEN` → use them.
 2. The host exports `IBLAI_PLATFORM_KEY`, `IBLAI_API_KEY`, `IBLAI_USERNAME` (the ibl.ai desktop app does) → use them, never ask.
 3. Otherwise ask for what is missing, saying where it comes from (lifecycle steps 3–4). Verify both with the two curls before writing. Refuse `main` and placeholders.
@@ -120,7 +120,7 @@ on `https://asgi.data.<domain>/api/ai-mentor/orgs/<org>/v1` (`Bearer`).
 
 ## The core app — what vibe-starter already is
 
-`/iblai-vibe-ops-init` copies `skills/start/iblai-vibe-ops-init/assets/vibe-starter`:
+`/iblai-ui-ops-init` copies `skills/start/iblai-ui-ops-init/assets/vibe-starter`:
 Next.js 16 + Tailwind v4 + shadcn/ui with SSO; **home = chat with the app's
 agent**; `/agents`; `/profile` + per-user app preferences; **User/Admin mode**
 with an admin area (`/admin/users` + invites, `/admin/analytics/*`,
@@ -139,26 +139,26 @@ links its headless twin, the `iblai-api-*` skill for the same data).
 
 | # | Capability | SDK surface | Skill |
 |---|---|---|---|
-| 1 | Sign-in, session, org resolution | `AuthProvider`, `TenantProvider`, `SsoLogin`, `useUserData`, `useIsAdmin` | `/iblai-vibe-auth` (starter) |
-| 2 | Home that chats with the app's agent | `Chat` (`/next`), `AppSidebar`, `NavBar` | `/iblai-vibe-agent-chat` (starter `/`) |
-| 3 | Find / pick agents | `AgentSearch` | `/iblai-vibe-agent-search` (starter `/agents`) |
-| 4 ★ | Create + configure an agent | `CreateAgentForm` (fields per the person's permissions), server route; `AgentSettingsProvider` + `AgentSettingsTab` (+25 tabs) | `/iblai-vibe-agent-create`, `/iblai-vibe-agent-setting`, `/iblai-vibe-agent` |
-| 5 ★ | The user's own profile | `Profile`, `UserProfileDropdown`, `useGetUserMetadataQuery` | `/iblai-vibe-profile` (starter) |
-| 6 ★ | Custom per-user data | `useGetUserPlatformMetadataQuery`, `useUpdateUserPlatformMetadataMutation` | `/iblai-vibe-user-metadata` (starter) |
-| 7 ★ | Org settings + custom org data | `Account` → `OrganizationTab`; `useGetTenantMetadataQuery`, `useUpdateTenantMetadataMutation` | `/iblai-vibe-org-metadata`, `/iblai-vibe-account` (starter) |
-| 8 | Users vs admins: directory, invites, roles, User/Admin mode | `Admin`, `UsersTab`, `RolesTab`, `PoliciesTab`, `InviteUserDialog`, `checkRbacPermission` | `/iblai-vibe-admin` (starter), `/iblai-vibe-invite`, `/iblai-vibe-rbac` |
-| 9 ★ | Memory: user-global, per-agent, agent knowledge | `useGetGlobalMemoriesQuery`, `useGetUserMemorySettingsQuery`, `AgentMemoryTab`, `Account targetTab="memory"` | `/iblai-vibe-memory-guide`, `/iblai-vibe-memory` (starter), `/iblai-vibe-agent-memory` |
-| 10 ★ | Analytics, transcripts, costs, audit, reports | `AnalyticsLayout` + tabs, `AgentAnalyticsTab` | `/iblai-vibe-analytics` (starter), `/iblai-vibe-agent-analytics`, `/iblai-vibe-agent-audit`, `/iblai-vibe-history` |
-| 11 | Notifications | `NotificationDropdown`, `NotificationDisplay` | `/iblai-vibe-notification` (starter) |
-| 12 | Money: credits, spend caps, your own pricing | `CreditBalance`, `BillingTab`, `UpgradePackageModal` + `use402ErrorCheck` (what happens when credits run out), spend-cap hooks; paywall assets | `/iblai-vibe-pricing`, `/iblai-vibe-credit`, `/iblai-vibe-billing`, `/iblai-vibe-credit-exhaustion` (starter), `/iblai-vibe-agent-billing`, `/iblai-vibe-monetization-app-paywall` |
-| + | Ship everywhere | — | `/iblai-vibe-ops-deploy`, `/iblai-vibe-ops-build`, `/iblai-vibe-ops-release` |
-| + | No component? | `lib/iblai/platform.ts` | `/iblai-vibe-api` |
+| 1 | Sign-in, session, org resolution | `AuthProvider`, `TenantProvider`, `SsoLogin`, `useUserData`, `useIsAdmin` | `/iblai-ui-auth` (starter) |
+| 2 | Home that chats with the app's agent | `Chat` (`/next`), `AppSidebar`, `NavBar` | `/iblai-ui-agent-chat` (starter `/`) |
+| 3 | Find / pick agents | `AgentSearch` | `/iblai-ui-agent-search` (starter `/agents`) |
+| 4 ★ | Create + configure an agent | `CreateAgentForm` (fields per the person's permissions), server route; `AgentSettingsProvider` + `AgentSettingsTab` (+25 tabs) | `/iblai-ui-agent-create`, `/iblai-ui-agent-setting`, `/iblai-ui-agent` |
+| 5 ★ | The user's own profile | `Profile`, `UserProfileDropdown`, `useGetUserMetadataQuery` | `/iblai-ui-profile` (starter) |
+| 6 ★ | Custom per-user data | `useGetUserPlatformMetadataQuery`, `useUpdateUserPlatformMetadataMutation` | `/iblai-ui-user-metadata` (starter) |
+| 7 ★ | Org settings + custom org data | `Account` → `OrganizationTab`; `useGetTenantMetadataQuery`, `useUpdateTenantMetadataMutation` | `/iblai-ui-org-metadata`, `/iblai-ui-account` (starter) |
+| 8 | Users vs admins: directory, invites, roles, User/Admin mode | `Admin`, `UsersTab`, `RolesTab`, `PoliciesTab`, `InviteUserDialog`, `checkRbacPermission` | `/iblai-ui-admin` (starter), `/iblai-ui-invite`, `/iblai-ui-rbac` |
+| 9 ★ | Memory: user-global, per-agent, agent knowledge | `useGetGlobalMemoriesQuery`, `useGetUserMemorySettingsQuery`, `AgentMemoryTab`, `Account targetTab="memory"` | `/iblai-ui-memory-guide`, `/iblai-ui-memory` (starter), `/iblai-ui-agent-memory` |
+| 10 ★ | Analytics, transcripts, costs, audit, reports | `AnalyticsLayout` + tabs, `AgentAnalyticsTab` | `/iblai-ui-analytics` (starter), `/iblai-ui-agent-analytics`, `/iblai-ui-agent-audit`, `/iblai-ui-history` |
+| 11 | Notifications | `NotificationDropdown`, `NotificationDisplay` | `/iblai-ui-notification` (starter) |
+| 12 | Money: credits, spend caps, your own pricing | `CreditBalance`, `BillingTab`, `UpgradePackageModal` + `use402ErrorCheck` (what happens when credits run out), spend-cap hooks; paywall assets | `/iblai-ui-pricing`, `/iblai-ui-credit`, `/iblai-ui-billing`, `/iblai-ui-credit-exhaustion` (starter), `/iblai-ui-agent-billing`, `/iblai-ui-monetization-app-paywall` |
+| + | Ship everywhere | — | `/iblai-ui-ops-deploy`, `/iblai-ui-ops-build`, `/iblai-ui-ops-release` |
+| + | No component? | `lib/iblai/platform.ts` | `/iblai-ui-api` |
 
 ### Platform data most apps lean on
 
 Most apps on the platform read or write the same six REST families. Each
 entry: what it gives your app → the SDK entry points that call it from the
-browser → the `/iblai-vibe-*` skill that mounts the UI → the `iblai-api-*`
+browser → the `/iblai-ui-*` skill that mounts the UI → the `iblai-api-*`
 skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
 (`get_api_query_info`, `get_component_info`) for the full hook/prop surface.
 
@@ -171,7 +171,7 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   `useUpdateUserPlatformMetadataMutation` (PATCH only — PUT, DELETE and
   `delete_keys` need a direct call). `OnboardingWizard` (`/web-containers`)
   saves its answers here under `onboarding`; os.ibl.ai keeps its per-user
-  coding-mode preference here. No `/iblai-vibe-*` skill wraps this family —
+  coding-mode preference here. No `/iblai-ui-*` skill wraps this family —
   call the hooks.
   REST: [profile-metadata](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/users/iblai-api-profile-metadata/SKILL.md)
 - **Agent settings** — one agent’s identity (name, description, categories,
@@ -183,8 +183,8 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   (that PUT), `useForkMentorMutation`, `useDeleteMentorMutation`,
   `useGetMentorCategoriesQuery`. UI: `AgentSettingsProvider` +
   `AgentSettingsTab` (`/web-containers/next`) — the provider is the context
-  every `/iblai-vibe-agent-*` tab skill mounts.
-  Skill: `/iblai-vibe-agent-setting`. REST: [agent-setting](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-api-agent-setting/SKILL.md)
+  every `/iblai-ui-agent-*` tab skill mounts.
+  Skill: `/iblai-ui-agent-setting`. REST: [agent-setting](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-api-agent-setting/SKILL.md)
 - **Agent memory** — three stores: global memories (per user, every agent),
   agent memories (per user × agent, filed under categories with extraction
   prompts), and agent knowledge — the Memory tab's **Shared Memory** (per
@@ -199,7 +199,7 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   `useGetSharedMemoriesQuery` / `useCreateSharedMemoryMutation` (agent
   knowledge). UI: `AgentMemoryTab` (`/next`; Personal Memories + Shared
   Memory sub-tabs), the `Profile` Memory tab, `Account targetTab="memory"`.
-  Skills: `/iblai-vibe-agent-memory` (one agent), `/iblai-vibe-memory`
+  Skills: `/iblai-ui-agent-memory` (one agent), `/iblai-ui-memory`
   (whole org). REST: [agent-memory](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-api-agent-memory/SKILL.md)
 - **Analytics** — one `/dm/api/analytics/` family; `mentor_unique_id`
   present = one agent, absent = the whole org. Usage and engagement KPIs,
@@ -215,8 +215,8 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   `AnalyticsLayout`, `AnalyticsOverview`, `AnalyticsUsersStats`,
   `AnalyticsFinancialStats`, `AnalyticsTranscriptsStats`,
   `AnalyticsReports`, `AnalyticsAuditLogStats`, `AgentAnalyticsTab`.
-  Skills: `/iblai-vibe-analytics`, `/iblai-vibe-agent-analytics`,
-  `/iblai-vibe-agent-audit`. The live
+  Skills: `/iblai-ui-analytics`, `/iblai-ui-agent-analytics`,
+  `/iblai-ui-agent-audit`. The live
   schema is the contract: `https://api.iblai.app/dm/api/docs/schema/`.
   REST: [analytics](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/analytics/iblai-api-analytics/SKILL.md)
 - **Profile** — the signed-in user’s own record: account fields (name, bio,
@@ -231,7 +231,7 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   `useGetUserExperienceQuery`, `useGetUserResumeQuery` (`features/career`).
   UI: `Profile` (+ `EducationTab` / `ExperienceTab` / `ResumeTab`),
   `UserProfileDropdown`, `UserProfileModal`, `Account` (`/next`).
-  Skills: `/iblai-vibe-profile`, `/iblai-vibe-account`, `/iblai-vibe-history`.
+  Skills: `/iblai-ui-profile`, `/iblai-ui-account`, `/iblai-ui-history`.
   REST: [profile](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/users/iblai-api-profile/SKILL.md)
 
 - **Organization metadata** — one JSON object per organization
@@ -241,7 +241,7 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   per organization. SDK: `useGetTenantMetadataQuery`,
   `useUpdateTenantMetadataMutation` (tuple args `[{ org }]`); the starter's
   typed `useOrgSettings` wraps them. UI: `Account` → `OrganizationTab`.
-  Skills: `/iblai-vibe-org-metadata`, `/iblai-vibe-account`. REST: [org](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-api-org/SKILL.md)
+  Skills: `/iblai-ui-org-metadata`, `/iblai-ui-account`. REST: [org](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-api-org/SKILL.md)
 
 **Auth on the wire.** In the browser the SDK sends `Authorization: Token
 <dm_token>` (session tokens in localStorage `dm_token` / `axd_token`), so
@@ -266,79 +266,79 @@ feature template (`templates/skill-template-feature.md`), and ≤ 400 lines.
 
 | Skill | Description |
 |-------|-------------|
-| `/iblai-vibe-start` | The first conversation: four questions that set architecture, access, and focus |
-| `/iblai-vibe` | Start here — what you want → which skill |
-| `/iblai-vibe-ops-init` | New project from vibe-starter; credentials ladder; writes the project CLAUDE.md |
-| `/iblai-vibe-auth` | SSO auth for an existing Next.js app (providers, store, `lib/iblai/*`) |
-| `/iblai-vibe-ops-test` | Test before showing work: Vitest, Playwright journeys, a touch test in a real browser (Claude in Chrome or the Chrome DevTools MCP) |
-| `/iblai-vibe-ops-deploy` | Deploy through the platform's hosting API (Vercel-backed), containers, static hosts |
+| `/iblai-ui-start` | The first conversation: four questions that set architecture, access, and focus |
+| `/iblai-ui` | Start here — what you want → which skill |
+| `/iblai-ui-ops-init` | New project from vibe-starter; credentials ladder; writes the project CLAUDE.md |
+| `/iblai-ui-auth` | SSO auth for an existing Next.js app (providers, store, `lib/iblai/*`) |
+| `/iblai-ui-ops-test` | Test before showing work: Vitest, Playwright journeys, a touch test in a real browser (Claude in Chrome or the Chrome DevTools MCP) |
+| `/iblai-ui-ops-deploy` | Deploy through the platform's hosting API (Vercel-backed), containers, static hosts |
 
 **Tier 1 — the core app** (journey order)
 
 | Skill | Description |
 |-------|-------------|
-| `/iblai-vibe-agent-chat` | The in-process chat surface (message stream, canvas, voice, prompts) |
-| `/iblai-vibe-agent-chat-sidebar` | Wrap the chat with the SDK sidebar (projects, pinned/recent) |
-| `/iblai-vibe-agent-assistant` | The Assistant: a header button that docks the organization's Default Agent beside every page (resizable, full screen, phone overlay) |
-| `/iblai-vibe-project` | Projects surface (files, instructions, assigned agents) |
-| `/iblai-vibe-agent-search` | Agent browser (starred, featured, custom, all) |
-| `/iblai-vibe-agent-create` ★ | Create an agent from the app (the SDK's Create Agent form, showing only the fields each person may set; server route + setup screen) |
-| `/iblai-vibe-agent-setting` ★ | Agent identity, visibility, copy, delete |
-| `/iblai-vibe-agent` | Family index for all 26 agent settings tabs |
-| `/iblai-vibe-profile` ★ | Profile dropdown + settings page |
-| `/iblai-vibe-user-metadata` ★ | Custom per-user data on the platform |
-| `/iblai-vibe-account` | Account/org settings page (Organization, Management, API, Secrets, Network, Billing, Memory, Advanced) |
-| `/iblai-vibe-virtual-machine` | The org's Network page and Secrets → Environment Variables: the networks and keys agents' virtual machines draw on |
-| `/iblai-vibe-org-metadata` | Custom org data; GET-merge-PUT; where branding lives |
-| `/iblai-vibe-admin` | User/Admin mode and the admin area |
-| `/iblai-vibe-invite` | Invitation dialogs |
-| `/iblai-vibe-rbac` | Roles, policies, action definitions, `checkRbacPermission` |
-| `/iblai-vibe-navbar` | Responsive navbar (logo, links, bell, profile) |
-| `/iblai-vibe-notification` | Notification bell + center |
-| `/iblai-vibe-memory-guide` ★ | What memory means for your app; which surface for which audience |
-| `/iblai-vibe-memory` | Org-wide memory admin |
-| `/iblai-vibe-agent-memory` ★ | One agent's Memory tab |
-| `/iblai-vibe-analytics` ★ | Analytics dashboard (org-wide or per agent) |
-| `/iblai-vibe-agent-audit` | Agent audit log |
-| `/iblai-vibe-history` | The user's own conversation history + exports |
-| `/iblai-vibe-incognito` | Incognito: the chat-header toggle, the mid-conversation dialog, and how org / agent / user / session tiers resolve |
-| `/iblai-vibe-pricing` | How money works; which rail to charge users |
-| `/iblai-vibe-credit` | Credit balance widget |
-| `/iblai-vibe-billing` | Org Billing: plan & credits, spend limits, agent limits, user limits + the default for new users |
-| `/iblai-vibe-credit-exhaustion` | Out of credits: the plan picker, Billing or the contact-admin notice; the free-trial gate; the hand-off from an embedded OS agent |
-| `/iblai-vibe-agent-billing` | One agent's spend cap and per-user caps |
-| `/iblai-vibe-monetization-app-paywall` | Pay-to-enter on the org's own Stripe key |
-| `/iblai-vibe-api` | REST without a component: server route + `Api-Token`; map to the `iblai-api-*` twin |
+| `/iblai-ui-agent-chat` | The in-process chat surface (message stream, canvas, voice, prompts) |
+| `/iblai-ui-agent-chat-sidebar` | Wrap the chat with the SDK sidebar (projects, pinned/recent) |
+| `/iblai-ui-agent-assistant` | The Assistant: a header button that docks the organization's Default Agent beside every page (resizable, full screen, phone overlay) |
+| `/iblai-ui-project` | Projects surface (files, instructions, assigned agents) |
+| `/iblai-ui-agent-search` | Agent browser (starred, featured, custom, all) |
+| `/iblai-ui-agent-create` ★ | Create an agent from the app (the SDK's Create Agent form, showing only the fields each person may set; server route + setup screen) |
+| `/iblai-ui-agent-setting` ★ | Agent identity, visibility, copy, delete |
+| `/iblai-ui-agent` | Family index for all 26 agent settings tabs |
+| `/iblai-ui-profile` ★ | Profile dropdown + settings page |
+| `/iblai-ui-user-metadata` ★ | Custom per-user data on the platform |
+| `/iblai-ui-account` | Account/org settings page (Organization, Management, API, Secrets, Network, Billing, Memory, Advanced) |
+| `/iblai-ui-virtual-machine` | The org's Network page and Secrets → Environment Variables: the networks and keys agents' virtual machines draw on |
+| `/iblai-ui-org-metadata` | Custom org data; GET-merge-PUT; where branding lives |
+| `/iblai-ui-admin` | User/Admin mode and the admin area |
+| `/iblai-ui-invite` | Invitation dialogs |
+| `/iblai-ui-rbac` | Roles, policies, action definitions, `checkRbacPermission` |
+| `/iblai-ui-navbar` | Responsive navbar (logo, links, bell, profile) |
+| `/iblai-ui-notification` | Notification bell + center |
+| `/iblai-ui-memory-guide` ★ | What memory means for your app; which surface for which audience |
+| `/iblai-ui-memory` | Org-wide memory admin |
+| `/iblai-ui-agent-memory` ★ | One agent's Memory tab |
+| `/iblai-ui-analytics` ★ | Analytics dashboard (org-wide or per agent) |
+| `/iblai-ui-agent-audit` | Agent audit log |
+| `/iblai-ui-history` | The user's own conversation history + exports |
+| `/iblai-ui-incognito` | Incognito: the chat-header toggle, the mid-conversation dialog, and how org / agent / user / session tiers resolve |
+| `/iblai-ui-pricing` | How money works; which rail to charge users |
+| `/iblai-ui-credit` | Credit balance widget |
+| `/iblai-ui-billing` | Org Billing: plan & credits, spend limits, agent limits, user limits + the default for new users |
+| `/iblai-ui-credit-exhaustion` | Out of credits: the plan picker, Billing or the contact-admin notice; the free-trial gate; the hand-off from an embedded OS agent |
+| `/iblai-ui-agent-billing` | One agent's spend cap and per-user caps |
+| `/iblai-ui-monetization-app-paywall` | Pay-to-enter on the org's own Stripe key |
+| `/iblai-ui-api` | REST without a component: server route + `Api-Token`; map to the `iblai-api-*` twin |
 
-**Tier 2 — agent configuration** (after you have an agent): `/iblai-vibe-agent`
+**Tier 2 — agent configuration** (after you have an agent): `/iblai-ui-agent`
 indexes the 26 tabs — `access`, `analytics`, `api`, `audit`, `billing`, `dataset`,
 `disclaimer`, `embed`, `evals`, `grader`, `history`, `llm`, `lti`, `mcp`,
 `memory`, `privacy`, `prompt`, `safety`, `sandbox`, `screenshare`, `setting`, `skills`,
-`support`, `task`, `tool`, `voice` — each `/iblai-vibe-agent-<tab>`.
+`support`, `task`, `tool`, `voice` — each `/iblai-ui-agent-<tab>`.
 
-**Tier 3 — vertical / optional**: `/iblai-vibe-monetization` (family index for
-selling items via Stripe Connect: `/iblai-vibe-monetization-onboard`,
-`/iblai-vibe-monetization-configure`, `/iblai-vibe-monetization-checkout`,
-`/iblai-vibe-monetization-subscription`, `/iblai-vibe-monetization-analytics`), `/iblai-vibe-application` (admissions gate),
-`/iblai-vibe-course-access`, `/iblai-vibe-course-create`,
-`/iblai-vibe-crm-overview`, `/iblai-vibe-workflow`, `/iblai-vibe-onboard`,
-`/iblai-vibe-house-journeys` (official apps only: the OS's three first-run journeys),
-`/iblai-vibe-local-llm`, `/iblai-vibe-os-agent-code-mode` (the OS app's
+**Tier 3 — vertical / optional**: `/iblai-ui-monetization` (family index for
+selling items via Stripe Connect: `/iblai-ui-monetization-onboard`,
+`/iblai-ui-monetization-configure`, `/iblai-ui-monetization-checkout`,
+`/iblai-ui-monetization-subscription`, `/iblai-ui-monetization-analytics`), `/iblai-ui-application` (admissions gate),
+`/iblai-ui-course-access`, `/iblai-ui-course-create`,
+`/iblai-ui-crm-overview`, `/iblai-ui-workflow`, `/iblai-ui-onboard`,
+`/iblai-ui-house-journeys` (official apps only: the OS's three first-run journeys),
+`/iblai-ui-local-llm`, `/iblai-ui-os-agent-code-mode` (the OS app's
 agentic Code mode in a Tauri build — opencode, Codex, Claude Code, Approvals,
-permission cards), `/iblai-vibe-os-agent-cowork` (Cowork: the agent sees the
+permission cards), `/iblai-ui-os-agent-cowork` (Cowork: the agent sees the
 screen and clicks and types, with a guided macOS setup).
 
-**Tier 4 — ops and polish**: `/iblai-vibe-ops-build` (macOS, Windows, iOS,
-Android via Tauri v2), `/iblai-vibe-ops-release` (App Store / Play),
-`/iblai-vibe-windows-msix`, `/iblai-vibe-iconography`, `/iblai-vibe-ops-upgrade`,
-`/iblai-vibe-readme`, `/iblai-vibe-design`, `/iblai-vibe-deslop`,
-`/iblai-vibe-scaffold`, `/iblai-vibe-component`, `/iblai-vibe-credential`.
+**Tier 4 — ops and polish**: `/iblai-ui-ops-build` (macOS, Windows, iOS,
+Android via Tauri v2), `/iblai-ui-ops-release` (App Store / Play),
+`/iblai-ui-windows-msix`, `/iblai-ui-iconography`, `/iblai-ui-ops-upgrade`,
+`/iblai-ui-readme`, `/iblai-ui-design`, `/iblai-ui-deslop`,
+`/iblai-ui-scaffold`, `/iblai-ui-component`, `/iblai-ui-credential`.
 
 **Tier 5 — security (unrelated to building on the platform; authorized use
-only)**: `/iblai-vibe-security-recon`, `/iblai-vibe-security-owasp-audit`,
-`/iblai-vibe-security-osint-recon`, `/iblai-vibe-security-disk-forensics`,
-`/iblai-vibe-security-incident-triage`, `/iblai-vibe-security-cloud-audit`,
-`/iblai-vibe-security-dependency-audit`, `/iblai-vibe-security-prompt-injection`.
+only)**: `/iblai-ui-security-recon`, `/iblai-ui-security-owasp-audit`,
+`/iblai-ui-security-osint-recon`, `/iblai-ui-security-disk-forensics`,
+`/iblai-ui-security-incident-triage`, `/iblai-ui-security-cloud-audit`,
+`/iblai-ui-security-dependency-audit`, `/iblai-ui-security-prompt-injection`.
 
 
 **The headless family — `iblai-api-*` (kind `api`; two `guide`s).** Exact REST
@@ -354,7 +354,7 @@ endpoints, no UI; connect once with `/iblai-api-login`, then:
 | Content, discovery, analytics | ★ `analytics`, `search`, `catalog`, `catalog-media`, `catalog-invitation`, `course-create`, `milestone`, `credential`, `apply`, `heygen` (avatar video, voice cloning, streaming avatars) |
 | Other LMSs | `canvas-course-builder` (Canvas REST API) |
 | Open edX Studio (session auth, no Api-Token) | `studio` (index), `studio-auth`, `studio-course-create`, `studio-outline` (bulk build), `studio-section`, `studio-subsection`, `studio-unit`, `studio-html`, `studio-pdf`, `studio-problem`, `studio-settings`, `studio-team`, `studio-grading`, `studio-publish`, `studio-lms` |
-| Deploy & hosting | `hosting` — upload a build, poll it live, custom domains (headless twin of `/iblai-vibe-ops-deploy`) |
+| Deploy & hosting | `hosting` — upload a build, poll it live, custom domains (headless twin of `/iblai-ui-ops-deploy`) |
 | Guides | `ecosystem`, `infrastructure` (self-hosting) |
 
 Authoring contract (Reads/Writes structure, `urls.py` as source of truth, the
@@ -444,6 +444,11 @@ sessions see them flat through the per-skill links in `.claude/skills/`;
 `npx skills add` and the plugin manifest discover the nested layout natively.
 `node scripts/build-catalogue.mjs` regenerates [docs/catalogue.md](docs/catalogue.md).
 
+**Skill names:** all UI / JS / Tauri related skills are prefixed `iblai-ui-` —
+components, the starter, native builds and deploys, and the guides, ops and
+security skills around them; headless REST skills are prefixed `iblai-api-`.
+Before v3.0.0 the `iblai-ui-*` skills were named `iblai-vibe-*`.
+
 **Cursor / Codex adapters** are generated from the canonical SKILL.md
 files. To regenerate after editing skills:
 
@@ -467,7 +472,7 @@ bash scripts/validate-skills.sh           # spec conformance: name/description/f
 node scripts/check-sdk-pins.mjs           # no @iblai/* version mention may drift from vibe-starter's package.json (--fix rewrites drifted mentions)
 node scripts/check-links.mjs              # every github.com/iblai cross-repo link must still resolve (404/410 fail, transient warns)
 node scripts/test-skills-render.mjs       # skill assets + SKILL.md ts/tsx fences typecheck against the pinned SDK
-bash scripts/test-tauri-shell.sh          # the Tauri shell /iblai-vibe-ops-build ships: fmt, warnings denied, guard tests, AppImage, headless guard run (Linux)
+bash scripts/test-tauri-shell.sh          # the Tauri shell /iblai-ui-ops-build ships: fmt, warnings denied, guard tests, AppImage, headless guard run (Linux)
 scripts/test-skills-agent.sh --changed    # headless-agent execution of changed skills (needs claude CLI)
 bash scripts/validate-skills-official.sh  # deeper audit via the upstream skills-ref Python library (manual)
 ```
@@ -487,7 +492,7 @@ this catalogue or vice versa.
 
 ## Reviewing pull requests
 
-To review or re-review a PR on this repo, use the `iblai-vibe-pr-review` skill.
+To review or re-review a PR on this repo, use the `iblai-base-pr-review` skill.
 It is for maintainers: a real directory in `.claude/skills/` (the other entries
 there link into `skills/`), marked `metadata.internal` so installers skip it,
 and outside the catalogue. Name it without a leading slash in this file:
@@ -498,7 +503,7 @@ and outside the catalogue. Name it without a leading slash in this file:
 ### ibl.ai hosting (Vercel)
 
 Deploy through the platform's hosting API — see
-[`/iblai-vibe-ops-deploy`](skills/ship/iblai-vibe-ops-deploy/SKILL.md). It zips
+[`/iblai-ui-ops-deploy`](skills/ship/iblai-ui-ops-deploy/SKILL.md). It zips
 the app (project source; for static `output: 'export'` builds, `out/`),
 uploads it with the platform API key, polls until READY, and writes the URL
 into `tauri.conf.json` for the native builds. No Vercel token or CLI.
@@ -511,7 +516,7 @@ docker run -p 3000:3000 my-app
 
 ### Desktop/Mobile (Tauri v2)
 
-Add the Tauri shell (see [`/iblai-vibe-ops-build`](skills/ship/iblai-vibe-ops-build/SKILL.md)),
+Add the Tauri shell (see [`/iblai-ui-ops-build`](skills/ship/iblai-ui-ops-build/SKILL.md)),
 then run Tauri directly:
 ```bash
 pnpm exec tauri dev          # Dev mode
@@ -523,7 +528,7 @@ pnpm exec tauri ios init     # iOS project setup
 
 Generate a `Makefile` + Fastlane config that builds and submits to the Apple
 App Store and Google Play — see
-[`/iblai-vibe-ops-release`](skills/ship/iblai-vibe-ops-release/SKILL.md)
+[`/iblai-ui-ops-release`](skills/ship/iblai-ui-ops-release/SKILL.md)
 (`make ios-release`, `make android-release`; handles App Store Connect API key
 and Play service-account credentials).
 
@@ -563,7 +568,7 @@ THIS PROJECT ALREADY HAS GIT INITIALIZED. DO NOT INITIALIZE GIT.
 >    watch the OS page’s network calls to see which endpoints and params the
 >    production app actually uses.
 > 4. **Learn wiring from source.** The same `iblai/os` route mounts the SDK
->    components the `/iblai-vibe-agent-*` skills install —
+>    components the `/iblai-ui-agent-*` skills install —
 >    `components/modals/edit-mentor-modal/settings-tab.tsx` wraps
 >    `AgentSettingsTab` in `AgentSettingsProvider`;
 >    `…/[mentorId]/analytics/page.tsx` renders `AnalyticsOverview`. Read it

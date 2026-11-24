@@ -11,7 +11,7 @@ Measure and improve an agent's quality from the API: build evaluation
 datasets, run experiments that send each question to the agent, then grade the
 results with LLM-as-Judge and/or human scores and export to CSV. Use to test an
 agent against a dataset and grade the results. The UI twin is
-[`/iblai-vibe-agent-evals`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-evals/SKILL.md),
+[`/iblai-ui-agent-evals`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-agent-evals/SKILL.md),
 which calls datasets "benchmarks" and runs "evaluations".
 
 ## Auth & conventions

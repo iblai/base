@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "iblai-vibe",
   "displayName": "ibl.ai vibe",
-  "description": "Build apps on the ibl.ai platform (sign-in, agents, users with memories and custom data, organizations with metadata, analytics, billing) and operate the platform headlessly \u2014 every iblai-vibe-* and iblai-api-* skill, the first-conversation intake, and the SDK-docs MCP server.",
+  "description": "Build apps on the ibl.ai platform (sign-in, agents, users with memories and custom data, organizations with metadata, analytics, billing) and operate the platform headlessly \u2014 every iblai-ui-* and iblai-api-* skill, the first-conversation intake, and the SDK-docs MCP server.",
   "author": {
     "name": "ibl.ai",
     "url": "https://ibl.ai"

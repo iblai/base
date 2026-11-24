@@ -5,7 +5,7 @@
 // cannot see. Boots `next start` via Playwright's webServer and asserts the app
 // mounts with no render-breaking console/page errors on an unauthenticated route.
 //
-// Scope: the base scaffold (what `iblai-vibe-ops-init` produces). Per-skill boot
+// Scope: the base scaffold (what `iblai-ui-ops-init` produces). Per-skill boot
 // is a heavier follow-up. Reuses the same scratch/build approach as
 // test-skills-render.mjs so the "starter builds" cost is shared with CI.
 
