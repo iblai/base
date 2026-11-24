@@ -11,7 +11,7 @@ tickets users raised with an agent, read a ticket's reply thread, respond as
 the support team, move tickets through their lifecycle, and close or delete
 them. Use when triaging or responding to support requests escalated from
 agent chats. The UI twin is
-[`/iblai-vibe-agent-support`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-support/SKILL.md).
+[`/iblai-ui-agent-support`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-agent-support/SKILL.md).
 
 ## Auth & conventions
 

@@ -3,7 +3,7 @@
 ### ibl.ai hosting (recommended)
 
 Deploy through the ibl.ai platform's hosting API (Vercel-backed) -- see
-[`/iblai-vibe-ops-deploy`](../skills/ship/iblai-vibe-ops-deploy/SKILL.md). No Vercel
+[`/iblai-ui-ops-deploy`](../skills/ship/iblai-ui-ops-deploy/SKILL.md). No Vercel
 account or token: the skill zips your app, uploads it with your platform
 API key, polls until the build is READY, and returns the live `*.vercel.app` URL
 Vercel reports.
@@ -13,7 +13,7 @@ Vercel reports.
 
 Build native apps for macOS, Windows, Linux, iOS, and Android:
 
-Add the Tauri shell (see [`/iblai-vibe-ops-build`](../skills/ship/iblai-vibe-ops-build/SKILL.md)), then:
+Add the Tauri shell (see [`/iblai-ui-ops-build`](../skills/ship/iblai-ui-ops-build/SKILL.md)), then:
 
 ```bash
 pnpm exec tauri build           # Desktop build for current platform
@@ -22,14 +22,14 @@ pnpm exec tauri ios init        # iOS project setup
 
 ### Ship to the App Store & Google Play
 
-Once the Tauri shell is in place, [`/iblai-vibe-ops-release`](../skills/ship/iblai-vibe-ops-release/SKILL.md)
+Once the Tauri shell is in place, [`/iblai-ui-ops-release`](../skills/ship/iblai-ui-ops-release/SKILL.md)
 generates a `Makefile` + [Fastlane](https://fastlane.tools) config that builds
 **and submits** your app to both stores from one command. Tauri produces the
 `.ipa` / `.aab`; Fastlane creates the app records and uploads the binaries.
 
 Run the skill, then fill in `fastlane/.env` with your store credentials
 (App Store Connect API key + Google Play service-account JSON -- see the skill's
-[`references/credentials.md`](../skills/ship/iblai-vibe-ops-release/references/credentials.md)):
+[`references/credentials.md`](../skills/ship/iblai-ui-ops-release/references/credentials.md)):
 
 ```bash
 make doctor            # verify tooling + credentials are in place
@@ -52,7 +52,7 @@ make release-all       # ship to both stores
 public App Store review or production stays a deliberate step in the consoles.
 #### Desktop releases (macOS DMG, Windows NSIS, Linux AppImage)
 
-`/iblai-vibe-ops-build` also ships **distributable** desktop builds — a
+`/iblai-ui-ops-build` also ships **distributable** desktop builds — a
 **notarized** universal macOS `.dmg` (Intel + Apple Silicon), **signed** NSIS
 installers for Windows **x64 + arm64**, and a Linux **AppImage** for x64 +
 arm64 (unsigned: Linux has no code signing). Run them two ways:
@@ -72,7 +72,7 @@ arm64 (unsigned: Linux has no code signing). Run them two ways:
 
 Credentials (Apple Developer ID cert + notarization password; optional Windows
 cert) are the same for both paths — full setup in
-[`references/signed-release.md`](../skills/ship/iblai-vibe-ops-build/references/signed-release.md).
+[`references/signed-release.md`](../skills/ship/iblai-ui-ops-build/references/signed-release.md).
 For a Windows Store / sideload **MSIX** package instead, see
-[`/iblai-vibe-windows-msix`](../skills/ship/iblai-vibe-windows-msix/SKILL.md).
+[`/iblai-ui-windows-msix`](../skills/ship/iblai-ui-windows-msix/SKILL.md).
 

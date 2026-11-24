@@ -84,4 +84,4 @@ curl -X PUT \
 - Which models users may pick when in-chat model change is on is an
   organization-wide list, not an agent setting: `GET`/`POST`
   `/api/core/rbac/llm-access/…` in `/iblai-api-rbac`. The LLM tab's User
-  Models dialog (`/iblai-vibe-agent-llm`) edits it.
+  Models dialog (`/iblai-ui-agent-llm`) edits it.

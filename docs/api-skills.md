@@ -5,7 +5,7 @@ interface**: each maps one capability to its exact `api.iblai.app` REST
 endpoints (method, URL, body, errors) so an agent, a script, a CI job, or a
 server route calls the platform correctly the first time. They came from the
 former `iblai/api` repository and keep its contract, reproduced here. The
-visual-component skills (`iblai-vibe-*`, kind `ui`) are described in
+visual-component skills (`iblai-ui-*`, kind `ui`) are described in
 [skill-kinds.md](skill-kinds.md).
 
 ## Using an API skill
@@ -40,7 +40,7 @@ visual-component skills (`iblai-vibe-*`, kind `ui`) are described in
 4. **Destructive or outward-facing calls** (delete, send, invite, checkout)
    are marked "confirm with the user first" — do.
 5. **Inside a Next.js app**, the same endpoints are called from a server route
-   with `lib/iblai/platform.ts` — see `/iblai-vibe-api`. In the browser, use the
+   with `lib/iblai/platform.ts` — see `/iblai-ui-api`. In the browser, use the
    SDK hook instead (it carries the user's session).
 
 ## Hosts

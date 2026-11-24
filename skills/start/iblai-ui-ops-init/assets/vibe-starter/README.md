@@ -1,0 +1,250 @@
+<div align="center">
+
+<a href="https://ibl.ai"><img src="https://ibl.ai/images/iblai-logo.png" alt="ibl.ai" width="300"></a>
+
+# Vibe Starter
+
+The app you actually need on ibl.ai — sign-in, an agent to talk to, users and admins, custom user and org data, memory, analytics, billing — ready to make yours.
+
+[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-CC785C?logoColor=white)](https://claude.ai)
+[![Desktop & Mobile](https://img.shields.io/badge/Desktop_%26_Mobile-supported-blue)](https://github.com/iblai/base/blob/main/skills/ship/iblai-ui-ops-build/SKILL.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license)
+
+</div>
+
+> **Note:** This starter runs against the hosted [iblai.app](https://iblai.app) environment. If you'd like a license to the full platform codebase to run locally or self-host, reach out to our team at [ibl.ai/contact](https://ibl.ai/contact).
+
+---
+
+## Quick Start
+
+This project was scaffolded from the vibe-starter template bundled with
+[iblai/base](https://github.com/iblai/base) (the `/iblai-ui-ops-init` skill).
+
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_MAIN_TENANT_KEY` —
+the API/auth/websocket URLs default to hosted iblai.app in
+`lib/iblai/config.ts`, so the organization key (and optionally `IBLAI_API_KEY`) is
+all `.env.local` needs. Then install and start the dev server:
+
+```bash
+cp .env.example .env.local
+pnpm install --ignore-scripts
+pnpm dev
+```
+
+> Always run `pnpm install` with `--ignore-scripts` to skip package
+> lifecycle (postinstall) scripts.
+
+Open [http://localhost:3000](http://localhost:3000). Unauthenticated users are redirected to `https://login.iblai.app` and returned with a session. The first admin to sign in lands on `/setup` to name the app and pick or create its agent. Every origin the app runs on (localhost, the deployed URL) must be in the org's allowed redirect origins, or sign-in never comes back — see [platform-lifecycle.md](https://github.com/iblai/base/blob/main/docs/platform-lifecycle.md).
+
+## What is Vibe Starter
+
+A pre-wired Next.js 16 + Tailwind v4 + shadcn/ui project with the [`@iblai/iblai-js`](https://www.npmjs.com/package/@iblai/iblai-js) SDK already integrated. Use it as the base for new ibl.ai single-page apps — auth, navbar, profile/account/notifications pages, and Redux/data-layer providers are already in place. Skip the manual `/iblai-ui-auth`, `/iblai-ui-navbar`, `/iblai-ui-profile`, `/iblai-ui-account`, and `/iblai-ui-notification` skills.
+
+**Why use it:**
+
+- **Start building in minutes, not days** — auth, navbar, and the standard ibl.ai pages are already wired
+- **Backend included** — connects to [iblai.app](https://iblai.app) for SSO auth, AI agent infrastructure, analytics, and organization management
+- **Client-side auth via SSO** — end users never handle tokens; the one Platform API Token you hold stays server-side in `iblai.env`
+- **Claude Code skills guide every step** — adding features is a conversation, not a scavenger hunt through docs
+- **shadcn/ui fills in UI gaps** — consistent design language without the overhead of a custom design system
+- **Ship everywhere** — web (Vercel), desktop (macOS/Windows/Linux), and mobile (iOS/Android) via Tauri v2
+
+## What's Included
+
+| Feature | Description |
+|---------|-------------|
+| **Next.js 16** | App Router, TypeScript, Tailwind v4, shadcn/ui (new-york, theme-mapped to ibl.ai brand colors) |
+| **SSO sign-in** | `AuthProvider`, SSO callback, storage service, Redux store, org resolution; a placeholder or `main` org renders an alert instead of a login loop |
+| **Home = chat** | `/` — the SDK `<Chat>` with the app's agent (`?agent=` → `NEXT_PUBLIC_DEFAULT_AGENT_ID` → the org setting saved on `/setup`); honest "No agent yet" state otherwise |
+| **Agents** | `/agents` — SDK `AgentSearch` (favorites, featured, custom, all); a card opens the chat |
+| **First-run setup** | `/setup` — admins name the app and pick or create its agent (server route with the org's authority); saved to org metadata |
+| **User / Admin mode** | Org admins get a navbar switch to view the app exactly as a member; admin links and `/admin/*` exist only in Admin mode |
+| **Admin area** | `/admin/users` (Users · Groups · Roles · Policies · Teams · Alerts + invitations), `/admin/analytics/*` (SDK tabs), `/admin/billing`, `/admin/memory`, `/admin/organization` (+ app settings form) |
+| **Custom data on the platform** | `useUserSettings` (per user × org) and `useOrgSettings` (per org, GET-merge-PUT) in `lib/iblai/metadata.ts`; example cards on `/profile` and `/admin/organization`; an admin route for other users' data |
+| **Profile · Account · Notifications** | `/profile` (SDK `Profile` + app preferences), `/account` (SDK `Account`), `/notifications/[[...id]]` (SDK `NotificationDisplay`) |
+| **Server helper** | `lib/iblai/platform.ts` — `platformFetch` (Api-Token), `verifyCaller`, `requireAdmin` for any REST call without a component |
+| **Tests** | Vitest (config, organization, metadata, platform helper) and Playwright journeys (auth, member, admin, pages, api, mobile) with `e2e/COVERAGE.md` and `pnpm e2e:coverage` |
+| **Mobile safe areas** | `globals.css` insets and viewport metadata wired for iOS/Android (Tauri v2 ready) |
+
+## Adding Features
+
+Any ibl.ai skill works out of the box. The ones this starter already uses are marked ✓:
+
+```text
+/iblai-ui-agent-chat      ✓ customize the chat on /
+/iblai-ui-agent-search    ✓ /agents
+/iblai-ui-agent-create    ✓ /setup + /api/admin/agents
+/iblai-ui-agent           # configure an agent (26 tabs, one provider)
+/iblai-ui-user-metadata   ✓ per-user settings
+/iblai-ui-org-metadata    ✓ per-org settings
+/iblai-ui-admin           ✓ User/Admin mode + admin area
+/iblai-ui-invite          ✓ on /admin/users
+/iblai-ui-analytics       ✓ /admin/analytics
+/iblai-ui-billing         ✓ /admin/billing
+/iblai-ui-memory          ✓ /admin/memory
+/iblai-ui-memory-guide    # what memory means for your app
+/iblai-ui-pricing         # how money works; charge your users
+/iblai-ui-credit          ✓ credit widget in the navbar (paywall-enabled orgs)
+/iblai-ui-api             ✓ lib/iblai/platform.ts — REST without a component
+/iblai-ui-onboard         # onboarding questionnaire flow
+/iblai-ui-ops-deploy      # ship to a URL
+/iblai-ui-ops-build       # macOS, Windows, iOS, Android
+/iblai-ui-ops-release     # App Store / Google Play
+/iblai-ui-ops-test        # test before showing work
+/iblai-ui-ops-upgrade     # upgrade SDK and skills
+```
+
+See `AGENTS.md` (also `CLAUDE.md`) for the "what the user says → which skill" table.
+
+## Languages
+
+Ships in English, Spanish, French and Chinese (Simplified). The locale is
+resolved per request from cookies — the shared platform preference
+(`openedx-language-preference`, set on the parent domain so a language chosen in
+any ibl.ai app carries across) first, then this app’s own `NEXT_LOCALE`. There
+is no `[locale]` route segment and no locale middleware, so routes are
+unaffected, and `<html lang>` follows the resolved locale.
+
+```
+i18n/config.ts     supported locales, labels, resolveLocale()
+i18n/request.ts    next-intl request config (cookie → messages)
+messages/en.json   catalogs, one namespace per surface
+messages/es.json
+messages/fr.json
+messages/zh.json
+```
+
+**Translating a surface**
+
+1. Add the strings to every file in `messages/` under a namespace.
+2. `const t = useTranslations('<Namespace>')` in the client component, and add
+   `t` to any `useMemo`/`useCallback` dependency array that closes over it.
+3. For a module-level table that cannot call hooks, store message **keys** and
+   resolve them at render — see `MEMBER_LINKS` in `app/(app)/layout.tsx`.
+
+**Adding a locale**
+
+Add it to `SUPPORTED_LOCALES` and `LOCALE_LABELS` in `i18n/config.ts`, then add
+`messages/<locale>.json` with the same keys. `iblai/os` ships a
+`scripts/validate-i18n.mjs` that fails CI when catalogs drift out of parity —
+worth copying.
+
+## Project Layout
+
+```
+app/
+  (app)/                          # Signed-in pages (navbar + drawer + User/Admin mode)
+    layout.tsx                    # Session, AdminModeProvider, member vs admin links, /admin gate
+    page.tsx                      # Home: SDK <Chat> with the app's agent (+ empty state)
+    agents/page.tsx               # SDK <AgentSearch>
+    profile/page.tsx              # SDK <Profile> + AppPreferences
+    account/page.tsx              # SDK <Account>
+    notifications/[[...id]]/      # SDK <NotificationDisplay>
+    admin/                        # Admin mode only
+      users/  analytics/  billing/  memory/  organization/
+  setup/page.tsx                  # First-run (admins): app name, pick/create agent
+  api/admin/                      # agents (list/create), user-metadata (other users)
+  sso-login-complete/             # SSO callback (outside the route group)
+  layout.tsx                      # Root layout — <IblaiProviders>
+components/
+  navbar/                         # nav-bar, navigation-drawer, logo, user-profile-button, admin-mode-switch
+  admin/                          # account-panel (SDK Account by tab), analytics-page
+  settings/                       # app-preferences (user), org-settings (org)
+  setup/                          # setup-screen
+  ui/                             # shadcn/ui
+lib/iblai/                        # config, storage-service, auth-utils, tenant, admin-mode, metadata(-core), platform, admin-client
+providers/iblai-providers.tsx     # Redux + Auth + Tenant + service worker + toaster
+store/iblai-store.ts              # RTK store (slice keys fixed by the SDK)
+public/sw.js                      # Offline service worker the SDK <Chat> registers
+e2e/                              # Playwright journeys, COVERAGE.md + coverage.json, coverage.mjs (pnpm e2e:coverage)
+.env.example                      # → .env.local: org key, IBLAI_API_KEY, optional agent/app name
+iblai.env.example                 # → iblai.env: DOMAIN, PLATFORM, TOKEN
+.mcp.json                         # @iblai/mcp (SDK docs) + chrome-devtools (the touch-test browser)
+.claude/settings.json             # Pre-approves those servers in Claude Code (once you trust the folder)
+.cursor/mcp.json, .codex/config.toml, opencode.json   # The same servers for Cursor, Codex and opencode
+```
+
+## AI-Assisted Development
+
+The starter ships with a curated `CLAUDE.md`/`AGENTS.md` so Claude Code (and any other agent that reads them) gets deep knowledge of the ibl.ai platform from the first prompt. `.mcp.json` ships the [@iblai/mcp](https://www.npmjs.com/package/@iblai/mcp) server for component-level lookups and the `chrome-devtools` server that `/iblai-ui-ops-test` drives for the touch test. `.claude/settings.json` pre-approves them, so Claude Code asks nothing once you trust the folder; `.cursor/mcp.json`, `.codex/config.toml` and `opencode.json` carry the same servers for Cursor, Codex and opencode.
+
+The [@iblai/mcp](https://www.npmjs.com/package/@iblai/mcp) server gives your AI assistant access to:
+
+```
+get_component_info("ChatWidget")              # Props, usage, examples for any component
+get_hook_info("useAdvancedChat")              # Hook parameters and return types
+get_api_query_info("useGetUserMetadataQuery") # RTK Query endpoint details
+get_provider_setup("auth")                    # Provider hierarchy and setup code
+create_page_template("Dashboard", "mentor")   # Generate a page following ibl.ai patterns
+```
+
+## Platform Capabilities
+
+| Feature | Web | macOS | Windows/Surface | iOS | Android |
+|---------|-----|-------|-----------------|-----|---------|
+| SSO Authentication | Yes | Yes | Yes | Yes | Yes |
+| AI Chat | Yes | Yes | Yes | Yes | Yes |
+| User Profile | Yes | Yes | Yes | Yes | Yes |
+| Account Settings | Yes | Yes | Yes | Yes | Yes |
+| Analytics Dashboard | Yes | Yes | Yes | Yes | Yes |
+| Notifications | Yes | Yes | Yes | Yes | Yes |
+| Credit Balance | Yes | Yes | Yes | Yes | Yes |
+| Admin area | Yes | Yes | Yes | Yes | Yes |
+
+> **iOS & Android SSO:** mobile WebViews are rejected by SSO providers, so the Tauri shell opens sign-in in the system browser (ASWebAuthenticationSession on iOS, Chrome Custom Tabs on Android) and returns through a deep link. Set `TAURI_CUSTOM_SCHEME` in `iblai.env` — see [`/iblai-ui-ops-build`](https://github.com/iblai/base/blob/main/skills/ship/iblai-ui-ops-build/SKILL.md) “Mobile SSO”.
+
+## Brand
+
+- **Primary**: `#0058cc`
+- **Gradient**: `linear-gradient(135deg, #00b0ef, #0058cc)`
+- **Style**: shadcn/ui new-york, system sans-serif, Lucide icons
+
+SDK and shadcn components share the same Tailwind theme and render in ibl.ai brand colors automatically — do not override them.
+
+## Commands
+
+```bash
+pnpm dev             # Dev server (localhost:3000)
+pnpm build           # Production build
+pnpm test            # Vitest
+pnpm test:e2e        # Playwright E2E
+pnpm e2e:coverage    # Approximate e2e coverage from the journeys (≥ 95%)
+```
+
+> `pnpm test:e2e` runs Chrome desktop and a phone viewport (`pnpm test:e2e:all` adds Firefox and WebKit) against the server you run on :3000 and signs in as two test accounts, which it creates when they are missing (`pnpm e2e:accounts` does the same ahead of time) — an org admin and a member in the organization `iblai.env` names, made with the `IBLAI_API_KEY` in `.env.local` once the platform confirms the two belong together — saving their credentials in the gitignored `e2e/.env.development`. `pnpm e2e:coverage` checks `e2e/coverage.json` against the specs and the app and approximates coverage from the pages the journeys visit; under 95% it fails and names the gaps.
+
+## Deploy Anywhere
+
+### ibl.ai hosting (Vercel) — recommended
+
+Run `/iblai-ui-ops-deploy` — zips the app, uploads it to the ibl.ai
+platform's hosting API using your platform API key (no Vercel account or
+token), polls until the build is READY, and writes the URL into
+`tauri.conf.json` (`build.frontendDist`) for the native builds. The app
+lands on the address the API reports.
+
+### Tauri (Desktop & Mobile)
+
+Add the Tauri shell with `/iblai-ui-ops-build`, then:
+
+```bash
+pnpm exec tauri dev           # Dev mode
+pnpm exec tauri build         # Desktop build for current platform
+pnpm exec tauri ios init      # iOS project setup
+```
+
+## Resources
+
+- [Vibe](https://github.com/iblai/base) — the full developer toolkit and skill source
+- [@iblai/iblai-js](https://www.npmjs.com/package/@iblai/iblai-js) — unified SDK for data, UI components, and auth utilities
+- [@iblai/iblai-api](https://www.npmjs.com/package/@iblai/iblai-api) — auto-generated API types
+- [@iblai/mcp](https://www.npmjs.com/package/@iblai/mcp) — MCP server for AI-assisted development
+- [skills.sh/iblai/vibe](https://skills.sh/iblai/vibe) — install skills with `npx skills add iblai/vibe --all`
+
+## License
+
+MIT — [ibl.ai](https://ibl.ai)

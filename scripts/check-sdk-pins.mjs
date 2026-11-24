@@ -23,7 +23,7 @@ import { join, relative } from "node:path";
 
 const ROOT = new URL("..", import.meta.url).pathname;
 const SKILLS_DIR = join(ROOT, "skills");
-const STARTER_DIR = join(SKILLS_DIR, "start", "iblai-vibe-ops-init", "assets", "vibe-starter");
+const STARTER_DIR = join(SKILLS_DIR, "start", "iblai-ui-ops-init", "assets", "vibe-starter");
 const STARTER_PKG = join(STARTER_DIR, "package.json");
 
 // @iblai packages that are legitimate but absent from vibe-starter: expected major.
@@ -144,7 +144,7 @@ for (const file of subjects) {
 if (violations.length) {
   console.error(`SDK pin drift — ${violations.length} violation(s):\n`);
   for (const v of violations) console.error(`  ${v}`);
-  console.error("\nCanonical versions live in skills/start/iblai-vibe-ops-init/assets/vibe-starter/package.json.");
+  console.error("\nCanonical versions live in skills/start/iblai-ui-ops-init/assets/vibe-starter/package.json.");
   process.exit(1);
 }
 console.log(`check-sdk-pins: ${subjects.length} files, all @iblai version mentions agree with vibe-starter.`);

@@ -144,5 +144,5 @@ curl -X PATCH \
   org via `platform_key={org}`.
 - `policies`/`groups` are returned only on detail responses (retrieve/create/update),
   not in the list view.
-- The agent **API** tab (`/iblai-vibe-agent-api`) is a UI over these same
+- The agent **API** tab (`/iblai-ui-agent-api`) is a UI over these same
   org-wide tokens: list (10 per page), create, and delete by name.

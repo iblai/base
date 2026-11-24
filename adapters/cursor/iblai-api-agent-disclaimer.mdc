@@ -10,7 +10,7 @@ Manage an agent's disclaimers via the API: the Advisory text (a single field on
 the agent's `settings/`), the User Agreement (its own create / update /
 activate lifecycle), and the agreements users record when they accept it. Use
 when adding legal or advisory notices users must see or accept. The UI twin is
-[`/iblai-vibe-agent-disclaimer`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-disclaimer/SKILL.md).
+[`/iblai-ui-agent-disclaimer`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-agent-disclaimer/SKILL.md).
 
 ## Auth & conventions
 

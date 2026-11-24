@@ -12,7 +12,7 @@ returned when PII is caught, and toggle output filtering — all saved through t
 single `settings/` endpoint — plus review the organization’s read-only PII/PHI
 detection audit log (`privacy-flags`). Use when controlling how the agent handles
 personal data or auditing what sensitive data flowed through the agents. The UI
-twin is [`/iblai-vibe-agent-privacy`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-privacy/SKILL.md).
+twin is [`/iblai-ui-agent-privacy`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-agent-privacy/SKILL.md).
 
 ## Auth & conventions
 
@@ -85,7 +85,7 @@ curl -X PUT \
   `mode: disabled`, `source: mentor`; no history is written), while the
   agent's Privacy tab shows the record as Never Incognito. The organization gate, the
   user default and the per-session flip are in
-  [`/iblai-vibe-incognito`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-incognito/SKILL.md).
+  [`/iblai-ui-incognito`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-incognito/SKILL.md).
 - `privacy_entities` is a list of detector names: `PERSON`, `EMAIL_ADDRESS`,
   `PHONE_NUMBER`, `US_SSN`, `CREDIT_CARD`, `LOCATION`, `DATE_TIME`,
   `US_PASSPORT`, `US_DRIVER_LICENSE`, `IP_ADDRESS`, `IBAN_CODE`,

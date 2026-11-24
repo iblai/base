@@ -1,6 +1,6 @@
 # The platform lifecycle — from `ibl.ai/join` to a running app
 
-Read this once, before `/iblai-vibe-ops-init`. It is the part of the journey
+Read this once, before `/iblai-ui-ops-init`. It is the part of the journey
 that happens *outside* your code: getting an organization, the two values
 every app needs, how the organization is billed, and the settings that only
 exist in the ibl.ai OS. Ten steps; most take a minute.
@@ -29,7 +29,7 @@ The OS at **https://os.ibl.ai/platform/\<org-key\>/…** is two things at once:
   [iblai/os](https://github.com/iblai/os)), and
 - **the admin console for your organization** — users, roles, LLM keys, API
   tokens, billing, memory, branding — until your own app grows an admin area
-  (`/iblai-vibe-admin`).
+  (`/iblai-ui-admin`).
 
 Top-right there is a **User / Admin** toggle. Everything below that says
 "Admin mode" needs it switched to **Admin**.
@@ -99,12 +99,12 @@ Admin mode → settings → **Billing**.
 - Agents draw credits down as they run. The balance is a hard ceiling: when it
   is spent, agents pause and the app shows the next step — Billing for an
   admin, the plan picker for a free-trial user, a contact-your-admin notice for
-  everyone else (`/iblai-vibe-credit-exhaustion`). No per-seat fees.
+  everyone else (`/iblai-ui-credit-exhaustion`). No per-seat fees.
 - **Spend Limits:** one org-wide cap on LLM cost per day/week/month/year,
   **Block Requests** or **Alert Only**, alerts at 80 % / 95 %.
 - **Agent Limits:** the same per agent, and per user on an agent.
 
-For what to charge *your* users, see `/iblai-vibe-pricing`.
+For what to charge *your* users, see `/iblai-ui-pricing`.
 
 <!-- screenshot: docs/screenshots/journey/02c-os-billing-plan-credits.png -->
 
@@ -113,7 +113,7 @@ For what to charge *your* users, see `/iblai-vibe-pricing`.
 Admin mode → settings → **Integrations** → **Secrets** → **LLMs** → **Add LLM**. Pick a
 provider (OpenAI, Anthropic, Google, Azure OpenAI per deployment, …) and paste
 its key; it is stored masked. Agents in the org can then select those models
-(`/iblai-vibe-agent-llm`). Costs by provider and model appear under
+(`/iblai-ui-agent-llm`). Costs by provider and model appear under
 **Analytics → Costs**.
 
 <!-- screenshot: docs/screenshots/journey/02d-os-integrations-llms.png -->
@@ -121,7 +121,7 @@ its key; it is stored masked. Agents in the org can then select those models
 ## 7. Agents
 
 Create one in the OS (**Explore → Create Agent**, or `/create-mentor`), or
-from your app with `/iblai-vibe-agent-create`, or headless with
+from your app with `/iblai-ui-agent-create`, or headless with
 `/iblai-api-agent-create`. An agent's id is the UUID at the end of its OS URL:
 `https://os.ibl.ai/platform/<org-key>/<agent-uuid>`. The vibe-starter `/setup`
 page lets an admin pick or create the app's default agent without touching env
@@ -133,7 +133,7 @@ Admin mode → settings → **Management** → **Users**: every member with a
 **Role** (`Admin` / `User`), optional **Policies** (finer grants from the
 Roles + Policies tabs), and an active/inactive **Status**. **Invite** sends
 one email or a CSV (`email`, `first_name`, `last_name`, `platform_key`,
-`company_name`, `user_group`). The same surface is what `/iblai-vibe-admin`
+`company_name`, `user_group`). The same surface is what `/iblai-ui-admin`
 mounts inside your app.
 
 ## 9. Sign-in must be allowed to come back — redirect origins
@@ -141,7 +141,7 @@ mounts inside your app.
 SSO returns the user to your app only if the app's origin is among the
 organization's **allowed redirect origins**. `http://localhost:3000`, every
 deployed URL (`https://<name>.vercel.app` and any custom domain), and a
-mobile custom scheme (`<scheme>://`, see `/iblai-vibe-ops-build`) each need to
+mobile custom scheme (`<scheme>://`, see `/iblai-ui-ops-build`) each need to
 be listed. If sign-in redirects to `login.iblai.app` and never returns, this
 is the first thing to check — ask your ibl.ai operator to add the origin.
 
@@ -149,13 +149,13 @@ is the first thing to check — ask your ibl.ai operator to add the origin.
 
 | You want | Rail | Skill |
 |---|---|---|
-| Members pay to enter the whole app, on your own Stripe account, no commission | App paywall | `/iblai-vibe-monetization-app-paywall` |
-| Sell specific agents / courses / items, subscriptions, revenue dashboards | Item monetization (Stripe Connect) | `/iblai-vibe-monetization` |
-| Let org admins top up ibl.ai credits from inside the app | Platform credits | `/iblai-vibe-credit`, `/iblai-vibe-billing` |
+| Members pay to enter the whole app, on your own Stripe account, no commission | App paywall | `/iblai-ui-monetization-app-paywall` |
+| Sell specific agents / courses / items, subscriptions, revenue dashboards | Item monetization (Stripe Connect) | `/iblai-ui-monetization` |
+| Let org admins top up ibl.ai credits from inside the app | Platform credits | `/iblai-ui-credit`, `/iblai-ui-billing` |
 
-`/iblai-vibe-pricing` walks through the choice.
+`/iblai-ui-pricing` walks through the choice.
 
-## Before you run `/iblai-vibe-ops-init`
+## Before you run `/iblai-ui-ops-init`
 
 - [ ] I have my own organization (not `main`) and its **org key** — the metadata curl returns 200.
 - [ ] I have a **Platform API Token** — `token/verify/` returns 200 and I noted the `username`.
@@ -163,4 +163,4 @@ is the first thing to check — ask your ibl.ai operator to add the origin.
 - [ ] `http://localhost:3000` is an allowed redirect origin (ask if unsure).
 - [ ] I have Node 20+ and `pnpm` (or `npm`), and Claude Code / Cursor with `npx skills add iblai/vibe --all` done.
 
-Then: `/iblai-vibe-ops-init` → `pnpm dev` → sign in → `/setup`.
+Then: `/iblai-ui-ops-init` → `pnpm dev` → sign in → `/setup`.

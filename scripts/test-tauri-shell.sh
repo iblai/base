@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tier 1.9: compile and run the Tauri shell /iblai-vibe-ops-build ships (Linux).
+# Tier 1.9: compile and run the Tauri shell /iblai-ui-ops-build ships (Linux).
 #
 # A scratch app is built from the skill's assets alone (src-tauri + icons) with
 # its frontendDist pointed at a local page, then: cargo fmt --check, cargo test
@@ -18,7 +18,7 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-ASSETS="$ROOT/skills/ship/iblai-vibe-ops-build/assets"
+ASSETS="$ROOT/skills/ship/iblai-ui-ops-build/assets"
 SCRATCH="${SCRATCH:-$ROOT/.skill-tests/tauri-shell}"
 SMOKE="${SMOKE:-1}"
 PORT=8765

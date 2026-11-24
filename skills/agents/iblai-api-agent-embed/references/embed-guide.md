@@ -199,5 +199,5 @@ DOM event (`detail` is the frame; it bubbles and is composed), and the raw
 `postMessage` still reaches the host window for hosts without a handle on the
 element. What a Next.js host does with it — feed it to the SDK's
 `use402ErrorCheck` and render the plan picker / contact-admin modal — is
-`/iblai-vibe-credit-exhaustion`. Without the attribute the agent keeps its own
+`/iblai-ui-credit-exhaustion`. Without the attribute the agent keeps its own
 modals, as before.

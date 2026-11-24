@@ -22,9 +22,9 @@ for (const { name, file } of listSkills()) {
   if (!KINDS.has(kind)) { fail(`unknown kind "${kind}"`); continue; }
   counts[kind] = (counts[kind] ?? 0) + 1;
   if (name.startsWith("iblai-api-") && !["api", "guide"].includes(kind)) fail(`iblai-api-* must be kind api or guide, got ${kind}`);
-  if (name.startsWith("iblai-vibe-security-") && kind !== "security") fail(`security skill must be kind security, got ${kind}`);
-  if (name.startsWith("iblai-vibe-ops-") && kind !== "ops") fail(`ops skill must be kind ops, got ${kind}`);
-  if (!name.startsWith("iblai-")) fail("name must start with iblai-");
+  if (name.startsWith("iblai-ui-security-") && kind !== "security") fail(`security skill must be kind security, got ${kind}`);
+  if (name.startsWith("iblai-ui-ops-") && kind !== "ops") fail(`ops skill must be kind ops, got ${kind}`);
+  if (!/^iblai-(ui|api)(-|$)/.test(name)) fail("name must start with iblai-ui or iblai-api-");
 }
 if (failed) process.exit(1);
 for (const n of CORE) if (!coreSeen.has(n) && !listSkills().some((s) => s.name === n)) { failed = true; console.error(`${n}: listed as core but no such skill`); }

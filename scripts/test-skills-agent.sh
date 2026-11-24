@@ -22,7 +22,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-STARTER="$ROOT/skills/start/iblai-vibe-ops-init/assets/vibe-starter"
+STARTER="$ROOT/skills/start/iblai-ui-ops-init/assets/vibe-starter"
 skill_path() { ls -d "$ROOT"/skills/*/"$1" 2>/dev/null | head -1; }
 WORK="$ROOT/.skill-tests/agent"
 MAX_TURNS="${MAX_TURNS:-40}"

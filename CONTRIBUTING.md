@@ -8,11 +8,11 @@ for you once the folder is in the right place and the frontmatter is right.
 
 | Question | Answer → |
 |---|---|
-| Does it mount a **visual component** in a Next.js app? | `kind: ui`, name `iblai-vibe-<thing>` |
+| Does it mount a **visual component** in a Next.js app? | `kind: ui`, name `iblai-ui-<thing>` |
 | Does it drive the platform **over REST with no screen**? | `kind: api`, name `iblai-api-<thing>` |
 | Does it only **route or explain** (an index, a decision page)? | `kind: guide` |
-| Does it **build, test, deploy, or polish**? | `kind: ops`, name `iblai-vibe-ops-<thing>` (or a clear verb) |
-| Authorized-use security work? | `kind: security`, name `iblai-vibe-security-<thing>` |
+| Does it **build, test, deploy, or polish**? | `kind: ops`, name `iblai-ui-ops-<thing>` (or a clear verb) |
+| Authorized-use security work? | `kind: security`, name `iblai-ui-security-<thing>` |
 
 Full definitions and the "same data, two doors" rule: [docs/skill-kinds.md](docs/skill-kinds.md).
 One skill = one capability. If you are documenting both a component and its
@@ -59,10 +59,10 @@ Frontmatter:
 
 ```yaml
 ---
-name: iblai-vibe-thing            # must equal the folder name
+name: iblai-ui-thing            # must equal the folder name
 description: >-                   # 200–1024 chars: what the user gets, then the trigger phrases
   Add … to your Next.js app. Use when the user mentions 'x', 'y', or wants z.
-  For … see /iblai-vibe-sibling; for the REST contract see /iblai-api-thing.
+  For … see /iblai-ui-sibling; for the REST contract see /iblai-api-thing.
 globs:
 alwaysApply: false
 metadata:
@@ -89,7 +89,7 @@ against the pinned SDK:
 ```
 
 If the starter should ship it, put the file in
-`skills/start/iblai-vibe-ops-init/assets/vibe-starter/` and copy it into your
+`skills/start/iblai-ui-ops-init/assets/vibe-starter/` and copy it into your
 skill's `assets/` — the starter is the source of truth.
 
 ## 5. Add a screenshot
@@ -119,7 +119,7 @@ Everything else is generated.
 
 ## 7. Open the PR
 
-Conventional commit subject (`feat(skills): add iblai-vibe-thing` → a minor
+Conventional commit subject (`feat(skills): add iblai-ui-thing` → a minor
 release; `fix:`/`docs:` → patch). Fill in the PR template — it asks for the
 user test and the checks above. Add the `run-tests` label: skills-ci runs only
 on labelled PRs (the deterministic tiers, plus the agent tier on your skill),

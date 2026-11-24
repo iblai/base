@@ -3,7 +3,7 @@
 Every ibl.ai front end (the OS at os.ibl.ai, the LMS, vibe-starter, the
 embeddable chat) signs users in the same way. Understanding the handful of
 parameters involved is what lets you choose between the three app
-architectures below — and it is the first question `/iblai-vibe-start` asks.
+architectures below — and it is the first question `/iblai-ui-start` asks.
 
 Vocabulary: **organization (org)** = a customer workspace; **org key** = its
 id (`platform_key`/`tenant` on the wire); **member** = a signed-in user of the
@@ -20,7 +20,7 @@ your app ◄── <origin>/sso-login-complete?data=<json>&redirect-path=<path>
 
 | Parameter | Sent by | Meaning |
 |---|---|---|
-| `app` | the app | Which front end is asking — the Auth SPA picks the branding and the redirect rules for it. The OS sends `mentor`; vibe-starter sends `custom`; the branding for your app is set by `/iblai-vibe-auth` Step 2 (`auth_web_*` in the org's metadata). |
+| `app` | the app | Which front end is asking — the Auth SPA picks the branding and the redirect rules for it. The OS sends `mentor`; vibe-starter sends `custom`; the branding for your app is set by `/iblai-ui-auth` Step 2 (`auth_web_*` in the org's metadata). |
 | `redirect-to` | the app | The **origin** to return to (`http://localhost:3000`, `https://my-app.vercel.app`). Must be in the org's **allowed redirect origins**, or the SPA never returns. The in-app path to land on is kept by the app itself in `localStorage["redirect-to"]` (`saveRedirect`). |
 | `scheme` | the app (Tauri) | The shell's URL scheme, sent when the app runs in Tauri (`isNativeApp`). The SPA returns a Google/Apple sign-in to `<scheme>:///sso-login-complete?…`. |
 | `tenant` | the app | The org to sign in to. Omitted → the user's default org. Present → the SPA authenticates *into that org* (joining it when self-join is open; otherwise "not a member"). |
@@ -46,9 +46,9 @@ What the SDK does with it afterwards:
 | Sign-in | SSO, always with `tenant=<the org>`; a non-member is refused (or pays to join — the [vibe-agent](https://github.com/iblai/vibe-agent) model) | SSO without `tenant` for the default org; the org comes from the URL (`/platform/[org]/…`), a switcher, or the agent being visited; re-auth per org | None. One Platform API Token per org, or an org secret |
 | Where the org key lives | `NEXT_PUBLIC_MAIN_TENANT_KEY` (`iblai.env` → `PLATFORM`), pinned; `main` refused | `NEXT_PUBLIC_MAIN_TENANT_KEY=main` (the community org) + the route param; `tenants[]` decides membership | `IBLAI_ORG` / `PLATFORM` per call |
 | Anonymous / public | Optional: a public agent route left out of `AuthProvider`'s protection (`allow_anonymous`) | Same, per agent; the OS's `/platform/<org>/<agent>` rule | n/a (or a public agent hit over REST as `anonymous`) |
-| Admin surfaces | The app's admin area (`/iblai-vibe-admin`) for that org's admins | Per org; the OS's Admin mode is the reference | The `iblai-api-*` skills |
+| Admin surfaces | The app's admin area (`/iblai-ui-admin`) for that org's admins | Per org; the OS's Admin mode is the reference | The `iblai-api-*` skills |
 | Credentials on the server | `IBLAI_API_KEY` for **that** org — the "server-to-server token an organization has" | One key per org you serve (a table of keys, or the caller's own token forwarded) | `IBLAI_API_KEY` (+ `IBLAI_ORG`) |
-| What vibe gives you | **vibe-starter as shipped** (`resolveAppTenant()` pins the org; `/setup`, admin area, metadata helpers) | The OS pattern (§3); the same SDK providers with `requestedTenant` from the route and `TenantSwitcher`/`UserProfileDropdown showTenantSwitcher` | `/iblai-api-login` + the `api` family; `/iblai-vibe-api` when the server is inside a Next.js app |
+| What vibe gives you | **vibe-starter as shipped** (`resolveAppTenant()` pins the org; `/setup`, admin area, metadata helpers) | The OS pattern (§3); the same SDK providers with `requestedTenant` from the route and `TenantSwitcher`/`UserProfileDropdown showTenantSwitcher` | `/iblai-api-login` + the `api` family; `/iblai-ui-api` when the server is inside a Next.js app |
 | Redirect origins to register | localhost, the deployed URL, the mobile scheme | same | none |
 | Pick it when | "An app for my organization / for each customer I deploy it to" — the common case | "One deployment, many organizations, users move between them" — you are building a platform like the OS | "No UI at all", or "my backend talks to ibl.ai on behalf of my users" |
 

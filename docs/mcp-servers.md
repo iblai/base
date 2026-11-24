@@ -51,8 +51,8 @@ still works for existing configs.)
 ## Plus a browser: `chrome-devtools` (third-party, local)
 
 Not an ibl.ai server: the [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp)
-gives the assistant a real Chrome for the `/iblai-vibe-ops-test` touch test.
+gives the assistant a real Chrome for the `/iblai-ui-ops-test` touch test.
 vibe-starter's `.mcp.json` starts it; Claude Code asks once to approve it. Its
 Chrome keeps its own profile, so the user signs in by hand once; nothing asks
 for a password. Claude Code users can run `claude --chrome` instead. Codex and
-Cursor entries: [browser-touch-test.md](../skills/ship/iblai-vibe-ops-test/references/browser-touch-test.md).
+Cursor entries: [browser-touch-test.md](../skills/ship/iblai-ui-ops-test/references/browser-touch-test.md).

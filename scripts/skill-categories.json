@@ -16,7 +16,7 @@
       "capability": "Custom data per user",
       "scope": "one schemaless JSON object per user \u00d7 organization \u2014 preferences, flags, onboarding, app state",
       "ui": [
-        "iblai-vibe-user-metadata"
+        "iblai-ui-user-metadata"
       ],
       "api": [
         "iblai-api-profile-metadata"
@@ -26,7 +26,7 @@
       "capability": "The user's own profile",
       "scope": "account fields, image, education, experience, r\u00e9sum\u00e9",
       "ui": [
-        "iblai-vibe-profile"
+        "iblai-ui-profile"
       ],
       "api": [
         "iblai-api-profile"
@@ -36,9 +36,9 @@
       "capability": "Memory",
       "scope": "user-global \u00b7 per user \u00d7 agent (by category) \u00b7 agent knowledge",
       "ui": [
-        "iblai-vibe-memory-guide",
-        "iblai-vibe-memory",
-        "iblai-vibe-agent-memory"
+        "iblai-ui-memory-guide",
+        "iblai-ui-memory",
+        "iblai-ui-agent-memory"
       ],
       "api": [
         "iblai-api-agent-memory"
@@ -48,7 +48,7 @@
       "capability": "Custom data per organization",
       "scope": "one metadata object per organization (GET-merge-PUT) \u2014 branding, feature toggles, defaults",
       "ui": [
-        "iblai-vibe-org-metadata"
+        "iblai-ui-org-metadata"
       ],
       "api": [
         "iblai-api-org"
@@ -58,8 +58,8 @@
       "capability": "Agent configuration",
       "scope": "create an agent; identity, visibility, capability flags",
       "ui": [
-        "iblai-vibe-agent-create",
-        "iblai-vibe-agent-setting"
+        "iblai-ui-agent-create",
+        "iblai-ui-agent-setting"
       ],
       "api": [
         "iblai-api-agent-create",
@@ -70,7 +70,7 @@
       "capability": "Analytics",
       "scope": "org-wide or one agent: usage, users, topics, transcripts, costs, audit, reports",
       "ui": [
-        "iblai-vibe-analytics"
+        "iblai-ui-analytics"
       ],
       "api": [
         "iblai-api-analytics"
@@ -79,58 +79,58 @@
   ],
   "categories": {
     "start": [
-      "iblai-vibe",
-      "iblai-vibe-connect",
-      "iblai-vibe-start",
-      "iblai-vibe-ops-init",
-      "iblai-vibe-auth",
+      "iblai-ui",
+      "iblai-ui-connect",
+      "iblai-ui-start",
+      "iblai-ui-ops-init",
+      "iblai-ui-auth",
       "iblai-api-login",
-      "iblai-vibe-api",
-      "iblai-vibe-scaffold",
-      "iblai-vibe-component",
-      "iblai-vibe-navbar",
-      "iblai-vibe-ops-upgrade"
+      "iblai-ui-api",
+      "iblai-ui-scaffold",
+      "iblai-ui-component",
+      "iblai-ui-navbar",
+      "iblai-ui-ops-upgrade"
     ],
     "agents": [
-      "iblai-vibe-agent",
-      "iblai-vibe-agent-chat",
-      "iblai-vibe-agent-chat-sidebar",
-      "iblai-vibe-agent-assistant",
-      "iblai-vibe-incognito",
-      "iblai-vibe-agent-search",
-      "iblai-vibe-agent-create",
-      "iblai-vibe-project",
-      "iblai-vibe-workflow",
-      "iblai-vibe-local-llm",
-      "iblai-vibe-os-agent-code-mode",
-      "iblai-vibe-os-agent-cowork",
-      "iblai-vibe-agent-access",
-      "iblai-vibe-agent-analytics",
-      "iblai-vibe-agent-api",
-      "iblai-vibe-agent-audit",
-      "iblai-vibe-agent-billing",
-      "iblai-vibe-agent-dataset",
-      "iblai-vibe-agent-disclaimer",
-      "iblai-vibe-agent-embed",
-      "iblai-vibe-agent-evals",
-      "iblai-vibe-agent-grader",
-      "iblai-vibe-agent-history",
-      "iblai-vibe-agent-llm",
-      "iblai-vibe-agent-lti",
-      "iblai-vibe-agent-mcp",
-      "iblai-vibe-agent-memory",
-      "iblai-vibe-agent-privacy",
-      "iblai-vibe-agent-prompt",
-      "iblai-vibe-agent-safety",
-      "iblai-vibe-agent-sandbox",
-      "iblai-vibe-agent-virtual-machine",
-      "iblai-vibe-agent-screenshare",
-      "iblai-vibe-agent-setting",
-      "iblai-vibe-agent-skills",
-      "iblai-vibe-agent-support",
-      "iblai-vibe-agent-task",
-      "iblai-vibe-agent-tool",
-      "iblai-vibe-agent-voice",
+      "iblai-ui-agent",
+      "iblai-ui-agent-chat",
+      "iblai-ui-agent-chat-sidebar",
+      "iblai-ui-agent-assistant",
+      "iblai-ui-incognito",
+      "iblai-ui-agent-search",
+      "iblai-ui-agent-create",
+      "iblai-ui-project",
+      "iblai-ui-workflow",
+      "iblai-ui-local-llm",
+      "iblai-ui-os-agent-code-mode",
+      "iblai-ui-os-agent-cowork",
+      "iblai-ui-agent-access",
+      "iblai-ui-agent-analytics",
+      "iblai-ui-agent-api",
+      "iblai-ui-agent-audit",
+      "iblai-ui-agent-billing",
+      "iblai-ui-agent-dataset",
+      "iblai-ui-agent-disclaimer",
+      "iblai-ui-agent-embed",
+      "iblai-ui-agent-evals",
+      "iblai-ui-agent-grader",
+      "iblai-ui-agent-history",
+      "iblai-ui-agent-llm",
+      "iblai-ui-agent-lti",
+      "iblai-ui-agent-mcp",
+      "iblai-ui-agent-memory",
+      "iblai-ui-agent-privacy",
+      "iblai-ui-agent-prompt",
+      "iblai-ui-agent-safety",
+      "iblai-ui-agent-sandbox",
+      "iblai-ui-agent-virtual-machine",
+      "iblai-ui-agent-screenshare",
+      "iblai-ui-agent-setting",
+      "iblai-ui-agent-skills",
+      "iblai-ui-agent-support",
+      "iblai-ui-agent-task",
+      "iblai-ui-agent-tool",
+      "iblai-ui-agent-voice",
       "iblai-api-agent-create",
       "iblai-api-agent-setting",
       "iblai-api-agent-prompt",
@@ -157,17 +157,17 @@
       "iblai-api-search"
     ],
     "users": [
-      "iblai-vibe-profile",
-      "iblai-vibe-user-metadata",
-      "iblai-vibe-memory-guide",
-      "iblai-vibe-memory",
-      "iblai-vibe-history",
-      "iblai-vibe-admin",
-      "iblai-vibe-invite",
-      "iblai-vibe-rbac",
-      "iblai-vibe-notification",
-      "iblai-vibe-onboard",
-      "iblai-vibe-house-journeys",
+      "iblai-ui-profile",
+      "iblai-ui-user-metadata",
+      "iblai-ui-memory-guide",
+      "iblai-ui-memory",
+      "iblai-ui-history",
+      "iblai-ui-admin",
+      "iblai-ui-invite",
+      "iblai-ui-rbac",
+      "iblai-ui-notification",
+      "iblai-ui-onboard",
+      "iblai-ui-house-journeys",
       "iblai-api-profile",
       "iblai-api-profile-metadata",
       "iblai-api-management",
@@ -178,11 +178,11 @@
       "iblai-api-feature"
     ],
     "organizations": [
-      "iblai-vibe-account",
-      "iblai-vibe-org-metadata",
-      "iblai-vibe-credential",
-      "iblai-vibe-virtual-machine",
-      "iblai-vibe-crm-overview",
+      "iblai-ui-account",
+      "iblai-ui-org-metadata",
+      "iblai-ui-credential",
+      "iblai-ui-virtual-machine",
+      "iblai-ui-crm-overview",
       "iblai-api-org",
       "iblai-api-integration",
       "iblai-api-token",
@@ -190,30 +190,30 @@
       "iblai-api-external-service-proxy"
     ],
     "billing": [
-      "iblai-vibe-pricing",
-      "iblai-vibe-credit",
-      "iblai-vibe-billing",
-      "iblai-vibe-credit-exhaustion",
+      "iblai-ui-pricing",
+      "iblai-ui-credit",
+      "iblai-ui-billing",
+      "iblai-ui-credit-exhaustion",
       "iblai-api-billing",
       "iblai-api-spend-caps"
     ],
     "monetization": [
-      "iblai-vibe-monetization",
-      "iblai-vibe-monetization-onboard",
-      "iblai-vibe-monetization-configure",
-      "iblai-vibe-monetization-checkout",
-      "iblai-vibe-monetization-subscription",
-      "iblai-vibe-monetization-analytics",
-      "iblai-vibe-monetization-app-paywall"
+      "iblai-ui-monetization",
+      "iblai-ui-monetization-onboard",
+      "iblai-ui-monetization-configure",
+      "iblai-ui-monetization-checkout",
+      "iblai-ui-monetization-subscription",
+      "iblai-ui-monetization-analytics",
+      "iblai-ui-monetization-app-paywall"
     ],
     "analytics": [
-      "iblai-vibe-analytics",
+      "iblai-ui-analytics",
       "iblai-api-analytics"
     ],
     "content": [
-      "iblai-vibe-course-access",
-      "iblai-vibe-course-create",
-      "iblai-vibe-application",
+      "iblai-ui-course-access",
+      "iblai-ui-course-create",
+      "iblai-ui-application",
       "iblai-api-catalog",
       "iblai-api-catalog-media",
       "iblai-api-catalog-invitation",
@@ -239,28 +239,28 @@
       "iblai-api-heygen"
     ],
     "ship": [
-      "iblai-vibe-ops-deploy",
-      "iblai-vibe-ops-build",
-      "iblai-vibe-ops-release",
-      "iblai-vibe-ops-test",
-      "iblai-vibe-windows-msix",
-      "iblai-vibe-iconography",
-      "iblai-vibe-readme",
-      "iblai-vibe-design",
-      "iblai-vibe-deslop",
+      "iblai-ui-ops-deploy",
+      "iblai-ui-ops-build",
+      "iblai-ui-ops-release",
+      "iblai-ui-ops-test",
+      "iblai-ui-windows-msix",
+      "iblai-ui-iconography",
+      "iblai-ui-readme",
+      "iblai-ui-design",
+      "iblai-ui-deslop",
       "iblai-api-infrastructure",
       "iblai-api-ecosystem",
       "iblai-api-hosting"
     ],
     "security": [
-      "iblai-vibe-security-recon",
-      "iblai-vibe-security-owasp-audit",
-      "iblai-vibe-security-osint-recon",
-      "iblai-vibe-security-disk-forensics",
-      "iblai-vibe-security-incident-triage",
-      "iblai-vibe-security-cloud-audit",
-      "iblai-vibe-security-dependency-audit",
-      "iblai-vibe-security-prompt-injection"
+      "iblai-ui-security-recon",
+      "iblai-ui-security-owasp-audit",
+      "iblai-ui-security-osint-recon",
+      "iblai-ui-security-disk-forensics",
+      "iblai-ui-security-incident-triage",
+      "iblai-ui-security-cloud-audit",
+      "iblai-ui-security-dependency-audit",
+      "iblai-ui-security-prompt-injection"
     ]
   }
 }

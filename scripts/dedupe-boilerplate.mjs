@@ -15,7 +15,7 @@ const PREFIXES = [
   "Do NOT add custom styles, colors, or CSS overrides to ibl.ai SDK components.",
   "Do NOT add custom styles to ibl.ai SDK components",
   "When building custom UI around SDK components, use the ibl.ai brand:",
-  "You MUST run `/iblai-vibe-ops-test` before telling the user the work is ready.",
+  "You MUST run `/iblai-ui-ops-test` before telling the user the work is ready.",
   "After all work is complete, start a dev server (`pnpm dev`) so the user",
   "`iblai.env` is NOT a `.env.local` replacement",
   "Use `pnpm` as the default package manager.",

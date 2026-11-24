@@ -8,7 +8,7 @@ import { ROOT, CATEGORIES, listSkills } from "./lib/skills.mjs";
 
 const TITLES = {
   start: ["Start", "Get an app running: the first conversation, credentials, sign-in, the starter, the REST bridge, keeping skills current."],
-  agents: ["Agents", "Chat with agents, browse and create them, and configure every setting tab — with a screen (`iblai-vibe-*`) or headless (`iblai-api-*`)."],
+  agents: ["Agents", "Chat with agents, browse and create them, and configure every setting tab — with a screen (`iblai-ui-*`) or headless (`iblai-api-*`)."],
   users: ["Users", "Profiles, custom per-user data, memories, roles and admins, invitations, notifications, onboarding."],
   organizations: ["Organizations", "Org settings and custom metadata, branding, integrations and tokens, CRM."],
   billing: ["Billing", "How you are charged, credits, spend caps, and which rail to charge your users on."],
@@ -55,7 +55,7 @@ out += `
 Whatever the app is about, it reads or writes these six families — so their
 skills are the deepest in the repo: a screenshot, verified endpoints, a
 starter journey, and a link to the twin that does the same thing the other way.
-Each row has a component door (\`iblai-vibe-*\`) and a headless door (\`iblai-api-*\`).
+Each row has a component door (\`iblai-ui-*\`) and a headless door (\`iblai-api-*\`).
 
 | Capability | What it stores | With a screen | Headless |
 |---|---|---|---|
@@ -67,10 +67,10 @@ word ("memory", "settings", "metadata") exists at four scopes.
 
 | Scope | Custom data | Memory | Configuration |
 |---|---|---|---|
-| **Per user** | ${link("iblai-vibe-user-metadata")} | global memories — ${link("iblai-vibe-memory")} (admin), the Profile › Memory tab (member) | ${link("iblai-vibe-profile")} |
-| **Per user × agent** | — | agent memories, by category — ${link("iblai-vibe-agent-memory")} | — |
-| **Per agent** | — | agent knowledge (no user) — ${link("iblai-api-agent-memory")} | ${link("iblai-vibe-agent-setting")} |
-| **Per organization** | ${link("iblai-vibe-org-metadata")} | the \`enable_memsearch\` gate — ${link("iblai-vibe-memory-guide")} | [\`/iblai-vibe-account\`](../skills/organizations/iblai-vibe-account/SKILL.md) |
+| **Per user** | ${link("iblai-ui-user-metadata")} | global memories — ${link("iblai-ui-memory")} (admin), the Profile › Memory tab (member) | ${link("iblai-ui-profile")} |
+| **Per user × agent** | — | agent memories, by category — ${link("iblai-ui-agent-memory")} | — |
+| **Per agent** | — | agent knowledge (no user) — ${link("iblai-api-agent-memory")} | ${link("iblai-ui-agent-setting")} |
+| **Per organization** | ${link("iblai-ui-org-metadata")} | the \`enable_memsearch\` gate — ${link("iblai-ui-memory-guide")} | [\`/iblai-ui-account\`](../skills/organizations/iblai-ui-account/SKILL.md) |
 `;
 
 for (const c of CATEGORIES.order) {

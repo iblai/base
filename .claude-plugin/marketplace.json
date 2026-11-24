@@ -11,7 +11,7 @@
     {
       "name": "iblai-vibe",
       "source": "./",
-      "description": "Build apps on ibl.ai and operate the platform headlessly \u2014 136 skills (iblai-vibe-* with visual components, iblai-api-* headless), the /iblai-vibe-start intake, and the @iblai/mcp SDK-docs server.",
+      "description": "Build apps on ibl.ai and operate the platform headlessly \u2014 136 skills (iblai-ui-* with visual components, iblai-api-* headless), the /iblai-ui-start intake, and the @iblai/mcp SDK-docs server.",
       "category": "development",
       "keywords": [
         "ibl.ai",

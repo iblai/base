@@ -37,7 +37,7 @@ Third-party model provider keys. DM base: `/api/ai-account/…`.
 Integration credentials: the keys of other services the organization uses.
 DM base: `/api/ai-account/…`.
 
-- **GET** `https://api.iblai.app/dm/api/ai-account/orgs/{org}/integration-credential/[?name=]` — list credentials as `[{ id, name, value, platform }]`. An admin gets every credential with its sensitive fields masked; `?unmask_sensitive_fields=true` returns them in full to an admin of `{org}`, for the organization's own credentials only (see `/iblai-vibe-credential` for the token grant). Anyone else gets only the non-sensitive fields.
+- **GET** `https://api.iblai.app/dm/api/ai-account/orgs/{org}/integration-credential/[?name=]` — list credentials as `[{ id, name, value, platform }]`. An admin gets every credential with its sensitive fields masked; `?unmask_sensitive_fields=true` returns them in full to an admin of `{org}`, for the organization's own credentials only (see `/iblai-ui-credential` for the token grant). Anyone else gets only the non-sensitive fields.
 - **GET** `https://api.iblai.app/dm/api/ai-account/orgs/{org}/masked-integration-credential/` — list configured services (masked).
 - **GET** `https://api.iblai.app/dm/api/ai-account/orgs/{org}/integration-credential/schema/v2/[?name=]` — each service's fields with `is_sensitive` (and `required: false` on an optional one).
 

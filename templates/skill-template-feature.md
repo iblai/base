@@ -1,15 +1,15 @@
 ---
-name: iblai-vibe-<feature>
-description: <What the user gets, in one sentence.> Use when the user mentions '<trigger one>', '<trigger two>', or wants <the outcome>. For <sibling need> see /iblai-vibe-<sibling>; for the REST contract see /iblai-api-<family>. (200–1024 characters; triggers and siblings are what the router reads.)
+name: iblai-ui-<feature>
+description: <What the user gets, in one sentence.> Use when the user mentions '<trigger one>', '<trigger two>', or wants <the outcome>. For <sibling need> see /iblai-ui-<sibling>; for the REST contract see /iblai-api-<family>. (200–1024 characters; triggers and siblings are what the router reads.)
 globs:
 alwaysApply: false
 ---
 
-# /iblai-vibe-<feature>
+# /iblai-ui-<feature>
 
 <Two or three sentences: what this adds to the app and for whom (member / admin / builder).>
 
-![<What the screenshot shows>](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/<category>/iblai-vibe-<feature>/iblai-vibe-<feature>-1-<slug>.png)
+![<What the screenshot shows>](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/<category>/iblai-ui-<feature>/iblai-ui-<feature>-1-<slug>.png)
 
 > **Common setup (brand, conventions, env files, verification):** see [docs/skill-setup.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/docs/skill-setup.md).
 
@@ -27,7 +27,7 @@ alwaysApply: false
 
 ## Prerequisites
 
-- Auth in place (`/iblai-vibe-auth`, or vibe-starter).
+- Auth in place (`/iblai-ui-auth`, or vibe-starter).
 - <A real agent UUID — ask, never invent.> / <An admin account.> / <A server env var.>
 
 ## Step 1: <Verb the thing>
@@ -43,7 +43,7 @@ alwaysApply: false
 ## Verify
 
 1. `pnpm build` and `pnpm test` pass.
-2. Touch test `/<route>` in the browser as `/iblai-vibe-ops-test` says: sign in, <what must be
+2. Touch test `/<route>` in the browser as `/iblai-ui-ops-test` says: sign in, <what must be
    visible>; <each control this skill adds> does <what it should>; console clean; no sideways
    scroll at phone width.
 
@@ -68,8 +68,8 @@ REST reference: [<family>](https://raw.githubusercontent.com/iblai/vibe/refs/hea
 
 ## Related skills
 
-- `/iblai-vibe-<sibling>` — <why>
+- `/iblai-ui-<sibling>` — <why>
 
-<!-- Save this as `skills/<category>/iblai-vibe-<feature>/SKILL.md` — every skill lives under one of the ten category directories listed in `scripts/skill-categories.json` (start, agents, users, organizations, billing, monetization, analytics, content, ship, security). Installed skills are flattened to `.claude/skills/<name>/`, so never write the category into a `.claude/skills/…` path. -->
+<!-- Save this as `skills/<category>/iblai-ui-<feature>/SKILL.md` — every skill lives under one of the ten category directories listed in `scripts/skill-categories.json` (start, agents, users, organizations, billing, monetization, analytics, content, ship, security). Installed skills are flattened to `.claude/skills/<name>/`, so never write the category into a `.claude/skills/…` path. -->
 
 <!-- Budget: ≤ 400 lines (★ core families ≤ 500). Move long tables, troubleshooting, and brownfield notes to references/. Keep every code fence compilable — the render gate typechecks it. -->

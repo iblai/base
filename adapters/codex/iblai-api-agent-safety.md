@@ -8,7 +8,7 @@ Configure an agent's moderation and safety systems via the API: the moderation
 and safety enable flags, system prompts, and responses (all saved through the
 single `settings/` endpoint), plus reviewing and deleting flagged-prompt
 moderation logs. Use when setting guardrails or auditing flagged content. The UI
-twin is [`/iblai-vibe-agent-safety`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-safety/SKILL.md).
+twin is [`/iblai-ui-agent-safety`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-ui-agent-safety/SKILL.md).
 
 ## Auth & conventions
 

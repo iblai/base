@@ -3,7 +3,7 @@
 **Status: specification.** The client half (a script and a skill) ships in this
 repo; the hosted half is one page on `login.iblai.app` that the ibl.ai web team
 implements from this document. Until it exists, the client falls back to the
-manual path (`/iblai-vibe-ops-init`'s questions), so nothing breaks.
+manual path (`/iblai-ui-ops-init`'s questions), so nothing breaks.
 
 ## The problem it removes
 
@@ -110,7 +110,7 @@ skill accepts it and writes the files without echoing the token).
 
 ## The client (in this repo)
 
-`skills/start/iblai-vibe-connect/scripts/connect.mjs` (Node 18+, no dependencies):
+`skills/start/iblai-ui-connect/scripts/connect.mjs` (Node 18+, no dependencies):
 
 1. Starts an HTTP listener on `127.0.0.1:<random port>` with a 5-minute timeout.
 2. Opens `https://login.iblai.app/connect?callback=…&state=…&name=…[&origin=…]`
@@ -127,8 +127,8 @@ skill accepts it and writes the files without echoing the token).
    and exits. The token is never printed.
 5. `--paste` reads the manual-mode block from stdin instead of opening a browser.
 
-`/iblai-vibe-connect` is the skill that runs it and is what `/iblai-vibe-start`,
-`/iblai-vibe-ops-init`, and `/iblai-api-login` call first; if the script exits
+`/iblai-ui-connect` is the skill that runs it and is what `/iblai-ui-start`,
+`/iblai-ui-ops-init`, and `/iblai-api-login` call first; if the script exits
 with `HOSTED_PAGE_UNAVAILABLE` (a 404 on `/connect`), they fall back to their
 manual questions.
 
@@ -144,6 +144,6 @@ manual questions.
 
 ## What changes for users
 
-`/iblai-vibe-start` → *"Connect your ibl.ai organization"* → browser → click →
+`/iblai-ui-start` → *"Connect your ibl.ai organization"* → browser → click →
 back in the chat with the organization named and the files written. The
 platform lifecycle doc's steps 3–4 become one step.

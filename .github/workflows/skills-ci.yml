@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  STARTER_DIR: skills/start/iblai-vibe-ops-init/assets/vibe-starter
+  STARTER_DIR: skills/start/iblai-ui-ops-init/assets/vibe-starter
 
 jobs:
   # ---------------------------------------------------------------- tier 0/1/1.5
@@ -148,7 +148,7 @@ jobs:
         run: node scripts/test-skills-boot.mjs
 
   # ---------------------------------------------------------------- tier 1.9
-  # The Tauri shell /iblai-vibe-ops-build ships, compiled and run on Linux: fmt,
+  # The Tauri shell /iblai-ui-ops-build ships, compiled and run on Linux: fmt,
   # warnings denied, the guard tests, an AppImage, a headless run of the
   # navigation guard (scripts/test-tauri-shell.sh). Scoped like `deterministic`:
   # the label gate is a step, and the build runs only when the shell, this
@@ -172,7 +172,7 @@ jobs:
         env:
           BASE_REF: origin/${{ github.base_ref }}
         run: |
-          if git diff --name-only "$BASE_REF...HEAD" | grep -qE '^(skills/ship/iblai-vibe-ops-build/assets/|scripts/test-tauri-shell\.sh|\.github/workflows/skills-ci\.yml)'; then
+          if git diff --name-only "$BASE_REF...HEAD" | grep -qE '^(skills/ship/iblai-ui-ops-build/assets/|scripts/test-tauri-shell\.sh|\.github/workflows/skills-ci\.yml)'; then
             echo "shell=true" >> "$GITHUB_OUTPUT"
           else
             echo "shell=false" >> "$GITHUB_OUTPUT"
@@ -311,4 +311,4 @@ jobs:
           IBLAI_TEST_API_KEY: ${{ secrets.IBLAI_TEST_API_KEY }}
         run: |
           npm i -g @anthropic-ai/claude-code
-          ./scripts/test-skills-agent.sh iblai-vibe-auth iblai-vibe-navbar iblai-vibe-agent-chat
+          ./scripts/test-skills-agent.sh iblai-ui-auth iblai-ui-navbar iblai-ui-agent-chat

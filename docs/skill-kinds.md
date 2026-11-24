@@ -7,11 +7,11 @@ it produces. Both are enforced by `scripts/check-skill-kinds.mjs`.
 
 | `kind` | Prefix | What it does | What it produces | Credentials it uses | Count |
 |---|---|---|---|---|---|
-| **`ui`** | `iblai-vibe-*` | Mounts an SDK **visual component** in a Next.js app (a page, a tab, a dialog, a widget) | Files in your app: routes, components, providers; a screen you can screenshot | The signed-in user's session (SSO) in the browser; `IBLAI_API_KEY` only in server routes | 61 |
-| **`api`** | `iblai-api-*` (and three `iblai-vibe-*` that drive an API without a screen) | Operates the platform **headlessly** — exact REST endpoints (method, URL, body, errors), `curl` first | Nothing in your app unless you want it: the endpoint contract, a script, a CI job, a server route | `IBLAI_API_KEY` (Platform API Token) as `Authorization: Api-Token`; org key; username | 67 |
+| **`ui`** | `iblai-ui-*` | Mounts an SDK **visual component** in a Next.js app (a page, a tab, a dialog, a widget) | Files in your app: routes, components, providers; a screen you can screenshot | The signed-in user's session (SSO) in the browser; `IBLAI_API_KEY` only in server routes | 61 |
+| **`api`** | `iblai-api-*` (and three `iblai-ui-*` that drive an API without a screen) | Operates the platform **headlessly** — exact REST endpoints (method, URL, body, errors), `curl` first | Nothing in your app unless you want it: the endpoint contract, a script, a CI job, a server route | `IBLAI_API_KEY` (Platform API Token) as `Authorization: Api-Token`; org key; username | 67 |
 | **`guide`** | either | Orients and decides — an index, a decision page, a reference. Builds nothing | A pointer to the skill that builds | — | 15 |
-| **`ops`** | `iblai-vibe-ops-*` and friends | Runs, tests, builds, deploys, releases, upgrades, polishes | Builds, URLs, store submissions, a refreshed project | `IBLAI_API_KEY` for deploys | 11 |
-| **`security`** | `iblai-vibe-security-*` | Authorized-use security work unrelated to the platform | Reports | — | 8 |
+| **`ops`** | `iblai-ui-ops-*` and friends | Runs, tests, builds, deploys, releases, upgrades, polishes | Builds, URLs, store submissions, a refreshed project | `IBLAI_API_KEY` for deploys | 11 |
+| **`security`** | `iblai-ui-security-*` | Authorized-use security work unrelated to the platform | Reports | — | 8 |
 
 ## How to read a skill's frontmatter
 
@@ -25,7 +25,7 @@ metadata:
 ```
 
 - `kind: ui` — expect a screenshot near the top, `Step 1…n` that write files, a
-  **Verify** block ending in the browser touch test (`/iblai-vibe-ops-test`), and a **Platform data**
+  **Verify** block ending in the browser touch test (`/iblai-ui-ops-test`), and a **Platform data**
   table linking the `iblai-api-*` skill that documents the same data over REST.
 - `kind: api` — expect `## Auth & conventions`, `## Reads`, `## Writes`,
   `## Example` (one real `curl`), `## Notes`, and no mention of any UI. The
@@ -38,19 +38,19 @@ Most capabilities exist in both families. Pick by *where the code runs*:
 
 | Capability | Visual component (`ui`) | Headless (`api`) |
 |---|---|---|
-| Per-user custom data | `/iblai-vibe-user-metadata` | `/iblai-api-profile-metadata` |
-| Org settings | `/iblai-vibe-org-metadata`, `/iblai-vibe-account` | `/iblai-api-org` |
-| Users, roles, invites | `/iblai-vibe-admin`, `/iblai-vibe-invite`, `/iblai-vibe-rbac` | `/iblai-api-management`, `/iblai-api-rbac`, `/iblai-api-invite`, `/iblai-api-scim` |
-| Agent identity and capabilities | `/iblai-vibe-agent-setting` (+ `/iblai-vibe-agent` tabs) | `/iblai-api-agent-setting` (+ `iblai-api-agent-*`) |
-| Create an agent | `/iblai-vibe-agent-create` | `/iblai-api-agent-create` |
-| Chat with an agent | `/iblai-vibe-agent-chat` | `/iblai-api-agent-session`, `/iblai-api-agent-chat` (MCP), `/iblai-api-inference` |
-| Memory | `/iblai-vibe-memory-guide` → `memory`, `agent-memory` | `/iblai-api-agent-memory` |
-| Analytics | `/iblai-vibe-analytics`, `/iblai-vibe-agent-audit` | `/iblai-api-analytics` |
-| Notifications | `/iblai-vibe-notification` | `/iblai-api-notification` |
-| Billing, credits, spend caps, paywalls | `/iblai-vibe-pricing` → `credit`, `billing`, `monetization*` | `/iblai-api-billing`, `/iblai-api-spend-caps` |
-| Courses, catalog, credentials, applications | `/iblai-vibe-course-access`, `/iblai-vibe-application` | `/iblai-api-catalog`, `-course-create`, `-credential`, `-apply`, `-milestone`, `-catalog-media`, `-catalog-invitation` |
-| Deploying and hosting the app | `/iblai-vibe-ops-deploy` (a guided runbook, kind `ops` — not a component) | `/iblai-api-hosting` |
-| Anything without a component | `/iblai-vibe-api` (server route + `Api-Token`) | the `iblai-api-*` skill for that family |
+| Per-user custom data | `/iblai-ui-user-metadata` | `/iblai-api-profile-metadata` |
+| Org settings | `/iblai-ui-org-metadata`, `/iblai-ui-account` | `/iblai-api-org` |
+| Users, roles, invites | `/iblai-ui-admin`, `/iblai-ui-invite`, `/iblai-ui-rbac` | `/iblai-api-management`, `/iblai-api-rbac`, `/iblai-api-invite`, `/iblai-api-scim` |
+| Agent identity and capabilities | `/iblai-ui-agent-setting` (+ `/iblai-ui-agent` tabs) | `/iblai-api-agent-setting` (+ `iblai-api-agent-*`) |
+| Create an agent | `/iblai-ui-agent-create` | `/iblai-api-agent-create` |
+| Chat with an agent | `/iblai-ui-agent-chat` | `/iblai-api-agent-session`, `/iblai-api-agent-chat` (MCP), `/iblai-api-inference` |
+| Memory | `/iblai-ui-memory-guide` → `memory`, `agent-memory` | `/iblai-api-agent-memory` |
+| Analytics | `/iblai-ui-analytics`, `/iblai-ui-agent-audit` | `/iblai-api-analytics` |
+| Notifications | `/iblai-ui-notification` | `/iblai-api-notification` |
+| Billing, credits, spend caps, paywalls | `/iblai-ui-pricing` → `credit`, `billing`, `monetization*` | `/iblai-api-billing`, `/iblai-api-spend-caps` |
+| Courses, catalog, credentials, applications | `/iblai-ui-course-access`, `/iblai-ui-application` | `/iblai-api-catalog`, `-course-create`, `-credential`, `-apply`, `-milestone`, `-catalog-media`, `-catalog-invitation` |
+| Deploying and hosting the app | `/iblai-ui-ops-deploy` (a guided runbook, kind `ops` — not a component) | `/iblai-api-hosting` |
+| Anything without a component | `/iblai-ui-api` (server route + `Api-Token`) | the `iblai-api-*` skill for that family |
 
 Rule of thumb: **in the browser, use the SDK hook or component** (it carries
 the user's session and permissions); **on a server, in CI, or in a script,
@@ -61,7 +61,7 @@ use the `api` skill** (it carries the org's authority).
 | | `ui` skills | `api` skills |
 |---|---|---|
 | Where the values live | `iblai.env` (`DOMAIN`, `PLATFORM`, `TOKEN`, `IBLAI_USERNAME`) → mapped into `.env.local` (`NEXT_PUBLIC_MAIN_TENANT_KEY`, `IBLAI_API_KEY`) | `.env` (`IBLAI_ORG`, `IBLAI_USERNAME`, `IBLAI_API_KEY`) — **the same three values** under the names the endpoints use |
-| How they get there | `/iblai-vibe-ops-init` | `/iblai-api-login` (writes both files) |
+| How they get there | `/iblai-ui-ops-init` | `/iblai-api-login` (writes both files) |
 | Mapping | `IBLAI_ORG` = `PLATFORM` = `NEXT_PUBLIC_MAIN_TENANT_KEY` · `IBLAI_API_KEY` = `TOKEN` · base URL `https://api.$DOMAIN` (default `iblai.app`) | |
 
 One shell snippet loads either file (from [api-skills.md](api-skills.md)):
