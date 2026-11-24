@@ -7,7 +7,7 @@
 
 Ship AI-powered apps fast — and run the platform behind them. Backend included.
 
-[![Release](https://img.shields.io/github/v/release/iblai/vibe?label=skills%20release)](https://github.com/iblai/vibe/releases/latest)
+[![Release](https://img.shields.io/github/v/release/iblai/vibe?label=skills%20release)](https://github.com/iblai/base/releases/latest)
 [![Skills](https://img.shields.io/badge/skills-164_%C2%B7_ui_63_%C2%B7_api_67-CC785C)](docs/skill-kinds.md)
 [![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -44,86 +44,6 @@ then `/plugin install iblai-vibe@iblai`.
 **2. Say hello.**
 
 ```text
-/iblai-vibe-connect
-/iblai-vibe-auth
-/iblai-vibe-agent-chat
-/iblai-vibe-project
-/iblai-vibe-profile
-/iblai-vibe-account
-/iblai-vibe-analytics
-/iblai-vibe-notification
-/iblai-vibe-invite
-/iblai-vibe-workflow
-/iblai-vibe-local-llm
-/iblai-vibe-course-access
-/iblai-vibe-course-create
-/iblai-vibe-onboard
-/iblai-build
-/iblai-test
-/iblai-vibe-ops-upgrade
-/iblai-vibe-rbac
-/iblai-vibe-agent-search
-/iblai-vibe-agent-setting
-/iblai-vibe-agent-access
-/iblai-vibe-agent-api
-/iblai-vibe-agent-dataset
-/iblai-vibe-agent-disclaimer
-/iblai-vibe-agent-embed
-/iblai-vibe-agent-history
-/iblai-vibe-agent-llm
-/iblai-vibe-agent-memory
-/iblai-vibe-agent-prompt
-/iblai-vibe-agent-safety
-/iblai-vibe-agent-task
-/iblai-vibe-agent-tool
-```
-
-What each skill does:
-
-- `/iblai-vibe-connect` -- connects the project to an ibl.ai organization via a one-click browser flow, writing the org key + a minted API token into the env files (the token never passes through the chat). Runs first, before building.
-- `/iblai-vibe-auth` -- adds authentication and configures the app for ibl.ai login.
-- `/iblai-vibe-agent-chat` -- adds the full in-process agent chat surface.
-- `/iblai-vibe-project` -- adds the in-process Projects surface (project landing page with chat input, files, instructions, assigned agents).
-- `/iblai-vibe-profile` -- adds profile UI and profile settings flows.
-- `/iblai-vibe-account` -- adds account and organization settings.
-- `/iblai-vibe-analytics` -- adds analytics dashboards and reporting views.
-- `/iblai-vibe-notification` -- adds notifications UI and notification center flows.
-- `/iblai-vibe-invite` -- adds user invitation dialogs for tenant admin.
-- `/iblai-vibe-workflow` -- adds agent workflows: the organization's list (opened from an agent) and the visual editor (`WorkflowsList`, `WorkflowEditor`).
-- `/iblai-vibe-local-llm` -- defines the contract for adding on-device LLM inference (Ollama / Foundry) to a Tauri desktop build: Tauri command names, event names, and the React hook shape the SDK consumes via `localLLMProps`.
-- `/iblai-vibe-course-access` -- adds edX course-content pages with outline sidebar, tab strip, iframe, and access control.
-- `/iblai-vibe-course-create` -- drives the ibl.ai Course Creation API to programmatically generate, edit, and publish edX courses.
-- `/iblai-vibe-onboard` -- designs and builds a high-converting questionnaire-style onboarding flow.
-- `/iblai-vibe-ops-build` -- builds and runs the app on desktop and mobile (macOS, Windows x64 + ARM64 / Surface, Linux, iOS, Android).
-- `/iblai-vibe-ops-test` -- builds, tests and touch tests the app in a real browser before it is presented to the user.
-- `/iblai-vibe-ops-upgrade` -- upgrades the `@iblai/iblai-js` SDK and vibe skills to the latest versions.
-- `/iblai-vibe-scaffold` -- scaffolds a new app or adds features; holds the base + agent project templates and documents the assembly steps.
-- `/iblai-vibe-iconography` -- generates every app-icon size (Tauri desktop, iOS, Windows MSIX, macOS) from a single source image.
-- `/iblai-vibe-windows-msix` -- builds and distributes a Tauri app as a Windows MSIX package (sideloading or Microsoft Store).
-- `/iblai-vibe-deslop` -- audits and hardens an existing codebase for production readiness (two-phase audit then safety-tiered fixes).
-- `/iblai-vibe-rbac` -- reference for the default RBAC roles (student, tenant admin, mentor editor, analytics viewer, etc.), the platform's action-definitions endpoint, and the SDK components (`<Admin>`, `<RolesTab>`, `<PoliciesTab>`) that render the Roles + Policies management UI.
-- `/iblai-vibe-agent-search` -- adds the agent search/browse page (starred, featured, custom, and default agents).
-- `/iblai-vibe-agent-setting` -- adds the agent Settings tab (Basic, Discovery, Capabilities and Welcome Screen sub-tabs, plus copy and delete) built on `AgentSettingsProvider`.
-- `/iblai-vibe-agent-access` -- adds the agent Access tab (role-based access control for editor and chat roles).
-- `/iblai-vibe-agent-api` -- adds the agent API tab (API key management).
-- `/iblai-vibe-agent-dataset` -- adds the agent Datasets tab (searchable dataset table with upload).
-- `/iblai-vibe-agent-disclaimer` -- adds the agent Disclaimers tab (user agreement and advisory).
-- `/iblai-vibe-agent-embed` -- adds the agent Embed tab (embed code, custom styling, shareable links).
-- `/iblai-vibe-agent-history` -- adds the agent History tab (conversation history with filters and export).
-- `/iblai-vibe-agent-llm` -- adds the agent LLM tab (model provider selection).
-- `/iblai-vibe-agent-memory` -- adds the agent Memory tab (enable/disable memory and manage memories).
-- `/iblai-vibe-agent-prompt` -- adds the agent Prompts tab (system prompts and suggested prompts).
-- `/iblai-vibe-agent-safety` -- adds the agent Safety tab (moderation prompts and flagged content).
-- `/iblai-vibe-agent-task` -- adds the agent Tasks tab (schedule automated periodic agent tasks with run logs).
-- `/iblai-vibe-agent-tool` -- adds the agent Tools tab (enable/disable agent tools).
-
-
-### Security Skills
-
-8 authorized-use security skills covering reconnaissance, source-code
-audits (OWASP Top 10), OSINT, disk forensics, incident triage, cloud
-configuration auditing, dependency vulnerabilities, and prompt-injection
-testing. 
 /iblai-vibe-start
 ```
 
@@ -299,7 +219,7 @@ Skills are in `skills/` (symlinked to `.claude/skills/`). Read them, extend them
 ### Vercel (recommended)
 
 One-click deploy. Connect your repo, set your environment variables, and push.
-Or deploy with the `vercel` CLI -- see [`/iblai-vibe-ops-deploy`](skills/iblai-vibe-ops-deploy/SKILL.md):
+Or deploy with the `vercel` CLI -- see [`/iblai-vibe-ops-deploy`](skills/ship/iblai-vibe-ops-deploy/SKILL.md):
 
 ```bash
 npx vercel deploy --prod --token="$VERCEL_TOKEN" --yes --public

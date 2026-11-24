@@ -436,7 +436,7 @@ Full rationale, on-disk layout, and the agent's environment:
 | `GET …/orgs/{org}/agent-skills/`, `…/agents/{uuid}/skills/`, `…/agent-skill-resources/` | the agent's skills synced to disk — [`/iblai-api-agent-skill`](../iblai-api-agent-skill/SKILL.md) |
 | `POST {dm}/api/core/platform/api-tokens/` (by `platform_api_key`) | the scoped `IBLAI_API_KEY` — [`/iblai-api-token`](../../organizations/iblai-api-token/SKILL.md) |
 | `GET/POST {dm}/api/core/users/platform-metadata/` (`code_mode.permission_mode`) | approval mode following the user — [`/iblai-api-profile-metadata`](../../users/iblai-api-profile-metadata/SKILL.md) |
-| `https://github.com/iblai/vibe/releases/latest` | the vibe skills the agent gets, resolved at every launch |
+| `https://github.com/iblai/base/releases/latest` | the vibe skills the agent gets, resolved at every launch |
 | `https://github.com/sst/opencode/releases`, `https://nodejs.org/dist/`, the npm registry | opencode, and the Node runtime and ACP adapters for Codex and Claude Code |
 
 ## Related skills

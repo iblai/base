@@ -172,7 +172,7 @@ shape surprises you, work through them in this order:
    schema and types disagree, the SDK is stale.
 3. **File an issue.** If the deployed behavior contradicts both schema and
    SDK, that's a backend bug — open it at
-   `https://github.com/iblai/vibe/issues` with the path, method, expected
+   `https://github.com/iblai/base/issues` with the path, method, expected
    schema ref, and actual response body.
 
 ## Authentication note

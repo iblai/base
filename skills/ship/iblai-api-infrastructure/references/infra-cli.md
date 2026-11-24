@@ -5,7 +5,7 @@ own infrastructure**. It does end-to-end AWS infrastructure creation with **Terr
 plus full application setup with **Ansible** — and it can also bootstrap an existing
 server on any cloud or bare metal, no Terraform involved.
 
-- **Repo:** [github.com/iblai/iblai-infra-cli](https://github.com/iblai/iblai-infra-cli)
+- **Repo:** [github.com/iblai/infra-cli](https://github.com/iblai/infra-cli)
 - **Stack:** Python 3.11+ · Terraform · Ansible · proprietary license.
 - **Who it's for:** platform engineers doing self-hosted or sovereign deployments.
   Access to the ibl.ai Docker images and platform codebase requires a license — see
@@ -13,7 +13,7 @@ server on any cloud or bare metal, no Terraform involved.
 
 In the five-repo family this is the **deployment layer**: it stands up the backend
 that the `iblai-api-*` skills operate headlessly over REST,
-[`iblai/vibe`](https://github.com/iblai/vibe) builds apps on, and
+[`iblai/vibe`](https://github.com/iblai/base) builds apps on, and
 [`iblai/os`](https://github.com/iblai/os) + [`iblai/lms`](https://github.com/iblai/lms)
 ship as complete sample apps.
 
@@ -35,7 +35,7 @@ Using uv (recommended):
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh   # if you don't have uv
-git clone https://github.com/iblai/iblai-infra-cli.git
+git clone https://github.com/iblai/infra-cli.git
 cd iblai-infra-cli
 uv venv
 source .venv/bin/activate

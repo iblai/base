@@ -1,6 +1,6 @@
 # Building apps on ibl.ai — vibe + app-cli
 
-This is the **build layer** in depth: how [iblai/vibe](https://github.com/iblai/vibe)
+This is the **build layer** in depth: how [iblai/vibe](https://github.com/iblai/base)
 and the `iblai-app-cli` scaffolder let you (and your AI agent) go from zero to a
 deployed AI app on the ibl.ai backend in minutes — with authentication, AI chat,
 profiles, notifications, and analytics already wired up. Unlike this repo
@@ -52,9 +52,9 @@ run in Docker).
 > **On the CLI's home:** `iblai-app-cli` is a command-line scaffolding tool that
 > generates ibl.ai frontend applications with Next.js and React, providing project
 > templates, component libraries, and configuration presets. Its authoritative repo is
-> **[github.com/iblai/vibe](https://github.com/iblai/vibe)** (the docs also reference
+> **[github.com/iblai/base](https://github.com/iblai/base)** (the docs also reference
 > it as `iblai/iblai-app-cli`). To work on the CLI itself: `git clone
-> https://github.com/iblai/vibe.git && cd vibe`, then run it to scaffold an app.
+> https://github.com/iblai/base.git && cd vibe`, then run it to scaffold an app.
 
 ## AI-assisted development (the `@iblai/mcp` dev server)
 
@@ -212,7 +212,7 @@ iblai builds ci-workflow --all   # GitHub Actions for all platforms
 
 ## Resources
 
-- **[github.com/iblai/vibe](https://github.com/iblai/vibe)** — the repo (SDK, skills,
+- **[github.com/iblai/base](https://github.com/iblai/base)** — the repo (SDK, skills,
   and the `iblai-app-cli` scaffolder).
 - **[@iblai/iblai-js](https://www.npmjs.com/package/@iblai/iblai-js)** — unified SDK
   (data, UI components, auth utilities).

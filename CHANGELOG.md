@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the [vibe](https://github.com/iblai/vibe) toolkit.
+All notable changes to the [vibe](https://github.com/iblai/base) toolkit.
 
 
 ## [2.27.0] - 2026-11-23

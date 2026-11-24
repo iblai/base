@@ -10,7 +10,7 @@ The app you actually need on ibl.ai — sign-in, an agent to talk to, users and 
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-CC785C?logoColor=white)](https://claude.ai)
-[![Desktop & Mobile](https://img.shields.io/badge/Desktop_%26_Mobile-supported-blue)](https://github.com/iblai/vibe/blob/main/skills/ship/iblai-vibe-ops-build/SKILL.md)
+[![Desktop & Mobile](https://img.shields.io/badge/Desktop_%26_Mobile-supported-blue)](https://github.com/iblai/base/blob/main/skills/ship/iblai-vibe-ops-build/SKILL.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license)
 
 </div>
@@ -22,7 +22,7 @@ The app you actually need on ibl.ai — sign-in, an agent to talk to, users and 
 ## Quick Start
 
 This project was scaffolded from the vibe-starter template bundled with
-[iblai/vibe](https://github.com/iblai/vibe) (the `/iblai-vibe-ops-init` skill).
+[iblai/vibe](https://github.com/iblai/base) (the `/iblai-vibe-ops-init` skill).
 
 Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_MAIN_TENANT_KEY` —
 the API/auth/websocket URLs default to hosted iblai.app in
@@ -38,7 +38,7 @@ pnpm dev
 > Always run `pnpm install` with `--ignore-scripts` to skip package
 > lifecycle (postinstall) scripts.
 
-Open [http://localhost:3000](http://localhost:3000). Unauthenticated users are redirected to `https://login.iblai.app` and returned with a session. The first admin to sign in lands on `/setup` to name the app and pick or create its agent. Every origin the app runs on (localhost, the deployed URL) must be in the org's allowed redirect origins, or sign-in never comes back — see [platform-lifecycle.md](https://github.com/iblai/vibe/blob/main/docs/platform-lifecycle.md).
+Open [http://localhost:3000](http://localhost:3000). Unauthenticated users are redirected to `https://login.iblai.app` and returned with a session. The first admin to sign in lands on `/setup` to name the app and pick or create its agent. Every origin the app runs on (localhost, the deployed URL) must be in the org's allowed redirect origins, or sign-in never comes back — see [platform-lifecycle.md](https://github.com/iblai/base/blob/main/docs/platform-lifecycle.md).
 
 ## What is Vibe Starter
 
@@ -195,7 +195,7 @@ create_page_template("Dashboard", "mentor")   # Generate a page following ibl.ai
 | Credit Balance | Yes | Yes | Yes | Yes | Yes |
 | Admin area | Yes | Yes | Yes | Yes | Yes |
 
-> **iOS & Android SSO:** mobile WebViews are rejected by SSO providers, so the Tauri shell opens sign-in in the system browser (ASWebAuthenticationSession on iOS, Chrome Custom Tabs on Android) and returns through a deep link. Set `TAURI_CUSTOM_SCHEME` in `iblai.env` — see [`/iblai-vibe-ops-build`](https://github.com/iblai/vibe/blob/main/skills/ship/iblai-vibe-ops-build/SKILL.md) “Mobile SSO”.
+> **iOS & Android SSO:** mobile WebViews are rejected by SSO providers, so the Tauri shell opens sign-in in the system browser (ASWebAuthenticationSession on iOS, Chrome Custom Tabs on Android) and returns through a deep link. Set `TAURI_CUSTOM_SCHEME` in `iblai.env` — see [`/iblai-vibe-ops-build`](https://github.com/iblai/base/blob/main/skills/ship/iblai-vibe-ops-build/SKILL.md) “Mobile SSO”.
 
 ## Brand
 
@@ -239,7 +239,7 @@ pnpm exec tauri ios init      # iOS project setup
 
 ## Resources
 
-- [Vibe](https://github.com/iblai/vibe) — the full developer toolkit and skill source
+- [Vibe](https://github.com/iblai/base) — the full developer toolkit and skill source
 - [@iblai/iblai-js](https://www.npmjs.com/package/@iblai/iblai-js) — unified SDK for data, UI components, and auth utilities
 - [@iblai/iblai-api](https://www.npmjs.com/package/@iblai/iblai-api) — auto-generated API types
 - [@iblai/mcp](https://www.npmjs.com/package/@iblai/mcp) — MCP server for AI-assisted development

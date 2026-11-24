@@ -86,8 +86,8 @@ When the project has its own design system:
 If you find none of the signals above, the project has no design
 system yet — use the patterns in **Layout & Page Patterns** as the
 starting point. Those defaults are derived from
-[vibe-starter](https://github.com/iblai/vibe/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) and the
-reference apps in [`iblai/vibe`](https://github.com/iblai/vibe).
+[vibe-starter](https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) and the
+reference apps in [`iblai/vibe`](https://github.com/iblai/base).
 
 ### Tell the user what you detected
 
@@ -123,7 +123,7 @@ if those assets are not installed (tell the user which path you took):
 ```bash
 cp -a <skills-dir>/iblai-vibe-ops-init/assets/vibe-starter/. .
 # or, without local assets:
-git clone --depth 1 https://github.com/iblai/vibe.git vibe-tmp && cp -a vibe-tmp/skills/start/iblai-vibe-ops-init/assets/vibe-starter/. . && rm -rf vibe-tmp
+git clone --depth 1 https://github.com/iblai/base.git vibe-tmp && cp -a vibe-tmp/skills/start/iblai-vibe-ops-init/assets/vibe-starter/. . && rm -rf vibe-tmp
 
 pnpm install --ignore-scripts
 ```

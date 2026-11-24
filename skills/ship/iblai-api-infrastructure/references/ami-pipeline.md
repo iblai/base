@@ -139,7 +139,7 @@ when tests fail. VPC, ALB, Route53, and S3 persist for the next launch.
 
 | Repo | Role |
 | --- | --- |
-| [`iblai-infra-cli`](https://github.com/iblai/iblai-infra-cli) | CLI with `service-update`, Ansible playbooks, Terraform templates |
+| [`iblai-infra-cli`](https://github.com/iblai/infra-cli) | CLI with `service-update`, Ansible playbooks, Terraform templates |
 | `iblai-web-ops` | Reusable GitHub Actions workflows (OCI test runner, Docker builds, domain locking) |
 | `iblai-prod-images` | Container image version pins (DM, edX, SPAs) |
 | `mentorai` | SPA source, Playwright tests, PR-validation workflows |

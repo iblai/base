@@ -1,6 +1,6 @@
 # iblai-vibe
 
-> Start here for anything on the ibl.ai platform — the map from what you want (a new app; users and admins; custom user or organization data; agents; memory; analytics; charging users; iOS, Android, macOS, Windows; operating the platform headlessly from a terminal or CI; anything with no component) to the skill that does it. Use when the user mentions ibl.ai, iblai, or vibe, points an agent at github.com/iblai/vibe, asks where a capability lives, which skill to use, whether a skill has a UI, or how to build or operate agents, users, organizations, memories, analytics, or billing. Two families in one install — iblai-vibe-* (visual components, build, ship) and iblai-api-* (headless REST) — plus the sibling repos iblai/os (reference app) and iblai/vibe-marketing.
+> Start here for anything on the ibl.ai platform — the map from what you want (a new app; users and admins; custom user or organization data; agents; memory; analytics; charging users; iOS, Android, macOS, Windows; operating the platform headlessly from a terminal or CI; anything with no component) to the skill that does it. Use when the user mentions ibl.ai, iblai, or vibe, points an agent at github.com/iblai/base, asks where a capability lives, which skill to use, whether a skill has a UI, or how to build or operate agents, users, organizations, memories, analytics, or billing. Two families in one install — iblai-vibe-* (visual components, build, ship) and iblai-api-* (headless REST) — plus the sibling repos iblai/os (reference app) and iblai/vibe-marketing.
 
 # /iblai-vibe
 
@@ -52,7 +52,7 @@ eight rows wired.
 
 | Repo | What it holds | Get it |
 |---|---|---|
-| [`iblai/vibe`](https://github.com/iblai/vibe) (this repo) | Both families: `iblai-vibe-*` for building frontend apps (vibe-starter, SSO, chat, admin, metadata, memory, analytics, billing, deploy/build/release) and `iblai-api-*` for operating every platform REST family headlessly (formerly `iblai/api`), plus the hosted chat MCP server (`mcp/`) and `tutorials/` | `npx skills add iblai/vibe --all` |
+| [`iblai/vibe`](https://github.com/iblai/base) (this repo) | Both families: `iblai-vibe-*` for building frontend apps (vibe-starter, SSO, chat, admin, metadata, memory, analytics, billing, deploy/build/release) and `iblai-api-*` for operating every platform REST family headlessly (formerly `iblai/api`), plus the hosted chat MCP server (`mcp/`) and `tutorials/` | `npx skills add iblai/vibe --all` |
 | [`iblai/os`](https://github.com/iblai/os) | The Agentic OS ([os.ibl.ai](https://os.ibl.ai)) — the reference app built on this SDK, and your org's admin console until your app has one | clone / browse |
 | [`iblai/vibe-agent`](https://github.com/iblai/vibe-agent) | A finished one-agent app with its own Stripe paywall — the model for "one creator, one agent, one price" | clone |
 | [`iblai/vibe-marketing`](https://github.com/iblai/vibe-marketing) | 43 marketing skills + platform CLIs | `npx skills add iblai/vibe-marketing` |
@@ -62,11 +62,11 @@ eight rows wired.
 Installed skills are a copy. Re-run `npx skills add iblai/vibe --all` (or
 `/iblai-vibe-ops-upgrade`) when your `.claude/skills/iblai-vibe/SKILL.md` is
 older than two weeks or older than the
-[latest release](https://github.com/iblai/vibe/releases/latest).
+[latest release](https://github.com/iblai/base/releases/latest).
 
 ## Key links
 
-- [CLAUDE.md](https://github.com/iblai/vibe/blob/main/CLAUDE.md) — agent guidance, the tiered skill catalogue
+- [CLAUDE.md](https://github.com/iblai/base/blob/main/CLAUDE.md) — agent guidance, the tiered skill catalogue
 - [docs/platform-lifecycle.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/docs/platform-lifecycle.md) — join → org → credentials → credits → ship
 - [docs/security-model.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/docs/security-model.md) — where each credential lives and why
 - [docs/auth-model.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/docs/auth-model.md) — sign-in, organizations, single-org / multi-org / headless · [docs/domain-model.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/docs/domain-model.md) — users, agents, organizations

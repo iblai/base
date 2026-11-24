@@ -31,7 +31,7 @@ the source root) into the active workspace `skills/`. To install every skill
 in this repo, clone it and loop over the skill directories:
 
 ```bash
-git clone https://github.com/iblai/vibe.git
+git clone https://github.com/iblai/base.git
 cd vibe
 
 # one skill

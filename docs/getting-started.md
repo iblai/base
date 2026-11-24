@@ -94,7 +94,7 @@ Builders use both: the `ui` skill mounts the component, its **Platform data**
 table names the `api` twin for anything the component doesn't cover, and
 [`/iblai-vibe-api`](../skills/start/iblai-vibe-api/SKILL.md) is the server-route pattern
 that joins them. The `iblai-api-*` family is the former
-[`iblai/api`](https://github.com/iblai/vibe/tree/main/skills) repository, merged
+[`iblai/api`](https://github.com/iblai/base/tree/main/skills) repository, merged
 here with its authoring contract intact — [docs/api-skills.md](api-skills.md).
 
 ### Headless API skills (`kind: api`)
@@ -116,7 +116,7 @@ username, Platform API Token → `.env` + `iblai.env`), then any skill below is 
 
 Every name above is `/iblai-api-<name>`.
 
-The full, tiered catalogue with one-line descriptions is in [`CLAUDE.md`](CLAUDE.md#skill-catalogue-by-tier).
+The full, tiered catalogue with one-line descriptions is in [`CLAUDE.md`](../CLAUDE.md#skill-catalogue-by-tier).
 Skills are in `skills/`; `npx skills add` installs them into your project's
 `.claude/skills/`. Read them, extend them, or write your own — the front door
 for agents is [`/iblai-vibe`](../skills/start/iblai-vibe/SKILL.md).

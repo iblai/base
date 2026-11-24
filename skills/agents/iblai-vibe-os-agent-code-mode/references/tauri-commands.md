@@ -127,7 +127,7 @@ control and the hooks.
   "Open in …" button.
 
 ### `ensure_vibe_skills`
-- Resolves `github.com/iblai/vibe/releases/latest` and syncs the release's
+- Resolves `github.com/iblai/base/releases/latest` and syncs the release's
   `skills/` into `~/.local/share/iblai/skills/vibe/` when the tag moved.
   **Returns** `{ present, refreshed }`. Called at launch and on Code enable;
   the button shows an amber note while it is absent.
