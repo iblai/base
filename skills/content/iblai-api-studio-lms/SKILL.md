@@ -1,6 +1,6 @@
 ---
 name: iblai-api-studio-lms
-description: Verify and operate the LMS side of an Open edX course built on Studio — the calls the lms.ibl.ai LMS app makes against the LMS API: enroll yourself or (as course staff) other users, check enrollment status, list a course's users, read the published outline and blocks as a user, read course details and the merged course metadata the catalog shows, and progress/grading as seen by users. Use after publishing to confirm what users see, to enroll test users, or when the user asks "is it in the catalog / can students see it". Session auth via studio.env (LMS cookies).
+description: "Verify and operate the LMS side of an Open edX course built on Studio — the calls the lms.ibl.ai LMS app makes against the LMS API: enroll yourself or (as course staff) other users, check enrollment status, list a course's users, read the published outline and blocks as a user, read course details and the merged course metadata the catalog shows, and progress/grading as seen by users. Use after publishing to confirm what users see, to enroll test users, or when the user asks 'is it in the catalog / can students see it'. Session auth via studio.env (LMS cookies)."
 metadata:
   kind: api
 ---

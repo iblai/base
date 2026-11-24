@@ -85,6 +85,10 @@ jobs:
           DIRS: ${{ steps.changed.outputs.dirs }}
         run: bash scripts/validate-skills.sh $DIRS
 
+      - name: npx skills add offers every skill
+        if: steps.changed.outputs.full == 'true' || steps.changed.outputs.any_skill == 'true'
+        run: bash scripts/check-skills-install.sh
+
       - name: SDK pin drift
         env:
           FILES: ${{ steps.changed.outputs.files }}

@@ -1,6 +1,6 @@
 ---
 name: iblai-api-management
-description: Administer an ibl.ai organization via the platform API - manage Users (list, activate, promote/demote, bulk role sync, set policies), edX roles (full catalog: global/course/org), Groups, RBAC Roles and Policies, Teams (user-groups + team access), and Alerts (watched groups/users/watchers). Use for organization-level user and access administration.
+description: "Administer an ibl.ai organization via the platform API - manage Users (list, activate, promote/demote, bulk role sync, set policies), edX roles (full catalog: global/course/org), Groups, RBAC Roles and Policies, Teams (user-groups + team access), and Alerts (watched groups/users/watchers). Use for organization-level user and access administration."
 metadata:
   kind: api
 ---
