@@ -52,7 +52,7 @@ eight rows wired.
 
 | Repo | What it holds | Get it |
 |---|---|---|
-| [`iblai/vibe`](https://github.com/iblai/base) (this repo) | Both families: `iblai-vibe-*` for building frontend apps (vibe-starter, SSO, chat, admin, metadata, memory, analytics, billing, deploy/build/release) and `iblai-api-*` for operating every platform REST family headlessly (formerly `iblai/api`), plus the hosted chat MCP server (`mcp/`) and `tutorials/` | `npx skills add iblai/vibe --all` |
+| [`iblai/base`](https://github.com/iblai/base) (this repo) | Both families: `iblai-vibe-*` for building frontend apps (vibe-starter, SSO, chat, admin, metadata, memory, analytics, billing, deploy/build/release) and `iblai-api-*` for operating every platform REST family headlessly (formerly `iblai/api`), plus the hosted chat MCP server (`mcp/`) and `tutorials/` | `npx skills add iblai/vibe --all` |
 | [`iblai/os`](https://github.com/iblai/os) | The Agentic OS ([os.ibl.ai](https://os.ibl.ai)) — the reference app built on this SDK, and your org's admin console until your app has one | clone / browse |
 | [`iblai/vibe-agent`](https://github.com/iblai/vibe-agent) | A finished one-agent app with its own Stripe paywall — the model for "one creator, one agent, one price" | clone |
 | [`iblai/vibe-marketing`](https://github.com/iblai/vibe-marketing) | 43 marketing skills + platform CLIs | `npx skills add iblai/vibe-marketing` |

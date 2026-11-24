@@ -317,7 +317,7 @@ record the answers here:
 | "tests", "before you show me", "is it done?" | `/iblai-vibe-ops-test` — `pnpm build`, `pnpm test`, then its touch test: the route in a real browser, every control you added, the console, the phone width |
 
 **Freshness rule:** the installed skills are a copy of
-[iblai/vibe](https://github.com/iblai/base), which changes often. If
+[iblai/base](https://github.com/iblai/base), which changes often. If
 `.claude/skills/iblai-vibe/SKILL.md` is older than 14 days or older than the
 latest release, suggest `/iblai-vibe-ops-upgrade` before substantial work.
 

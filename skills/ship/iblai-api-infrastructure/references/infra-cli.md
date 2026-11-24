@@ -13,7 +13,7 @@ server on any cloud or bare metal, no Terraform involved.
 
 In the five-repo family this is the **deployment layer**: it stands up the backend
 that the `iblai-api-*` skills operate headlessly over REST,
-[`iblai/vibe`](https://github.com/iblai/base) builds apps on, and
+[`iblai/base`](https://github.com/iblai/base) builds apps on, and
 [`iblai/os`](https://github.com/iblai/os) + [`iblai/lms`](https://github.com/iblai/lms)
 ship as complete sample apps.
 
@@ -36,7 +36,7 @@ Using uv (recommended):
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh   # if you don't have uv
 git clone https://github.com/iblai/infra-cli.git
-cd iblai-infra-cli
+cd infra-cli
 uv venv
 source .venv/bin/activate
 uv pip install .

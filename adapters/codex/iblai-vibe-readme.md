@@ -6,7 +6,7 @@
 
 Write or refresh the project's `README.md` in the standard ibl.ai format —
 the same shape used by [vibe-starter](https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter)
-and the reference apps in [`iblai/vibe`](https://github.com/iblai/base).
+and the reference apps in [`iblai/base`](https://github.com/iblai/base).
 The README tells humans what the project is, how to run it, how to build
 native shells, how to ship releases, and how to contribute — with
 consistent section headings, badges, and conventions across every ibl.ai
@@ -325,7 +325,7 @@ After writing the file, tell the user:
   against the latest `main` of that repo and pull through structural
   changes.
 - **Do not reference internal repos.** Only the public, open-source
-  [`iblai/vibe`](https://github.com/iblai/base) repository (including the
+  [`iblai/base`](https://github.com/iblai/base) repository (including the
   bundled vibe-starter under `skills/start/iblai-vibe-ops-init/assets/`) is
   citable from a generated README.
 - **No marketing prose:** Keep claims grounded in what the codebase

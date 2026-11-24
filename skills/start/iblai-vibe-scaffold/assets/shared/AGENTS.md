@@ -193,7 +193,7 @@ Browse: https://shadcnspace.com/blocks
 
 ## ibl.ai Resources
 
-- [`iblai/vibe`](https://github.com/iblai/base) — the skills, SDK, and templates this app is built on
+- [`iblai/base`](https://github.com/iblai/base) — the skills, SDK, and templates this app is built on
 - [vibe-starter](https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) — the pre-wired starter template (bundled with the `iblai-vibe-ops-init` skill)
 - [`@iblai/iblai-js`](https://www.npmjs.com/package/@iblai/iblai-js) — the SDK (auth, chat, UI, data layer)
 - [BRAND.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/BRAND.md) — ibl.ai brand identity and design tokens

@@ -89,7 +89,7 @@ If you find none of the signals above, the project has no design
 system yet — use the patterns in **Layout & Page Patterns** as the
 starting point. Those defaults are derived from
 [vibe-starter](https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) and the
-reference apps in [`iblai/vibe`](https://github.com/iblai/base).
+reference apps in [`iblai/base`](https://github.com/iblai/base).
 
 ### Tell the user what you detected
 

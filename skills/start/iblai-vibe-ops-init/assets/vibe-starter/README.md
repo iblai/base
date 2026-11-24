@@ -22,7 +22,7 @@ The app you actually need on ibl.ai — sign-in, an agent to talk to, users and 
 ## Quick Start
 
 This project was scaffolded from the vibe-starter template bundled with
-[iblai/vibe](https://github.com/iblai/base) (the `/iblai-vibe-ops-init` skill).
+[iblai/base](https://github.com/iblai/base) (the `/iblai-vibe-ops-init` skill).
 
 Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_MAIN_TENANT_KEY` —
 the API/auth/websocket URLs default to hosted iblai.app in

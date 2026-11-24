@@ -1,6 +1,6 @@
 # Building apps on ibl.ai — vibe + app-cli
 
-This is the **build layer** in depth: how [iblai/vibe](https://github.com/iblai/base)
+This is the **build layer** in depth: how [iblai/base](https://github.com/iblai/base)
 and the `iblai-app-cli` scaffolder let you (and your AI agent) go from zero to a
 deployed AI app on the ibl.ai backend in minutes — with authentication, AI chat,
 profiles, notifications, and analytics already wired up. Unlike this repo
@@ -54,7 +54,7 @@ run in Docker).
 > templates, component libraries, and configuration presets. Its authoritative repo is
 > **[github.com/iblai/base](https://github.com/iblai/base)** (the docs also reference
 > it as `iblai/iblai-app-cli`). To work on the CLI itself: `git clone
-> https://github.com/iblai/base.git && cd vibe`, then run it to scaffold an app.
+> https://github.com/iblai/base.git && cd base`, then run it to scaffold an app.
 
 ## AI-assisted development (the `@iblai/mcp` dev server)
 

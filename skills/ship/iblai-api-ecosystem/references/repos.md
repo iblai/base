@@ -128,7 +128,7 @@ started):
 - **Option B — enterprise.** For full backend infrastructure, request an enterprise
   license (full backend codebase) at [ibl.ai/contact](https://ibl.ai/contact). If you
   already have the Docker images, deploy them via
-  [iblai/iblai-infra-cli](https://github.com/iblai/infra-cli) (see
+  [iblai/infra-cli](https://github.com/iblai/infra-cli) (see
   `/iblai-api-infrastructure`).
 - **Desktop & mobile:** native build instructions in the repo's `docs/development.md`;
   full deployment in `docs/standalone-deployment.md`.

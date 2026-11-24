@@ -51,7 +51,7 @@ for (const file of files) {
 // A link into THIS repo's main branch is satisfied by the file existing in the
 // working tree: new skills reference their own screenshots/assets before the
 // branch is merged, and those paths will resolve on main once it is.
-const SELF = /^https:\/\/(?:raw\.githubusercontent\.com\/iblai\/vibe\/refs\/heads\/main|github\.com\/iblai\/vibe\/(?:blob|tree)\/main)\/(.+)$/;
+const SELF = /^https:\/\/(?:raw\.githubusercontent\.com\/iblai\/(?:vibe|base)\/refs\/heads\/main|github\.com\/iblai\/(?:vibe|base)\/(?:blob|tree)\/main)\/(.+)$/;
 function existsLocally(url) {
   const m = SELF.exec(url);
   return !!m && existsSync(join(ROOT, decodeURIComponent(m[1])));
