@@ -22,6 +22,7 @@ macOS, Windows, iOS, and Android — in about twenty minutes.
 | "new app", "start a project", "scaffold" | `/iblai-vibe-ops-init` — copies vibe-starter, asks only for the org key and a Platform API Token (refuses `main`), verifies both, writes the env files |
 | "chat", "talk to the agent", "assistant" | The starter's `/` already chats; it needs an agent — `/setup` (pick or create) or `/iblai-vibe-agent-create`; customize with `/iblai-vibe-agent-chat` |
 | "an assistant on every page", "Default Agent in the header", "agent beside the page", "side panel chat", "master agent" | `/iblai-vibe-agent-assistant` — the SDK's Assistant (`MasterAgentProvider`, `MasterAgent`, `MasterAgentPanel`): a header button opening the Default Agent in a resizable panel beside the page |
+| "turn on web search / image generation / code interpreter for the agent", "agent capabilities", "where did the Tools tab go" | `/iblai-vibe-agent-tool` — the map of where each capability is switched now (Settings, Datasets, Grader, Support, Screen, MCP, Voice) |
 | "create an agent", "another agent" | `/iblai-vibe-agent-create` ★ → `/iblai-vibe-agent-setting` ★; every tab via `/iblai-vibe-agent` |
 | "users", "admins", "roles", "invite", "who can" | `/iblai-vibe-admin` (User/Admin mode, `/admin/users`), `/iblai-vibe-invite`, `/iblai-vibe-rbac` |
 | "store something per user", "preferences", "onboarding progress", "custom user fields" | `/iblai-vibe-user-metadata` ★ — never localStorage, never your own DB |
@@ -142,7 +143,7 @@ links its headless twin, the `iblai-api-*` skill for the same data).
 | 1 | Sign-in, session, org resolution | `AuthProvider`, `TenantProvider`, `SsoLogin`, `useUserData`, `useIsAdmin` | `/iblai-vibe-auth` (starter) |
 | 2 | Home that chats with the app's agent | `Chat` (`/next`), `AppSidebar`, `NavBar` | `/iblai-vibe-agent-chat` (starter `/`) |
 | 3 | Find / pick agents | `AgentSearch` | `/iblai-vibe-agent-search` (starter `/agents`) |
-| 4 ★ | Create + configure an agent | `CreateAgentForm` (fields per the person's permissions), server route; `AgentSettingsProvider` + `AgentSettingsTab` (+25 tabs) | `/iblai-vibe-agent-create`, `/iblai-vibe-agent-setting`, `/iblai-vibe-agent` |
+| 4 ★ | Create + configure an agent | `CreateAgentForm` (fields per the person's permissions), server route; `AgentSettingsProvider` + `AgentSettingsTab` (+24 tabs) | `/iblai-vibe-agent-create`, `/iblai-vibe-agent-setting`, `/iblai-vibe-agent` |
 | 5 ★ | The user's own profile | `Profile`, `UserProfileDropdown`, `useGetUserMetadataQuery` | `/iblai-vibe-profile` (starter) |
 | 6 ★ | Custom per-user data | `useGetUserPlatformMetadataQuery`, `useUpdateUserPlatformMetadataMutation` | `/iblai-vibe-user-metadata` (starter) |
 | 7 ★ | Org settings + custom org data | `Account` → `OrganizationTab`; `useGetTenantMetadataQuery`, `useUpdateTenantMetadataMutation` | `/iblai-vibe-org-metadata`, `/iblai-vibe-account` (starter) |
@@ -284,14 +285,14 @@ feature template (`templates/skill-template-feature.md`), and ≤ 400 lines.
 | `/iblai-vibe-agent-search` | Agent browser (starred, featured, custom, all) |
 | `/iblai-vibe-agent-create` ★ | Create an agent from the app (the SDK's Create Agent form, showing only the fields each person may set; server route + setup screen) |
 | `/iblai-vibe-agent-setting` ★ | Agent identity, visibility, copy, delete |
-| `/iblai-vibe-agent` | Family index for all 26 agent settings tabs |
+| `/iblai-vibe-agent` | Family index for all 25 agent settings tabs |
 | `/iblai-vibe-profile` ★ | Profile dropdown + settings page |
 | `/iblai-vibe-user-metadata` ★ | Custom per-user data on the platform |
-| `/iblai-vibe-account` | Account/org settings page (Organization, Management, API, Secrets, Network, Billing, Memory, Advanced) |
+| `/iblai-vibe-account` | Account/org settings page (Organization, Management, Invites, Onboarding, Apps, API, Secrets, Network, Billing, Memory, Advanced) |
 | `/iblai-vibe-virtual-machine` | The org's Network page and Secrets → Environment Variables: the networks and keys agents' virtual machines draw on |
 | `/iblai-vibe-org-metadata` | Custom org data; GET-merge-PUT; where branding lives |
 | `/iblai-vibe-admin` | User/Admin mode and the admin area |
-| `/iblai-vibe-invite` | Invitation dialogs |
+| `/iblai-vibe-invite` | Invitation dialogs and the Invites tab |
 | `/iblai-vibe-rbac` | Roles, policies, action definitions, `checkRbacPermission` |
 | `/iblai-vibe-navbar` | Responsive navbar (logo, links, bell, profile) |
 | `/iblai-vibe-notification` | Notification bell + center |
@@ -311,10 +312,13 @@ feature template (`templates/skill-template-feature.md`), and ≤ 400 lines.
 | `/iblai-vibe-api` | REST without a component: server route + `Api-Token`; map to the `iblai-api-*` twin |
 
 **Tier 2 — agent configuration** (after you have an agent): `/iblai-vibe-agent`
-indexes the 26 tabs — `access`, `analytics`, `api`, `audit`, `billing`, `dataset`,
+indexes the 25 tabs — `access`, `analytics`, `api`, `audit`, `billing`, `dataset`,
 `disclaimer`, `embed`, `evals`, `grader`, `history`, `llm`, `lti`, `mcp`,
 `memory`, `privacy`, `prompt`, `safety`, `sandbox`, `screenshare`, `setting`, `skills`,
-`support`, `task`, `tool`, `voice` — each `/iblai-vibe-agent-<tab>`.
+`support`, `task`, `voice` — each `/iblai-vibe-agent-<tab>`. There is no Tools tab
+since `@iblai/iblai-js` 3.0: each capability (web search, image generation, code
+interpreter, MCP, …) has its own switch in one of those tabs, mapped by
+`/iblai-vibe-agent-tool`.
 
 **Tier 3 — vertical / optional**: `/iblai-vibe-monetization` (family index for
 selling items via Stripe Connect: `/iblai-vibe-monetization-onboard`,

@@ -77,7 +77,7 @@ plans and credits are bought on Stripe through the ibl.ai backend
 ## Prerequisites
 
 - Auth in place (`/iblai-vibe-auth`, or vibe-starter).
-- `@iblai/iblai-js@^2.85.1`: the credits flows, the plan picker and its
+- `@iblai/iblai-js@^3.0.0`: the credits flows, the plan picker and its
   bullets arrived in 2.73.0, the host side of the embed hand-off in 2.79.0.
   For the embed itself, `@iblai/agent-ai@^2.15.1` and the OS release that
   carries iblai/os#677 (Step 5).

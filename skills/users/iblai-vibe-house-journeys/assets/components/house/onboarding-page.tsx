@@ -21,7 +21,7 @@ import { onboardingFlow, readTenants, readUsername } from "@/lib/iblai/house-jou
 /**
  * `/platform/[tenantKey]/onboarding/[[...agentId]]` — the SDK onboarding
  * wizard, inside the shell the way the LMS mounts it. Members get the
- * organization's own form (authored in Management › Onboarding) and its agent
+ * organization's own form (authored in the account dialog's Onboarding tab) and its agent
  * on the last step; an admin's first run is the setup flow (organization →
  * sector → invite your team), and `?flow=` switches. The route file is one
  * line: `export { OnboardingPage as default } from "@/components/house/onboarding-page";`

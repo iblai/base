@@ -67,7 +67,7 @@ Do NOT implement dark mode unless the user explicitly asks for it.
 
   | package | min version |
   |---|---|
-  | `@iblai/iblai-js` | `^2.85.1` |
+  | `@iblai/iblai-js` | `^3.0.0` |
   | `@iblai/agent-ai` | `^2.15.1` |
 
   (v2 bundles `web-containers`, `web-utils`, and `data-layer` as
@@ -461,7 +461,7 @@ controls appear (a host flag can only hide a control, never force it on).
 | Message list | Right-aligned user bubbles; the agent's bubble with name and time, a collapsible "Thought" section for reasoning, markdown with code blocks (Copy) and tables (copy / download), and "Thinking…" until the first token |
 | Message actions | Under each finished reply: Copy and Read aloud for everyone; thumbs up / down, Retry, Report, Share and Download for signed-in users (Share and Download also for visitors with `showMessageActionsWhenLoggedOut`, both hidden under chat privacy; Report needs the agent's inappropriate-content setting; thumbs, Retry and Report are hidden when viewing a shared chat) |
 | Suggested prompts | After a reply, up to three follow-up chips and a refresh button. Picking one sends it |
-| Composer | `+` menu (Upload File, Camera, then Tools, Skills, Prompts, Memory, MCP with a count badge when the agent has a connector on — its panel switches connectors for this chat, see `/iblai-vibe-agent-mcp` — and a Model picker when the agent allows it), a Canvas pill that turns off with its x, tool chips (two shown, the rest fold into "+N"), screen share, voice input, voice call, and Send, which becomes Stop Streaming while the agent answers. In a desktop (Tauri) build a **Cowork** pill sits with Canvas: its consent and macOS setup are the SDK's own, see `/iblai-vibe-os-agent-cowork`. A desktop build without Cowork's Rust shows it disabled; `features: { cowork: false }` hides it |
+| Composer | `+` menu (Upload File, Camera, then Tools, Skills, Prompts, Memory, MCP — shown while MCP is on for the agent and it uses a connector, with a count badge; its panel switches connectors for this chat, see `/iblai-vibe-agent-mcp` — and a Model picker when the agent allows it), a Canvas pill that turns off with its x, tool chips (two shown, the rest fold into "+N"), screen share, voice input, voice call, and Send, which becomes Stop Streaming while the agent answers. The Tools entries Web Search, Code and Image, and the screen share button, follow the agent's capability switches (`useMentorSettings(…).data.capabilities`; where each is switched: `/iblai-vibe-agent-tool`), and a chat's tool chips keep only tools the agent still has. In a desktop (Tauri) build a **Cowork** pill sits with Canvas: its consent and macOS setup are the SDK's own, see `/iblai-vibe-os-agent-cowork`. A desktop build without Cowork's Rust shows it disabled; `features: { cowork: false }` hides it |
 | Spend limits | For a signed-in member, a banner above the composer when one of their LLM spend limits is near (percentages only, never dollars), and a red banner with **Send** disabled while a **Block Requests** limit is exceeded; a refused send tells a member to contact their admin and gives an admin **Open Billing**. Limits are set in `/iblai-vibe-billing` and `/iblai-vibe-agent-billing` |
 | Attachments | File cards above the input: uploading, processing, failed (with retry), too large, and long pastes that become a `.txt` card |
 | `/` skill picker | Typing `/` in the input lists the agent's skills by name. It needs the per-agent `view_skill_assignments` grant in the `rbac` store, which `Chat` and vibe-starter's providers do not load, so in vibe-starter it stays empty unless you pass `slashSkills`; `slashSkillsEnabled={false}` turns it off |
@@ -556,7 +556,7 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 3. `pnpm dev` — open the route, sign in, and walk:
    - agent name + greeting, "Ask anything" textarea, the `+` menu
      (Upload File / Camera / Memory), Canvas pill, screen share /
-     voice input / voice call (screen share when the agent enables it),
+     voice input / voice call (screen share when the agent's Screen Sharing switch is on),
      and Send;
    - send a message → "I Accept" the User Agreement → your bubble +
      "Thinking…" and a Stop Streaming button, then the reply with its

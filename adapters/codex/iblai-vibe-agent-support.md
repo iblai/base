@@ -6,15 +6,16 @@
 
 Add the agent **Support tab** -- a human-support inbox for one agent. When
 a user asks the agent for a person, the agent files a ticket; admins
-review, reply to and resolve it here. **Scope: per agent.** The switch turns
-the hand-over on for this agent, and the inbox lists only this agent's
+review, reply to and resolve it here. **Scope: per agent.** The **Human
+Support** switch turns the hand-over on for this agent (it saves the agent's
+`capability_human_support` flag), and the inbox lists only this agent's
 tickets. This is one tab in the agent-settings family indexed by
 `/iblai-vibe-agent`; it shares the `AgentSettingsProvider` wrapper with every
 other tab.
 
-**Tickets** -- the switch (the agent's human support tool, the same one as
-in the Tools tab), a user filter (search the organization's users), a
-status filter (All / Open / In Progress / Closed), and the inbox: requester,
+**Tickets** -- the info box with the **Human Support** switch, a user filter
+(search the organization's users), a status filter (All / Open / In
+Progress / Closed), and the inbox: requester,
 subject, when, a preview, and a status icon. The icon is grey; hover it (or
 use a screen reader) for the word. The inbox shows as many tickets as fit the
 space and pages the rest, so it never scrolls (between 768 and 1023px wide it
@@ -43,8 +44,9 @@ reply."
 ![Support tab -- a closed ticket](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-support/iblai-vibe-agent-support-4-status.png)
 
 **On a phone** (below 768px) -- each ticket is a card with its Status and
-From, the switch reads **Available to Users**, the filters open as sheets
-from the bottom, and a "Page x of y" pager replaces the page numbers.
+From, the switch sits on its own row named **Human Support**, the filters
+open as sheets from the bottom, and a "Page x of y" pager replaces the page
+numbers.
 Tapping a ticket opens it full screen, with Back.
 
 ![Support tab on a phone](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-support/iblai-vibe-agent-support-5-phone.png)
@@ -57,11 +59,12 @@ Tapping a ticket opens it full screen, with Back.
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1). The tab
   throws without it: it has no identity props.
-- `@iblai/iblai-js@^2.85.1` (resolves `@iblai/web-containers` 1.81.1). Check with
+- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
   `pnpm why @iblai/web-containers`.
 - A real agent UUID. Ask the user; never invent one.
-- The organization's tool catalogue needs the **human support** tool, or the
-  switch is hidden (the inbox still works).
+- A platform that returns `capability_human_support` on the agent's
+  settings (API version 4.467.0 or later), and a person who may read it.
+  Otherwise the switch is hidden; the inbox still works.
 
 ## Step 1: Check Environment
 
@@ -119,13 +122,18 @@ import { AgentHumanSupportTab } from "@iblai/iblai-js/web-containers/next";
 ```
 
 Label groups (`HumanSupportTabLabels`): `header` (`title`, `description`,
-`infoBox`), `toggle` (`enable`, `availableToUsers`, `updated`, `error`),
-`filters` (`searchUser`, `allUsers`, `allStatuses`), `status` (`open`,
+`infoBox`), `filters` (`searchUser`, `allUsers`, `allStatuses`), `status` (`open`,
 `inProgress`, `closed`), `list` (`fromLabel`, `noTickets`, `untitled`),
 `detail` (`ticketTitle`, `selectPrompt`, `statusLabel`, `requestSection`,
 `conversationSection`, `supportTeam`, `noMessages`, `toLabel`, `toRecipient`,
 `replyPlaceholder`, `sendReply`, `sending`, `closedNotice`), and `toasts`
 (`replySent`, `replyError`, `statusUpdated`, `statusError`).
+
+The `toggle` group was removed in `@iblai/web-containers` 2.0.0; a host that
+passes it removes it. The switch is named after its capability, "Human
+Support", and confirms a save with "Human Support turned on" / "Human Support
+turned off", like every other capability switch. Those strings come from the
+SDK's own catalogue, not from `labels`.
 
 ## Step 4: Use MCP Tools for Customization
 
@@ -162,7 +170,7 @@ Paths are under `/api/ai-mentor/orgs/{org}/users/{username}/`.
 | **Send Reply** | `POST support-ticket-messages/` with the ticket and the message |
 | Status Open / In Progress | `PATCH support-tickets/{id}/` with `status` |
 | Status Closed | `POST support-tickets/{id}/close/` |
-| The switch | `PUT mentors/{uuid}/settings/` with the agent's `tool_slugs` (the human support tool added or removed) and `can_use_tools` |
+| **Human Support** switch | `PUT mentors/{uuid}/settings/` with `capability_human_support` only (plus `can_use_tools: true` when turning it on for an agent that could not use tools yet; `false` is never sent) |
 
 There is no create here: the agent files tickets during chats. The tab has
 no delete either; the REST twin has one.
@@ -175,6 +183,8 @@ no delete either; the REST twin has one.
 | `useGetSupportTicketMessagesQuery` / `useCreateSupportTicketMessageMutation` | The conversation and replies |
 | `usePatchSupportTicketMutation` / `useCloseSupportTicketMutation` | Status changes |
 | `usePlatformUsersQuery` | The user filter |
+| `useGetMentorSettingsQuery` / `useEditMentorMutation` | Read and save `capability_human_support` |
+| `useGetToolsQuery` | Whether the agent's model can use Human Support (`capability_field`, `is_allowed`): a "no" locks the switch |
 
 All from `@iblai/iblai-js/data-layer`, with the `SupportTicket`,
 `SupportTicketMessage` and `SupportTicketStatus` types. REST twin:
@@ -190,15 +200,21 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 1. `pnpm build` -- must pass with zero errors.
 2. `pnpm test` -- vitest must pass.
 3. Touch test `/agents/<uuid>/support` in the browser as `/iblai-vibe-ops-test` says, signed
-   in as an org admin: the switch and filters render; turn the switch on, ask the agent in
-   chat to hand you to a human -- a ticket appears in the inbox; read the console; check
-   the phone width.
+   in as an org admin: the Human Support switch and the filters render; turn the switch
+   on ("Human Support turned on"), ask the agent in chat to hand you to a human -- a
+   ticket appears in the inbox; read the console; check the phone width.
 
 ## Important Notes
 
-- **The switch is a tool**: it edits the agent's tools, the same list as
-  the Tools tab (`/iblai-vibe-agent-tool`). Turning it off hides the
-  hand-over from users; existing tickets stay workable.
+- **The switch is a flag**: it saves only `capability_human_support`; it
+  never rewrites the agent's tool list (the SDK's Tools tab is gone). Turning
+  it off hides the hand-over from users; existing tickets stay workable.
+- **Locked or refused**: the switch is locked, with the reason under the info
+  box, when the person may not change the flag ("You don't have permission
+  to change this.") or the agent's model can't use it ("Doesn't work with
+  the model this agent uses. Pick another model in the LLM tab to turn it
+  on."). A refused save turns it back and shows one sentence there, never a
+  toast.
 - **Admins see everything**: org admins see every ticket for the agent;
   other users see only their own.
 - **Shared provider**: mount `AgentSettingsProvider` once at the layout
