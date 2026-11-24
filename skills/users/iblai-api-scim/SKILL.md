@@ -1,6 +1,6 @@
 ---
 name: iblai-api-scim
-description: Provision and manage an ibl.ai organization's directory over the SCIM 2.0 REST API — users (with the Enterprise User extension) and RBAC groups, including RBAC group membership that auto-links users to the platforms behind those groups. Use when standing up or syncing directory provisioning (SCIM 2.0) for an org: creating/deactivating users, managing RBAC group membership, or wiring identity-provider provisioning.
+description: "Provision and manage an ibl.ai organization's directory over the SCIM 2.0 REST API — users (with the Enterprise User extension) and RBAC groups, including RBAC group membership that auto-links users to the platforms behind those groups. Use when standing up or syncing directory provisioning (SCIM 2.0) for an org: creating/deactivating users, managing RBAC group membership, or wiring identity-provider provisioning."
 metadata:
   kind: api
 ---

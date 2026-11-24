@@ -1,6 +1,6 @@
 ---
 name: iblai-api-billing
-description: Operate an ibl.ai organization's billing surface via the platform API — credit accounts (balance, auto-recharge, manual top-up), transaction history, generic item paywalls (config + price tiers), Stripe Connect checkout (authenticated and guest), subscriptions, access checks, public pricing, and platform reporting (subscribers, revenue, paywalls). Generic item_type/item_id model: any sellable item (agent, course, program, pathway, or custom). Use when reading credit balances, configuring an item's paywall and prices, generating a checkout link, checking access, or pulling subscriber/revenue reports.
+description: "Operate an ibl.ai organization's billing surface via the platform API — credit accounts (balance, auto-recharge, manual top-up), transaction history, generic item paywalls (config + price tiers), Stripe Connect checkout (authenticated and guest), subscriptions, access checks, public pricing, and platform reporting (subscribers, revenue, paywalls). Generic item_type/item_id model: any sellable item (agent, course, program, pathway, or custom). Use when reading credit balances, configuring an item's paywall and prices, generating a checkout link, checking access, or pulling subscriber/revenue reports."
 metadata:
   kind: api
 ---

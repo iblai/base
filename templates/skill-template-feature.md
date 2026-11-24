@@ -1,6 +1,6 @@
 ---
 name: iblai-vibe-<feature>
-description: <What the user gets, in one sentence.> Use when the user mentions '<trigger one>', '<trigger two>', or wants <the outcome>. For <sibling need> see /iblai-vibe-<sibling>; for the REST contract see /iblai-api-<family>. (200–1024 characters; triggers and siblings are what the router reads.)
+description: "<What the user gets, in one sentence.> Use when the user mentions '<trigger one>', '<trigger two>', or wants <the outcome>. For <sibling need> see /iblai-vibe-<sibling>; for the REST contract see /iblai-api-<family>. (200–1024 characters; triggers and siblings are what the router reads.)"
 globs:
 alwaysApply: false
 ---

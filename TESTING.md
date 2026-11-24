@@ -5,6 +5,7 @@ Four tiers, cheapest first. CI (`.github/workflows/skills-ci.yml`) runs on PRs t
 | Tier | Command | What it proves |
 |---|---|---|
 | 0 | `bash scripts/validate-skills.sh` | Frontmatter/spec conformance, off-spec dirs |
+| 0 | `bash scripts/check-skills-install.sh` | `npx skills add` (pinned) offers every skill: none skipped for frontmatter its YAML parser rejects |
 | 1 | `node scripts/test-skills-render.mjs [--build]` | Skill **code** (assets + SKILL.md ts/tsx fences) typechecks against the currently-pinned SDK in vibe-starter |
 | 1.5 | `node scripts/check-sdk-pins.mjs [--fix]` | No `@iblai/*` version mention drifts from vibe-starter's `package.json` |
 | 1.5 | `pnpm audit --audit-level=moderate` (in vibe-starter) | No known moderate-or-higher advisory in the starter's lockfile, which every new project copies |

@@ -1,6 +1,6 @@
 ---
 name: iblai-api-ecosystem
-description: Map of the ibl.ai open-source ecosystem — the repo family and the shared @iblai tooling, all built on the api.iblai.app backend. iblai/vibe (this repo) holds both skill families — iblai-vibe-* to build apps with visual components and iblai-api-* to operate the platform headlessly (the former iblai/api); iblai/os and iblai/lms are complete forkable sample apps; iblai/iblai-infra-cli self-hosts the backend. Read this to orient: which repo to reach for when operating vs. building vs. forking vs. deploying. Not a REST skill — no endpoints.
+description: "Map of the ibl.ai open-source ecosystem — the repo family and the shared @iblai tooling, all built on the api.iblai.app backend. iblai/vibe (this repo) holds both skill families — iblai-vibe-* to build apps with visual components and iblai-api-* to operate the platform headlessly (the former iblai/api); iblai/os and iblai/lms are complete forkable sample apps; iblai/iblai-infra-cli self-hosts the backend. Read this to orient: which repo to reach for when operating vs. building vs. forking vs. deploying. Not a REST skill — no endpoints."
 metadata:
   kind: guide
 ---

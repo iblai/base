@@ -60,9 +60,8 @@ Frontmatter:
 ```yaml
 ---
 name: iblai-vibe-thing            # must equal the folder name
-description: >-                   # 200–1024 chars: what the user gets, then the trigger phrases
-  Add … to your Next.js app. Use when the user mentions 'x', 'y', or wants z.
-  For … see /iblai-vibe-sibling; for the REST contract see /iblai-api-thing.
+# one line in double quotes; 200–1024 chars: what the user gets, then the trigger phrases
+description: "Add … to your Next.js app. Use when the user mentions 'x', 'y', or wants z. For … see /iblai-vibe-sibling; for the REST contract see /iblai-api-thing."
 globs:
 alwaysApply: false
 metadata:
