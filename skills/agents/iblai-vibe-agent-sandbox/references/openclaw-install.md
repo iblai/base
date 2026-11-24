@@ -31,14 +31,14 @@ the source root) into the active workspace `skills/`. To install every skill
 in this repo, clone it and loop over the skill directories:
 
 ```bash
-git clone https://github.com/iblai/vibe.git
-cd vibe
+git clone https://github.com/iblai/base.git
+cd base
 
 # one skill
-openclaw skills install ./skills/iblai-vibe-agent-chat
+openclaw skills install ./skills/agents/iblai-vibe-agent-chat
 
 # every skill in the directory
-for d in skills/*/; do
+for d in skills/*/*/; do
   openclaw skills install "$d"
 done
 ```

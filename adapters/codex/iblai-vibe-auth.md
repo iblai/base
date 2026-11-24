@@ -42,7 +42,7 @@ and the OS's implementation are in
 Before running this skill, ask the user:
 
 > Are you starting a new project from scratch? If so, vibe-starter
-> (https://github.com/iblai/vibe/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) is a pre-wired Next.js 16 +
+> (https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) is a pre-wired Next.js 16 +
 > Tailwind v4 + shadcn/ui template with ibl.ai SSO auth, a responsive navbar,
 > and profile/account/notifications pages already in place. Want to use that
 > instead?
@@ -54,7 +54,7 @@ not installed -- tell the user which path you took:
 
     cp -a <skills-dir>/iblai-vibe-ops-init/assets/vibe-starter/. .
     # or, without local assets:
-    git clone --depth 1 https://github.com/iblai/vibe.git vibe-tmp && cp -a vibe-tmp/skills/start/iblai-vibe-ops-init/assets/vibe-starter/. . && rm -rf vibe-tmp
+    git clone --depth 1 https://github.com/iblai/base.git vibe-tmp && cp -a vibe-tmp/skills/start/iblai-vibe-ops-init/assets/vibe-starter/. . && rm -rf vibe-tmp
 
     pnpm install --ignore-scripts
 
@@ -333,7 +333,7 @@ before tokens are stored. Step 3 places the callback at
 `app/sso-login-complete/` (flat, no route group) which works for simple apps.
 
 For the route group pattern, see the **vibe-starter** reference app:
-  https://github.com/iblai/vibe/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter
+  https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter
 
 ## Troubleshooting
 
@@ -392,7 +392,7 @@ After auth is set up, add more features using skills -- ask your AI assistant to
 | `/iblai-vibe-notification` | Notification bell + center page |
 
 For a complete reference app with auth, navbar, and pages already wired:
-  https://github.com/iblai/vibe/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter
+  https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter
 
 **Brand guidelines**: [BRAND.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/BRAND.md)
 

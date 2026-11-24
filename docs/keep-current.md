@@ -13,7 +13,7 @@ they do not update themselves.
   In Claude Code, `/iblai-vibe-ops-upgrade` does this and also bumps the SDK,
   then summarizes what changed.
 - **Know what you have.** The latest release is
-  [github.com/iblai/vibe/releases/latest](https://github.com/iblai/vibe/releases/latest);
+  [github.com/iblai/base/releases/latest](https://github.com/iblai/base/releases/latest);
   every change is listed in [`CHANGELOG.md`](../CHANGELOG.md). Your copy's age is the
   modification time of `.claude/skills/iblai-vibe/SKILL.md`.
 - **Agents check for you.** The project `CLAUDE.md` that `/iblai-vibe-ops-init`

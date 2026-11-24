@@ -34,7 +34,7 @@ Follow the component hierarchy: use ibl.ai SDK components
 Before running this skill, ask the user:
 
 > Are you starting a new project from scratch? vibe-starter
-> (https://github.com/iblai/vibe/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) already ships the
+> (https://github.com/iblai/base/tree/main/skills/start/iblai-vibe-ops-init/assets/vibe-starter) already ships the
 > notification bell and /notifications page wired up, alongside auth, navbar,
 > and profile/account. Want to use that instead?
 
@@ -47,7 +47,7 @@ skill:
 
     cp -a <skills-dir>/iblai-vibe-ops-init/assets/vibe-starter/. .
     # or, without local assets:
-    git clone --depth 1 https://github.com/iblai/vibe.git vibe-tmp && cp -a vibe-tmp/skills/start/iblai-vibe-ops-init/assets/vibe-starter/. . && rm -rf vibe-tmp
+    git clone --depth 1 https://github.com/iblai/base.git vibe-tmp && cp -a vibe-tmp/skills/start/iblai-vibe-ops-init/assets/vibe-starter/. . && rm -rf vibe-tmp
 
     pnpm install --ignore-scripts
 

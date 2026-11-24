@@ -10,7 +10,7 @@ who it's for, and the facts you need to fork or study it.
 
 ## iblai/vibe — the management layer (`iblai-api-*` skills, formerly iblai/api)
 
-> **[github.com/iblai/vibe](https://github.com/iblai/vibe)** (merged from iblai/api) · MIT · works with Claude Code, Cursor, GitHub Copilot, and 15+ other skills-compatible agents.
+> **[github.com/iblai/base](https://github.com/iblai/base)** (merged from iblai/api) · MIT · works with Claude Code, Cursor, GitHub Copilot, and 15+ other skills-compatible agents.
 
 A toolkit for operating the ibl.ai platform **headlessly** — from a coding agent, a
 terminal, CI, or any MCP-capable assistant, no UI required. It packages every
@@ -63,7 +63,7 @@ Then `npx skills add iblai/vibe --all` and `/iblai-api-login`.
 
 ## iblai/vibe — the build layer
 
-> **[github.com/iblai/vibe](https://github.com/iblai/vibe)** · MIT · Next.js · TypeScript · Tailwind CSS · desktop & mobile via Tauri v2. *"Ship AI-powered apps fast. Backend included."*
+> **[github.com/iblai/base](https://github.com/iblai/base)** · MIT · Next.js · TypeScript · Tailwind CSS · desktop & mobile via Tauri v2. *"Ship AI-powered apps fast. Backend included."*
 
 A developer toolkit for **vibe coding new applications on the existing ibl.ai
 backend**. It hands you a production-ready scaffold — powered by the `iblai-app-cli`
@@ -128,7 +128,7 @@ started):
 - **Option B — enterprise.** For full backend infrastructure, request an enterprise
   license (full backend codebase) at [ibl.ai/contact](https://ibl.ai/contact). If you
   already have the Docker images, deploy them via
-  [iblai/iblai-infra-cli](https://github.com/iblai/iblai-infra-cli) (see
+  [iblai/infra-cli](https://github.com/iblai/infra-cli) (see
   `/iblai-api-infrastructure`).
 - **Desktop & mobile:** native build instructions in the repo's `docs/development.md`;
   full deployment in `docs/standalone-deployment.md`.
@@ -252,7 +252,7 @@ analytics/billing/users/notifications — and the conversational AI API). Visit
 
 ## iblai/iblai-infra-cli — the deploy layer
 
-> **[github.com/iblai/iblai-infra-cli](https://github.com/iblai/iblai-infra-cli)**
+> **[github.com/iblai/infra-cli](https://github.com/iblai/infra-cli)**
 
 Deploy the ibl.ai platform on **your own infrastructure** — your AWS account or your
 own servers — with Terraform + Ansible, given access to the backend images. This is

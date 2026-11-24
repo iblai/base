@@ -6,7 +6,7 @@ and **multi-server** (app nodes split from data nodes, with DB replicas). Both a
 stood up by [`iblai-infra-cli`](infra-cli.md) — Terraform builds the AWS resources,
 Ansible installs the platform.
 
-> Source repo: [github.com/iblai/iblai-infra-cli](https://github.com/iblai/iblai-infra-cli).
+> Source repo: [github.com/iblai/infra-cli](https://github.com/iblai/infra-cli).
 > The diagrams in the source docs render as Mermaid on GitHub; the same facts are
 > captured as tables/lists below. To regenerate an image from a Mermaid source:
 > `npx @mermaid-js/mermaid-cli -i architecture.md -o architecture.png`.

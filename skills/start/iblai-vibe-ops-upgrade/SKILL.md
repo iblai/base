@@ -175,4 +175,4 @@ note that explicitly in the summary.
 ## Reference
 
 - SDK package: https://www.npmjs.com/package/@iblai/iblai-js
-- Vibe skills: https://github.com/iblai/vibe
+- Vibe skills: https://github.com/iblai/base

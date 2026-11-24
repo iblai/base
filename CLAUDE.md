@@ -403,7 +403,7 @@ initializeDataLayer(dmUrl, lmsUrl, legacyLmsUrl, storageService, httpErrorHandle
 
 ```typescript
 import { initializeDataLayer, mentorReducer } from "@iblai/iblai-js/data-layer";
-import { AuthProvider, TenantProvider, useChatV2 } from "@iblai/iblai-js/web-utils";
+import { AuthProvider, TenantProvider, useChat } from "@iblai/iblai-js/web-utils";
 import { Loader, TenantSwitch } from "@iblai/iblai-js/web-containers";
 import { SsoLogin, UserProfileDropdown } from "@iblai/iblai-js/web-containers/next";
 ```
