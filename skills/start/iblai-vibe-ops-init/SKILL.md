@@ -393,7 +393,7 @@ components), the wiring in BRAND.md.
 
 ```typescript
 import { initializeDataLayer, mentorReducer } from "@iblai/iblai-js/data-layer";
-import { AuthProvider, TenantProvider, useChatV2 } from "@iblai/iblai-js/web-utils";
+import { AuthProvider, TenantProvider, useChat } from "@iblai/iblai-js/web-utils";
 import { Profile, AnalyticsLayout, NotificationDropdown } from "@iblai/iblai-js/web-containers";
 import { SsoLogin, UserProfileDropdown, Account, Chat, AgentSearch } from "@iblai/iblai-js/web-containers/next";
 ```
