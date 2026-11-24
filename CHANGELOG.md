@@ -3,6 +3,12 @@
 All notable changes to the [vibe](https://github.com/iblai/vibe) toolkit.
 
 
+## [2.27.1] - 2026-11-24
+
+### Fixed
+
+- make the starter, auth and scaffold sign in like the OS; guard the SSO landing path
+
 ## [2.27.0] - 2026-11-23
 
 ### Added
