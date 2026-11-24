@@ -3,6 +3,14 @@
 All notable changes to the [vibe](https://github.com/iblai/base) toolkit.
 
 
+## [2.27.2] - 2026-11-24
+
+### Fixed
+
+- cd where each clone lands, sync code mode from iblai/base, drop the old README tail
+- the chat hook is useChat, not useChatV2
+- repo links point at iblai/base; repair three broken code blocks and two links
+
 ## [2.27.1] - 2026-11-24
 
 ### Fixed
