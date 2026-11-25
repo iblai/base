@@ -53,7 +53,7 @@ Admins Only back to All Members turns the catalog off.
   `capability_code_interpreter`, `capability_subagents`). They are not fields
   of the form, and Save does not send them. Locked switches, refused saves and
   the other tabs' switches: `/iblai-vibe-agent-tool`. On a platform older
-  than DM 4.467.0 the block renders nothing.
+  than API version 4.467.0 the block renders nothing.
 - **Global Capabilities** apply to in-app chat and the embed widget alike.
   **Chat Experience** holds Verbose Reasoning, Reopen Last Conversation and
   Prompt Caching (Anthropic models; it also turns off document retrieval,

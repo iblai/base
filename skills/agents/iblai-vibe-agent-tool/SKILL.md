@@ -125,7 +125,7 @@ export function WebSearchBadge({ agentId, orgKey }: { agentId: string; orgKey: s
 
 ## Compatibility
 
-The `capability_*` switches need the platform at DM 4.467.0 or later. An older
+The `capability_*` switches need the platform at API version 4.467.0 or later. An older
 platform returns no `capability_*` flags in the agent's settings, and then:
 
 - the Agent Capabilities block, the Datasets box, the Lesson Completion row

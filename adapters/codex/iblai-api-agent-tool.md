@@ -5,7 +5,7 @@
 # iblai-api-agent-tool
 
 Read and change an agent's tools. The agent's tools are one set, saved
-through the agent `settings/` endpoint. On DM 4.467.0 or later most tools are
+through the agent `settings/` endpoint. On API version 4.467.0 or later most tools are
 governed by a `capability_*` flag on the agent's settings: flip the flag
 (`/iblai-api-agent-setting`) to turn one capability on or off without touching
 the others. `tool_slugs` writes the whole set; use it for a tool with no flag,

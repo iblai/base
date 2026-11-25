@@ -23,7 +23,7 @@ here applies to every user of the agent. Two resources hold it:
   screen-sharing prompts).
 
 Screen sharing as a capability of the agent is the setting
-`capability_screen_share` (DM 4.467.0 or later), saved alone through the
+`capability_screen_share` (API version 4.467.0 or later), saved alone through the
 settings PUT — see `/iblai-api-agent-setting`.
 
 ## Auth & conventions

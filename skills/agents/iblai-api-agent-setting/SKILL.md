@@ -31,7 +31,7 @@ deletion. Use when configuring an agent's basic identity and capabilities.
 
 ## Capability flags
 
-On DM 4.467.0 or later, each thing an agent can do in a chat is one boolean on
+On API version 4.467.0 or later, each thing an agent can do in a chat is one boolean on
 its settings. Flip one flag to turn one capability on or off; the agent's
 other tools are left alone.
 
@@ -52,7 +52,7 @@ other tools are left alone.
   `capability_subagents` stays on until it is set to `false`. A flag whose
   tool is switched off platform-wide reads `false`, and sending that `false`
   back changes nothing. `embed_enable_screen_sharing` is a read-only copy of
-  `capability_screen_share`. Before DM 4.467.0 the GET returns no flags.
+  `capability_screen_share`. Before API version 4.467.0 the GET returns no flags.
 - **Writing.** Send only the flag you change: JSON `true` / `false`, or
   multipart `"true"` / `"false"`. A flag left out, or sent as `null`, stays as
   it is, so an unrelated multipart PUT never turns a capability off.

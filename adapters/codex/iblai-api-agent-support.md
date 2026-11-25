@@ -41,7 +41,7 @@ agent chats. The UI twin is
   support-team replies carry the responder's id, and `null` marks a
   system-generated message.
 - **Prerequisite:** the agent only offers escalation while Human Support is on
-  for it. On a platform that returns the `capability_*` flags (DM 4.467.0+),
+  for it. On a platform that returns the `capability_*` flags (API version 4.467.0 or later),
   send `capability_human_support: true` in the agent's settings `PUT`
   (**`/iblai-api-agent-setting`**, Capability flags); on an older one, add the
   Human Support tool's slug with **`/iblai-api-agent-tool`**.

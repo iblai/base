@@ -40,7 +40,7 @@ search again while it works on a reply." under its description
 switch works as usual, so it can be turned off. Locks, refused saves and the
 `can_use_tools: true` it adds when needed work as for every capability switch
 (`/iblai-vibe-agent-tool`). The box renders nothing when the user may not read
-the flag or the platform is older than DM 4.467.0.
+the flag or the platform is older than API version 4.467.0.
 
 **Add Resources** -- one tile per source: PowerPoint, OneDrive, Google Drive,
 Dropbox, YouTube, URL, PDF, DOCX, Excel, CSV, GitHub, TXT, Markdown, Audio,
