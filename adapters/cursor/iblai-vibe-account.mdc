@@ -203,8 +203,8 @@ export default function AccountPage() {
 > **off**, but denies everything when it is **on** and the permissions object is
 > empty, so the Management tab disappears even for an org admin. Pass both (load
 > them with `POST rbac/permissions/check/`, see `/iblai-vibe-rbac`) or neither.
-> Single-org apps whose admin routes are already admin-gated pass neither:
-> vibe-starter and the ibl.ai OS's own admin dialog both do.
+> Single-org apps whose admin routes are already admin-gated pass neither, as
+> vibe-starter does; the ibl.ai OS's organization settings dialog passes both.
 
 ## Layout and navigation
 
@@ -238,7 +238,7 @@ Three things are specific to `Account`:
 | Tab | Group | `targetTab` id | Requires |
 |-----|-------|----------------|---------|
 | **Organization** | Workspace | `organization` | `isAdmin === true` |
-| **Management** | Workspace | `management` | `enableRbac` unset (any admin), or `enableRbac` **plus** a `rbacPermissions` object granting one of `/platforms/<org>/#can_manage_users`, `/groups/#list`, `/roles/#list`, `/policies/#list`, `/usergroups/#list`, `/watchedgroups/#list` |
+| **Management** | Workspace | `management` | `enableRbac` unset (every viewer, admin or not: with RBAC off each check passes), or `enableRbac` **plus** a `rbacPermissions` object granting one of `/platforms/<org>/#can_manage_users`, `/groups/#list`, `/roles/#list`, `/policies/#list`, `/usergroups/#list`, `/watchedgroups/#list` |
 | **Invites** | Workspace | `invites` | `/platforms/<org>/#can_invite`, held by an admin (with RBAC off that check passes) or, with `enableRbac` on, by any user. With RBAC off a user who is not an admin never sees it |
 | **Onboarding** | Workspace | `onboarding` | `isAdmin === true` — it used to be a Management sub-tab that anyone who could open Management saw |
 | **Apps** | Workspace | `apps` | `isAdmin === true` — the platform's hosting routes are admin-only, so the tab is hidden rather than failing |
@@ -246,7 +246,7 @@ Three things are specific to `Account`:
 | **Secrets** | Integrations | `secrets` | `isAdmin === true` — keys from other services: LLMs, Services, Environment Variables |
 | **Network** | Integrations | `virtualMachine` | `isAdmin === true` — the addresses agents' virtual machines may reach (see `/iblai-vibe-virtual-machine`) |
 | **Monetization** | Finance | `monetization` | `isAdmin === true` (or `enableRbac` on), the organization has monetization enabled **and** the caller holds `/platforms/<org>/#can_sell_items` (with RBAC off that check passes automatically) |
-| **Billing** | Finance | `billing` | The organization's paywall is on (`show_paywall`) **and** the caller is an admin or holds `can_sell_items` — Credits (the plan picker / Change Plan, Add Credits, Auto Recharge), Spend Limits, Agent Limits, User Limits (see `/iblai-vibe-billing`) |
+| **Billing** | Finance | `billing` | The organization's paywall is on (`show_paywall`) **and** the caller is an admin or holds `/platforms/<org>/#can_sell_items` (with RBAC off that check passes, so every viewer sees it) — Credits (the plan picker / Change Plan, Add Credits, Auto Recharge), Spend Limits, Agent Limits, User Limits (see `/iblai-vibe-billing`) |
 | **Benchmarks** | AI & data | `datasets` | `showBenchmarks` **and** `isAdmin === true` — the organization's benchmarks (questions and expected answers for evaluating agents), on the same screens as the Evals tab's **Manage Benchmarks** (see `/iblai-vibe-agent-evals`) |
 | **Memory** | AI & data | `memory` | `isAdmin === true` — organization-wide global and per-agent memories (see `/iblai-vibe-memory`) |
 | **Advanced** | System | `advanced` | `isAdmin === true` — organization-wide switches, among them **Allow users to control chat privacy**, the gate that turns Incognito on for the organization (`PATCH …/chat-privacy-config/`, admin-only; see `/iblai-vibe-incognito`) |
@@ -341,12 +341,13 @@ export function SecretsPage({ tenantKey, username }: { tenantKey: string; userna
 ### Management sub-tabs
 
 Management is itself tabbed — **Users**, **Groups**, **Roles**,
-**Policies**, **Teams**, **Alerts** and **Applications** — each shown when
-the matching permission is granted (`can_manage_users`, `/groups/#list`,
-`/roles/#list`, `/policies/#list`, `/usergroups/#list` or `can_invite`,
-`/watchedgroups/#list`). Onboarding is no longer one of them; it is its
-own tab. The **Invite** buttons on Users and Teams open the Invites tab,
-or call `onInviteClick` for a user who is not shown it.
+**Policies**, **Teams**, **Alerts** and **Applications**. The first six
+each show when the matching permission is granted (`can_manage_users`,
+`/groups/#list`, `/roles/#list`, `/policies/#list`, `/usergroups/#list` or
+`can_invite`, `/watchedgroups/#list`); **Applications** needs none. A pure
+watcher (`/watchedgroups/#list`, not an admin) gets only **Users**, listing
+the users they may watch. The **Invite** buttons on Users and Teams open the
+Invites tab, or call `onInviteClick` for a user who is not shown it.
 
 Picking a user in **Users** opens their profile in a read-only preview — the
 same `Profile` component as `/iblai-vibe-profile`, minus Security, with the
@@ -357,7 +358,7 @@ customization this path forwards.
 |---|---|
 | Workspace | [Organization](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-organization.png) · [Invites](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-invites.png) · [Onboarding](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-onboarding.png) · [Apps](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-apps.png) · [Delete an app](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-apps-delete.png) · [Advanced](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-advanced.png) |
 | Management | [Users](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-users.png) · [Groups](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-groups.png) · [Roles](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-roles.png) · [Policies](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-policies.png) · [Teams](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-teams.png) · [Alerts](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-alerts.png) · [Applications](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-applications.png) |
-| Invite from Management | [Invite opens the Invites tab](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-users-invite-users.png) |
+| Invites | [Invite from Management opens the Invites tab](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-users-invite-users.png) · with `enableCatalogInvite`: [Courses](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-users-invite-courses.png) · [Programs](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-management-users-invite-programs.png) |
 | Integrations | [API](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-api.png) · [Add API Key](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-api-add.png) · [Secrets: LLMs](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-secrets-llms.png) · [Add LLM](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-secrets-add-llm.png) · [Services](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-secrets-services.png) · [Add Service](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-secrets-add-service.png) · [Environment Variables](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-virtual-machine/iblai-vibe-virtual-machine-env-vars.png) · [Network](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-virtual-machine/iblai-vibe-virtual-machine.png) |
 | Memory | [Global](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-memory-global.png) · [Agent](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-account/account-settings/account-settings-memory-agent.png) |
 

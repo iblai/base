@@ -46,16 +46,17 @@ wrote) shows off: the chat offers screen sharing only while the flag is on.
 
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1).
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0, where
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0, where
   the switch saves `capability_screen_share`). Check with
   `pnpm why @iblai/web-containers`.
 - A platform that returns `capability_screen_share` on the agent's settings
-  (API version 4.467.0 or later). On an older one the switch reads and
-  writes the call configuration's `enable_video`, as it did before.
+  (API version 4.467.0 or later). On an older one, or for a person who may
+  not read the flag, the switch reads and writes the call configuration's
+  `enable_video`, as it did before.
 - A real agent UUID. Ask the user; never invent one.
 - Voice calls on for the agent (the Voice tab's **Calls** sub-tab,
   `/iblai-vibe-agent-voice`): screen sharing happens inside a voice call, and
-  always in **Live conversation** mode.
+  always in **Live Conversation** mode.
 - An org admin to save the prompts: call configurations have no agent-level
   permission, so for an agent editor **Save** shows "Couldn't save screen
   sharing prompts". Turning the switch off also writes the call
@@ -125,9 +126,11 @@ Label groups (`ScreenShareTabLabels`): `header` (`title`, `description`),
 `capability` (`title` -- the switch's accessible name, "Screen Sharing";
 `description`, `offHint`), `disabledHint`, `fields.systemPrompt` and
 `fields.proactivePrompt` (`label`, `placeholder` each), `saveButton`,
-`savingButton`, `toasts` (`saved`, `error`: the prompts' **Save**), and
-`errors` (`turnOff`). The switch's own toasts and refusal sentences come from
-the SDK's catalogue, not from `labels`.
+`savingButton`, `toasts` (`saved`, `error`: the prompts' **Save**, and the
+switch without the flag), and `errors` (`turnOff`: shown under the banner
+when turning the switch off can't clear `enable_video`). The switch's
+"turned on" / "turned off" toasts, its lock reason and a refused flag save's
+sentence come from the SDK's catalogue, not from `labels`.
 
 ## Step 4: Use MCP Tools for Customization
 
@@ -164,15 +167,16 @@ Paths are under `/api/ai-mentor/orgs/{org}/users/{username}/`.
 | Load | The agent's settings embed `call_configuration`; when absent the tab lists `call-configurations/?mentor=<uuid>` |
 | Switch on | `PUT mentors/{uuid}/settings/` with `capability_screen_share: true` only (plus `can_use_tools: true` when the agent could not use tools yet; `false` is never sent) |
 | Switch off | While the call configuration's `enable_video` is on, first `PATCH call-configurations/{id}/` with `enable_video: false` (calls keep sharing video while either one is on); then the same `PUT` with `capability_screen_share: false` |
-| Switch, platform without the flag | `PATCH call-configurations/{id}/` with `enable_video`; with no row yet, `POST call-configurations/` (`mentor`, `mode: "realtime"`, `language: "en"`, `enable_video`) |
+| Switch, without the flag (an older platform, or a person who may not read it) | `PATCH call-configurations/{id}/` with `enable_video`; with no row yet, `POST call-configurations/` (`mentor`, `mode: "realtime"`, `language: "en"`, `enable_video`) |
 | **Save** | `PATCH call-configurations/{id}/` (or `POST` when no row exists) with `screensharing_system_prompt` and `screensharing_proactive_prompt` |
 
 If clearing `enable_video` fails, the switch stays on and says "Couldn't turn
 off Screen Sharing for voice calls. Try again." under the banner. A refused
 flag save turns the switch back and shows one sentence there, never a toast.
 The switch is locked, with "You don't have permission to change this.", when
-the person may not change the flag. **Save** stays disabled until a prompt
-changes.
+the person may not change the flag, or, while it is off on an agent that
+cannot use tools yet, may not change `can_use_tools`. The agent's model never
+locks it. **Save** stays disabled until a prompt changes.
 
 ## Platform data
 

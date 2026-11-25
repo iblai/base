@@ -75,7 +75,7 @@ model, "N of M selected" and **Done**. Every tick saves at once:
 
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1).
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0). Check with
   `pnpm why @iblai/web-containers`; if it shows 1.16.0, run
   `/iblai-vibe-ops-upgrade`, which removes the old override.
 - A real agent UUID. Ask the user; never invent one.
@@ -286,6 +286,7 @@ when it is already selected.
 | `useGetLlmsQuery` | Providers and their models |
 | `useGetMentorSettingsQuery` | The agent's current provider and model |
 | `useEditMentorMutation` | Save the new provider and model |
+| `useLazyGetToolsQuery` | Read the agent's tool list again after a model is saved, so the capability switches in the other tabs lock or unlock for the new model |
 
 REST twin: [`/iblai-api-agent-llm`](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-api-agent-llm/SKILL.md).
 

@@ -29,8 +29,8 @@ one dashed empty box.
 **A ticket** -- reads like an email: the subject, requester and **Status** at
 the top, then the thread (the request the agent wrote first, then every
 reply, oldest first; HTML and Markdown render sanitized), and a reply box at
-the bottom with a **To** line. (In these shots the admin is also the
-requester, so every line shows the same email.)
+the bottom with a **To** line. Replies from anyone but the requester show as
+**Support Team**.
 
 ![Support tab -- a ticket](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-support/iblai-vibe-agent-support-2-ticket.png)
 
@@ -61,7 +61,7 @@ Tapping a ticket opens it full screen, with Back.
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1). The tab
   throws without it: it has no identity props.
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0). Check with
   `pnpm why @iblai/web-containers`.
 - A real agent UUID. Ask the user; never invent one.
 - A platform that returns `capability_human_support` on the agent's
@@ -186,7 +186,7 @@ no delete either; the REST twin has one.
 | `usePatchSupportTicketMutation` / `useCloseSupportTicketMutation` | Status changes |
 | `usePlatformUsersQuery` | The user filter |
 | `useGetMentorSettingsQuery` / `useEditMentorMutation` | Read and save `capability_human_support` |
-| `useGetToolsQuery` | Whether the agent's model can use Human Support (`capability_field`, `is_allowed`): a "no" locks the switch |
+| `useGetToolsQuery` | Whether the agent's model can use Human Support (`capability_field`, `is_allowed`): a "no" locks the switch while it is off |
 
 All from `@iblai/iblai-js/data-layer`, with the `SupportTicket`,
 `SupportTicketMessage` and `SupportTicketStatus` types. REST twin:
@@ -208,15 +208,19 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 
 ## Important Notes
 
-- **The switch is a flag**: it saves only `capability_human_support`; it
-  never rewrites the agent's tool list (the SDK's Tools tab is gone). Turning
-  it off hides the hand-over from users; existing tickets stay workable.
+- **The switch is a flag**: it saves `capability_human_support` (plus
+  `can_use_tools: true` when turning it on for an agent that could not use
+  tools yet) and never rewrites the agent's tool list (the SDK's Tools tab is
+  gone). Turning it off hides the hand-over from users; existing tickets stay
+  workable.
 - **Locked or refused**: the switch is locked, with the reason under the info
-  box, when the person may not change the flag ("You don't have permission
-  to change this.") or the agent's model can't use it ("Doesn't work with
-  the model this agent uses. Pick another model in the LLM tab to turn it
-  on."). A refused save turns it back and shows one sentence there, never a
-  toast.
+  box, when the person may not change the flag, or, while it is off and the
+  agent could not use tools yet, may not change `can_use_tools` ("You don't
+  have permission to change this."). While it is off it is also locked when
+  the agent's model can't use it ("Doesn't work with the model this agent
+  uses. Pick another model in the LLM tab to turn it on."); a switch already
+  on can still be turned off. A refused save turns it back and shows one
+  sentence there, never a toast.
 - **Admins see everything**: org admins see every ticket for the agent;
   other users see only their own.
 - **Shared provider**: mount `AgentSettingsProvider` once at the layout

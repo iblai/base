@@ -52,8 +52,9 @@ already have them, and `tool_slugs` still accepts their slugs.
 - **GET** `https://api.iblai.app/dm/api/ai-mentor/orgs/{org}/users/{username}/mentors/{mentor}/available-tools/?search={q}&ordering={field}`
   — the tools the agent can be given. Each row: `id`, `name`, `slug` (the
   value `tool_slugs` takes), `display_name`, `description`, `category`
-  (`{id, name, description}`), `logo`, `metadata`, `is_allowed` and
-  `capability_field`.
+  (`{id, name, description}`), `logo`, `metadata`, the `allow_base_agent` /
+  `allow_openai_agent` / `allow_openai_assistant` / `allow_google_agent`
+  booleans, `is_allowed` and `capability_field`.
   - `is_allowed`: whether the agent's current model can use the tool —
     `true`, `false`, or `null` when no model is known. The schema types it as
     a string, so treat `false` and `"false"` alike. Read the list again after

@@ -47,7 +47,7 @@ mode → settings → Management / Integrations / Billing / Memory / Organizatio
 | `AdminModeProvider`, `useAdminMode()` | `lib/iblai/admin-mode.tsx` | view state: default Admin, resets on reload |
 | `AdminModeSwitch` | `components/navbar/admin-mode-switch.tsx` | the switch (hidden for members) |
 | `AccountPanel` | `components/admin/account-panel.tsx` | one SDK `Account` surface opened on a tab, full-width |
-| `/admin/users` | `app/(app)/admin/users/page.tsx` | Users · Groups · Roles · Policies · Teams · Alerts + `InviteUserDialog` / `InvitedUsersDialog` |
+| `/admin/users` | `app/(app)/admin/users/page.tsx` | Users · Groups · Roles · Policies · Teams · Alerts · Applications + `InviteUserDialog` / `InvitedUsersDialog` |
 | `/admin/analytics/*`, `/admin/billing`, `/admin/memory`, `/admin/organization` | `app/(app)/admin/…` | `/iblai-vibe-analytics`, `-billing`, `-memory`, `-org-metadata` surfaces |
 | route gate | `app/(app)/layout.tsx` | admin links only when `adminMode`; `/admin/*` redirects home otherwise |
 | `requireAdmin(req)` | `lib/iblai/platform.ts` | server-side proof for admin routes (`/iblai-vibe-api`) |
@@ -97,14 +97,18 @@ menu on narrow screens if you have one).
 `virtualMachine` (the Network page), `advanced`, `billing`, `memory`,
 `monetization`. Every admin page also reaches the others through the
 panel's own menu, where Invites, Onboarding and Apps sit under Workspace.
-Each is documented by its own skill:
+The SDK shows every tab but `management`, `invites`, `billing` and
+`monetization` to admins only, `billing` only while the org's paywall is
+on, and `monetization` only while the org has monetization turned on;
+without `enableRbac`, which vibe-starter does not pass, `invites` and
+`monetization` are admin-only too. Each is documented by its own skill:
 
 | Admin need | Tab / component | Skill |
 |---|---|---|
 | Users: role Admin/User, policies, activate/deactivate, search | `management` → Users | this skill; REST [management](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/users/iblai-api-management/SKILL.md) |
-| Invite (single, CSV: `email, first_name, last_name, platform_key, company_name, user_group`) | `InviteUserDialog`, `InvitedUsersDialog`, or the `invites` tab | `/iblai-vibe-invite` |
-| The agents new users are onboarded by, and the link to each | `onboarding` (admins only) | `/iblai-vibe-account` |
-| Deployed apps: state, address, domains, **Delete** | `apps` (admins only) | `/iblai-vibe-account`, `/iblai-vibe-ops-deploy` |
+| Invite (single, CSV: `email, platform_key, company_name, first_name, last_name, user_group, user_group_owner_email`; only `email` is required) | `InviteUserDialog`, `InvitedUsersDialog`, or the `invites` tab | `/iblai-vibe-invite` |
+| The agents new users are onboarded by, and the link to each | `onboarding` | `/iblai-vibe-account` |
+| Deployed apps: state, address, domains, **Delete** | `apps` | `/iblai-vibe-account`, `/iblai-vibe-ops-deploy` |
 | Roles and policies (custom grants) | `management` → Roles / Policies (`RolesTab`, `PoliciesTab`) | `/iblai-vibe-rbac` |
 | Groups, teams, alerts | `management` | `/iblai-vibe-account` |
 | Platform API Tokens for your own software | `api` | `/iblai-vibe-account`; REST `/iblai-api-token` |

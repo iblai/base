@@ -48,10 +48,12 @@ Admins Only back to All Members turns the catalog off.
   can do in a chat. Each switch saves as soon as you change it." A click saves
   only that switch's flag (`capability_web_search`,
   `capability_image_generation`, `capability_video_generation`,
-  `capability_code_interpreter`, `capability_subagents`). They are not fields
-  of the form, and Save does not send them. Locked switches, refused saves and
-  the other tabs' switches: `/iblai-vibe-agent-tool`. On a platform older
-  than API version 4.467.0 the block renders nothing.
+  `capability_code_interpreter`, `capability_subagents`), plus
+  `can_use_tools: true` when one of the first four is turned on for an agent
+  that could not use tools yet. They are not fields of the form, and Save does
+  not send them. Locked switches, refused saves and the other tabs' switches:
+  `/iblai-vibe-agent-tool`. On a platform older than API version 4.467.0 the
+  block renders nothing.
 - **Global Capabilities** apply to in-app chat and the embed widget alike.
   **Chat Experience** holds Verbose Reasoning, Reopen Last Conversation and
   Prompt Caching (Anthropic models; it also turns off document retrieval,
@@ -89,10 +91,15 @@ live preview.
 
 **Copy** -- the footer shows Copy only when the agent’s **Allow Copies** is on
 (`forkable`), and Delete only when the agent’s `permissions` grant delete on
-`object` (see `enableRBAC` below). Copy opens `CopyMentorModal`: name the copy,
-choose whether to include training data (disabled unless the agent has
-`forkable_with_training_data`), and -- when `tenants` holds two or more
-organizations with `is_admin: true` -- pick the destination organization.
+`object` (see `enableRBAC` below). Copy opens `CopyMentorModal`: name the copy
+and choose whether to include training data (disabled unless the agent has
+`forkable_with_training_data`). An admin of the current organization (its
+entry in `tenants` has `is_admin: true`) also sees
+**Copy to this Organization**, ticked by default; **Copy** then makes the copy
+here. To copy into another organization they untick it and press
+**Continue**, which opens the auth app's organization chooser. Anyone else
+sees only **Continue**. Continue appears only when you pass `authUrl`;
+without it, a person who is not an admin here cannot copy.
 
 ![Settings tab -- Copy dialog](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-setting/iblai-vibe-agent-setting-4-copy.png)
 
@@ -277,14 +284,17 @@ Beyond `header`, `fields`, `actions`, `toasts`, `deleteModal` and `copyModal`,
 the bundle holds the optional `infoBox`, names the sub-tabs (`subTabs.basic` /
 `discovery` / `capabilities` / `welcomeScreen`), the Capabilities headings
 (`sections.chatExperience`, `advanced`, `globalSettings`), the File Uploads
+heading with its File Types Users Can Attach row and dialog
+(`allowedFileTypes`, defaults in `AGENT_SETTINGS_TAB_LABELS.allowedFileTypes`;
+optional, so a bundle without it follows the SDK's locale), the File Uploads
 columns (`surfaces.inAppChat`, `embedWidget`), the Global Capabilities note and
 the column tooltips (`notes.globalSettings`, `inAppChat`, `embedWidget`), the
 `sections.contextLimits` heading, the Discovery controls
 (`discoveryAccess`, defaults in `AGENT_SETTINGS_TAB_LABELS.discoveryAccess`;
-optional, so a bundle without it falls back to English), and the confirm dialog
-(`adminVisibilityConfirm`) that opens when Save switches Who Can Use This
-Agent? to Admins Only -- a test that waits for the success toast must answer
-it first. `fields.whoCanView` / `fields.whoCanChat` no longer label
+optional, so a bundle without it follows the SDK's locale), and the confirm
+dialog (`adminVisibilityConfirm`) that opens when Save switches Who Can Use
+This Agent? to Admins Only -- a test that waits for the success toast must
+answer it first. `fields.whoCanView` / `fields.whoCanChat` no longer label
 Discovery; the Embed tab still reads them. The Allow In-Chat Model Change
 copy is in the LLM tab's `LLMTabLabels.inChatModelChange`, not here. The
 Agent Capabilities block's copy is not in `labels` either; it follows the
@@ -312,11 +322,12 @@ Import from `@iblai/iblai-js/web-containers/next`.
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `tenants` | `CopyMentorTenant[]` (`{ key, name?, is_admin }`) | Yes | Organizations the agent can be copied into (forwarded to `CopyMentorModal`); only entries with `is_admin: true` are offered as destinations. Copy itself shows only when the agent allows copies |
+| `tenants` | `CopyMentorTenant[]` (`{ key, name?, is_admin }`) | Yes | Organizations the person belongs to (forwarded to `CopyMentorModal`); the modal only checks whether they are an admin (`is_admin: true`) of the current one, which offers **Copy to this Organization**. Copy itself shows only when the agent allows copies |
 | `isLoadingTenants` | `boolean` | No | Loading state for the organization list |
+| `authUrl` | `string` | No | Auth app base URL; enables **Continue**, which copies the agent into another organization on the auth app |
 | `onSuccessfulSave` | `(mentor: MentorSettings) => void` | No | Fired after a successful save |
 | `onSuccessfulDelete` | `(deletedMentorId: string) => void` | No | Fired after a successful delete |
-| `onSuccessfulCopy` | `(params: { forkedMentorId, destinationTenantKey, isCrossTenantCopy }) => void` | No | Fired after a successful copy |
+| `onSuccessfulCopy` | `(params: { forkedMentorId, destinationTenantKey, isCrossTenantCopy }) => void` | No | Fired after a copy into the current organization (`isCrossTenantCopy` is always `false`; a copy elsewhere is finished on the auth app) |
 | `labels` | `DeepPartial<SettingsTabLabels>` | No | Override user-visible strings |
 
 ## `<AgentSettingsProvider>` Props
@@ -364,10 +375,12 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 - **Shared provider**: Mount `AgentSettingsProvider` at a layout level so
   multiple tabs (`settings`, `llm`, `prompts`, ...) share one wrapper.
   Do NOT wrap each tab page individually.
-- **Organizations list**: The `tenants` prop drives the **Copy to organization** flow.
-  The destination picker appears only when two or more entries have
-  `is_admin: true` -- keep `is_admin` when mapping `localStorage.tenants`.
-  If the user should not be able to copy cross-organization, pass an empty array.
+- **Organizations list**: `tenants` decides only whether
+  **Copy to this Organization** is offered (the person's entry for the current
+  organization has `is_admin: true`) -- keep `is_admin` when mapping
+  `localStorage.tenants`. A copy into another organization happens on the auth
+  app through **Continue**: pass `authUrl` to allow it, leave it out to keep
+  copies inside this organization.
 - **Labels ownership**: Consumer-specific bundles (agent, tutor, coach)
   live in the consuming app, not in `@iblai/iblai-js`. The package only
   ships `AGENT_SETTINGS_TAB_LABELS` as a neutral default.

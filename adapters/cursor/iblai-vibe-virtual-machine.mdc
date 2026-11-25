@@ -29,7 +29,7 @@ agent happens on its Sandbox tab — see `/iblai-vibe-agent-virtual-machine`.
 
 ![Secrets — the Environment Variables tab](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-virtual-machine/iblai-vibe-virtual-machine-env-vars.png)
 
-![Add Environment Variable dialog — the variable name is filled in from the name](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-virtual-machine/iblai-vibe-virtual-machine-add-env-var.png)
+![Add Environment Variable dialog — Name, Key, Allowed Hosts and Variable Name](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/organizations/iblai-vibe-virtual-machine/iblai-vibe-virtual-machine-add-env-var.png)
 
 > **Common setup (brand, conventions, env files, verification):** see [docs/skill-setup.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/docs/skill-setup.md).
 
@@ -51,7 +51,7 @@ agent happens on its Sandbox tab — see `/iblai-vibe-agent-virtual-machine`.
 
 - Auth must be set up first (`/iblai-vibe-auth`)
 - MCP server + skills configured (`@iblai/mcp` in `.mcp.json`)
-- `@iblai/iblai-js@^3.0.0`. Releases before 2.68.0 kept both records on one
+- `@iblai/iblai-js@^3.1.0`. Releases before 2.68.0 kept both records on one
   Virtual Machine tab with **Network Policies** / **Secrets** sub-tabs.
 - The viewer needs
   `Ibl.Mentor/VirtualMachineNetworkPolicies/{list,write,delete}` and
@@ -162,7 +162,7 @@ All from `@iblai/iblai-js/web-containers`.
 - Columns: **Name**, **Variable Name** (a code chip), **Allowed Hosts**
   (the first three, then "+N more"), **Actions**. Every environment
   variable is listed, including one that reads a key from the Services tab
-  (`STRIPE_KEY` above).
+  (for example a `STRIPE_KEY` that reads the Stripe key).
 - Empty: *"No environment variables found"*.
 - **Add / Edit Environment Variable** dialog:
   - **Name** — how the key is listed here and on each agent's Sandbox tab.

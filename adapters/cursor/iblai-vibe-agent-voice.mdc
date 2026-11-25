@@ -13,15 +13,16 @@ are always usable: **Voice** (the voice that reads chat replies), **Calls**
 (how live calls behave), and **Dictation** (the speech-to-text side). Calls
 and Dictation each open with a box of two switches, **In-App Chat** and
 **Embed Widget**, that show or hide the chat's call button or microphone
-button on that surface. This tab is the only place for those four switches;
-Settings > Capabilities no longer has them. **Save** is pinned at the bottom
-on every sub-tab. This is one tab in the agent-settings family indexed by
-`/iblai-vibe-agent`; it shares the `AgentSettingsProvider` wrapper with every
-other tab.
+button on that surface. Settings > Capabilities no longer has these switches.
+The two In-App Chat switches are only here; the Embed tab (`AgentEmbedTab`)
+still has its own switches for the two Embed Widget fields. **Save** is
+pinned at the bottom on every sub-tab. This is one tab in the agent-settings
+family indexed by `/iblai-vibe-agent`; it shares the `AgentSettingsProvider`
+wrapper with every other tab.
 
 **Voice** -- no switch here: the voice source (**Browser**, **Google**,
 **ibl.ai**, **OpenAI**), the voice, and for OpenAI and Google the **Voice
-Instructions** card (here filled from the "Warm and encouraging" example).
+Instructions** card (here filled from the "Warm and Encouraging" example).
 
 ![Voice tab -- Voice sub-tab](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-voice/iblai-vibe-agent-voice-1-voice.png)
 
@@ -31,7 +32,7 @@ provider's voices, each with a play button for a sample.
 ![Voice tab -- voice picker](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-voice/iblai-vibe-agent-voice-2-voice-picker.png)
 
 **Calls** -- the **Voice Calls** box (In-App Chat and Embed Widget
-switches), then call style (Live conversation / Step-by-step), spoken
+switches), then call style (Live Conversation / Step-by-Step), spoken
 language, AI provider, **Smart Document Retrieval**, and the voice used on
 calls, with **Reset** and **Save**. Smart Document Retrieval saves the call
 configuration's `use_function_calling_for_rag`: on, a call that runs step by
@@ -57,7 +58,7 @@ off. A field the agent's settings leave out reads as on.
 
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1).
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0, which
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0, which
   has the per-surface switches, the ibl.ai source, and the Calls and
   Dictation sub-tabs). The four switches work on any platform version.
 - A real agent UUID. Ask the user; never invent one.
@@ -146,8 +147,9 @@ Label groups (`VoiceTabLabels`):
 | `toasts` | `voiceSaved`, `voiceError`, `callConfigSaved`, `callConfigError`, `transcriptionSaved`, `transcriptionError`, `turnedOn(name, surface)`, `turnedOff(name, surface)` |
 
 `@iblai/web-containers` 2.0.0 removed `mentorVoice.title`, `callConfig.title`
-and `transcription.toggle.label` / `tooltip` / `helpText`; a host that passes
-them removes them.
+and `transcription.toggle.label` / `tooltip` / `helpText`. A host that still
+passes them in `labels` should delete them: the tab no longer reads them, and
+TypeScript rejects them as unknown keys in an object literal.
 
 ## Step 5: Use MCP Tools for Customization
 
@@ -243,7 +245,7 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
   to an instruction-capable speech model; the help text says so. The
   1000-character cap is a UI guardrail.
 - **Screen sharing** lives on its own tab (`/iblai-vibe-agent-screenshare`)
-  and always uses Live conversation.
+  and always uses Live Conversation.
 - **Shared provider**: mount `AgentSettingsProvider` once at the layout level
   (`/iblai-vibe-agent` §1); do not wrap each tab.
 - **Peer deps**: `sonner` and `@iblai/iblai-web-mentor`

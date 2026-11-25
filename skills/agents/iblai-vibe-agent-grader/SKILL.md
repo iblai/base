@@ -1,6 +1,6 @@
 ---
 name: iblai-vibe-agent-grader
-description: Add the agent Grader tab (write grading instructions, build a points rubric, turn Grading and Lesson Completion on, and review or override the grades the agent issued) to your Next.js app. Use when the user mentions grading, rubrics, scoring essays or submissions, auto-grading, grade overrides, lesson completion, or LMS grade sync. For the agent's other capability switches see /iblai-vibe-agent-setting.
+description: Add the agent Grader tab (write grading instructions, build a points rubric, turn Grading and Lesson Completion on, and review or override the grades the agent issued) to your Next.js app. Use when the user mentions grading, rubrics, scoring essays or submissions, auto-grading, grade overrides, lesson completion, or LMS grade sync. For where the agent's other capability switches live see /iblai-vibe-agent-tool.
 globs:
 alwaysApply: false
 metadata:
@@ -74,7 +74,7 @@ state: this agent had not graded anything yet.)
 
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1).
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0). Check with
   `pnpm why @iblai/web-containers`.
 - A real agent UUID. Ask the user; never invent one.
 - A platform that returns the `capability_*` flags on the agent's settings
@@ -109,9 +109,14 @@ export default function AgentGraderPage() {
 The tab reads `tenantKey`, `mentorId`, `username`, `enableRBAC` and
 `rbacPermissions` from `AgentSettingsProvider`; each can be passed as a prop
 instead. With `enableRBAC={false}` (the `/iblai-vibe-agent` layout) every
-control shows and the server's 403s are the only gate -- no grants need
-loading. A 403 on the setup or rubric replaces the tab body (the header stays)
-with "No Access to Grading Settings".
+grader action (setup, rubric, results) shows and the server's 403s are the
+only gate -- no grants need loading. The two switches ignore `enableRBAC`:
+they follow `permissions.field` on the agent's settings. A switch whose flag
+the person may not change is locked; if they may not read `capability_grading`
+the Grading switch is locked too, and if they may not read
+`capability_lesson_completion` its row does not render. A 403 on the setup or
+rubric replaces the tab body (the header stays) with "No Access to Grading
+Settings".
 
 With `enableRBAC` on, each action is checked as `/mentors/<agent db id>/#<action>`:
 `read_grader_config`, `create_grader_config`, `write_grader_config`,
@@ -121,7 +126,7 @@ Load them with `useGetRbacPermissionsMutation` (`requestBody: { platform_key,
 resources: ["/mentors/<agent db id>/"] }`; the db id is `mentor_id` on the
 agent's settings) and pass the result as `rbacPermissions`, on the provider or
 as the tab's prop. The tab reads only that, never the store's `state.rbac`.
-If the grants hold no entry for the agent, everything stays visible.
+If the grants hold no entry for the agent, every action stays visible.
 
 **How the two switches behave.** Each one saves on the click and toasts
 "Grading turned on" / "Grading turned off — your rubric is kept for next
@@ -249,9 +254,11 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 
 ## Important Notes
 
-- **Activation is a flag**: the switch saves only `capability_grading`; it
-  never rewrites the agent's tool list. The SDK's Tools tab is gone
-  (`AgentToolsTab` was removed in `@iblai/web-containers` 2.0.0).
+- **Activation is a flag**: the switch saves `capability_grading` (plus
+  `can_use_tools: true` when turning it on for an agent that could not use
+  tools yet); it never sends the agent's tool list (`tool_slugs`). The SDK's
+  Tools tab is gone (`AgentToolsTab` was removed in `@iblai/web-containers`
+  2.0.0).
 - **Model changes**: while Grading is on, the platform refuses a model that
   can't use it, and the LLM tab's toast says "Grading is on, and the model
   you picked can't use it. Turn it off in the Grader tab first, or pick a

@@ -86,9 +86,9 @@ offers **Delete Dataset**. Switching an untrained row on asks whether to
 
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1).
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0). Check with
   `pnpm why @iblai/web-containers`. The Google Drive behaviour below (Allow
-  cookies, Try Again) needs 2.62.2 or later.
+  cookies, Try Again) needs `@iblai/iblai-js` 2.62.2 or later.
 - A real agent UUID. Ask the user; never invent one.
 - For the Google Drive tile: the organization's `drive` credential, added
   under organization settings → Secrets → **Services** (`client_id`,
@@ -232,7 +232,9 @@ column headings and `emptyState`), `toasts` (`updateSuccess`, `updateError`,
 `deleteSuccess`, `deleteError`, `trainQueued`, `retrainSuccess`,
 `retrainError`), `deleteModal`, `trainOrDeleteModal` (including the crawler
 `userAgent*` copy), and `retrainScheduleModal`. The Add Resources dialogs use
-the SDK's own copy.
+the SDK's own copy, and so does the Enhanced Document Retrieval box: its name,
+sentence, model note, lock reasons, toasts and errors come from the SDK's own
+catalogue, not from `labels`.
 
 ## Step 4: Use MCP Tools for Customization
 
@@ -278,7 +280,7 @@ From `@iblai/iblai-js/web-containers/next`:
 | Visibility (eye icon) | `PUT documents/{id}/` with `access: "public"` or `"private"` |
 | Schedule Retraining | `POST documents/{id}/settings/` with `retrain_interval_days` |
 | Delete | `DELETE documents/{id}/` |
-| Enhanced Document Retrieval | `PUT /api/ai-mentor/orgs/{org}/users/{username}/mentors/{uuid}/settings/` with `capability_advanced_document_search` and `enable_multi_query_rag` (only `enable_multi_query_rag` while the model limits it) |
+| Enhanced Document Retrieval | `PUT /api/ai-mentor/orgs/{org}/users/{username}/mentors/{uuid}/settings/` with `capability_advanced_document_search` and `enable_multi_query_rag` (plus `can_use_tools: true` when turning it on for an agent that could not use tools yet; only `enable_multi_query_rag` while the model limits it) |
 
 The document paths sit under `/api/ai-index/orgs/{org}/users/{username}/`.
 Test ids for the switch: `capability-card-advanced-document-search`,

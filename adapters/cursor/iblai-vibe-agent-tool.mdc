@@ -29,7 +29,7 @@ Every tab below reads the agent from `AgentSettingsProvider`
 | Video Generation | Settings › Capabilities › Agent Capabilities | `capability_video_generation` | `/iblai-vibe-agent-setting` |
 | Code Interpreter | Settings › Capabilities › Agent Capabilities | `capability_code_interpreter` | `/iblai-vibe-agent-setting` |
 | Plan (splits a big request into tasks for helper agents) | Settings › Capabilities › Agent Capabilities | `capability_subagents` | `/iblai-vibe-agent-setting` |
-| Enhanced Document Retrieval | Datasets, the box under the info box | `capability_advanced_document_search` and `enable_multi_query_rag`, in one request | `/iblai-vibe-agent-dataset` |
+| Enhanced Document Retrieval | Datasets, the box under the info box | `capability_advanced_document_search` and `enable_multi_query_rag`, in one request; only `enable_multi_query_rag` while the flag is off and the agent's model cannot run the search tool (the box then says "With this model, your agent can't search again while it works on a reply.") | `/iblai-vibe-agent-dataset` |
 | Grading | Grader, the switch at the top | `capability_grading` | `/iblai-vibe-agent-grader` |
 | Lesson Completion | Grader, the row under the Grading switch | `capability_lesson_completion` | `/iblai-vibe-agent-grader` |
 | Human Support | Support, the **Human Support** switch | `capability_human_support` | `/iblai-vibe-agent-support` |
@@ -54,7 +54,8 @@ or with `useToggleTools` (below).
 The capability switches (every `capability_*` row above) share one behaviour:
 
 - **Saves on the click** through `useEditMentorMutation`, the agent's settings
-  `PUT`, with only its own flag. When a capability with a tool behind it is
+  `PUT`, with only its own flag (Enhanced Document Retrieval adds
+  `enable_multi_query_rag`). When a capability with a tool behind it is
   turned on for an agent that could not use tools yet, the request also sends
   `can_use_tools: true`. Nothing sends `can_use_tools: false`: the platform
   would clear every tool on the agent.
@@ -67,13 +68,18 @@ The capability switches (every `capability_*` row above) share one behaviour:
   in the LLM tab to turn it on."). The model check reads the `capability_field`
   and `is_allowed` columns of the agent's tool list (`useGetToolsQuery`), read
   again each time a tab with a switch opens and right after the LLM tab saves a
-  model.
+  model. Enhanced Document Retrieval is the exception: while its flag is off
+  and the model cannot run the search tool, the model does not lock the
+  switch, which then saves `enable_multi_query_rag` alone and needs write
+  access to that field only.
 - **A refused save turns the switch back** and shows one sentence under it,
   never a toast and never the platform's own text. For example "Web Search
   doesn't work with the model this agent uses. Pick another model in the LLM
   tab, then try again." or "Couldn't update Web Search. Try again."
-- **Renders nothing** when the user may not read the flag, or when the
-  platform does not return it (see Compatibility).
+- **Renders nothing** when the platform does not return the flag or the user
+  may not read it, except Grading, whose switch then stays off and locked, and
+  Screen Sharing, whose switch then reads and writes the call configuration's
+  `enable_video` (see Compatibility).
 
 Two tabs add a rule of their own. Grading stays off and locked ("Add at least
 one rubric criterion first, then turn Grading on.") until the rubric has a

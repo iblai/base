@@ -184,7 +184,7 @@ update endpoint:
 
 **The kinds are mutually exclusive** — only one can be enabled at a
 time. The component enforces this client-side: enabling one kind
-turns the other two off **in the same PATCH**, and toggling the
+turns the other two off **in the same `PUT`**, and toggling the
 active kind off leaves none enabled. Switches flip optimistically and
 revert with an error toast if the save fails.
 
@@ -265,12 +265,15 @@ Both components import from `@iblai/iblai-js/web-containers`.
   Name, URL, Type, Status (Active / Error), Health (Healthy /
   Unhealthy with full error in tooltip), Version, Last Check.
 - **Add Instance** — opens a "New Instance" dialog: Name, Type
-  (`OpenClaw`), Server URL, Gateway Token. The token write-only —
-  never read back from the API.
-- **Per-row actions** (kebab menu): **Connect** (binds this instance
-  to the current agent), **Run Checks** (health + connectivity
-  ping), **Edit** (gateway token re-prompt; leave blank to keep
-  existing), **Delete**.
+  (**OpenClaw** or **IronClaw**), Server URL, Gateway Token. The token is
+  write-only — never read back from the API.
+- **Connect** — an outline button beside each row's kebab menu that
+  binds the instance to the current agent; disabled while the row's
+  Status reads Error (tooltip "This instance is unhealthy. …") and
+  while a connect is in progress.
+- **Per-row actions** (kebab menu): **Run Checks** (health +
+  connectivity ping), **Edit** (Name, Type, Server URL, Gateway Token;
+  Save stays disabled until the token is entered again), **Delete**.
 - **Connected Instance card** — once an agent is bound, the table
   collapses into a card showing Name, URL, Status, Health, Last
   Check, with **Run Checks** and **Disconnect** actions.
@@ -365,10 +368,10 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 - **`mentorUniqueId` vs `mentorId`**: The sandbox endpoints key on the
   agent's UUID (called `mentorUniqueId` in the SDK), not the integer
   pk. Pass the same UUID you use everywhere else in the agent-* family.
-- **Gateway token write-only**: The token is required to add an
-  instance and required again when editing if you want to rotate it,
-  but the API never returns it. Leaving the field blank on edit keeps
-  the existing value.
+- **Gateway token write-only**: The API never returns the token. Both
+  instance dialogs require it, so every edit means entering it again.
+  `useUpdateClawInstanceMutation` itself sends a `PATCH` that leaves
+  out an empty `gateway_token`, which keeps the stored token.
 - **Push gating**: `usePushClawConfigMutation` returns
   `400 No configuration to push` when every agent-config field is
   empty. The component mirrors that gate locally — the manual Push
@@ -379,7 +382,7 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
   consumers should do the same.
 - **Sandbox kinds are mutually exclusive**: `SandboxConfig` owns the
   three flags (`enable_computational_runtime`, `enable_virtual_machine`,
-  `enable_claw`) and enforces the one-at-a-time rule in each PATCH
+  `enable_claw`) and enforces the one-at-a-time rule in each `PUT`
   (see Step 2.5) — host-side tab gating on `enable_claw` is no longer
   required. Custom UI writing the flags directly must clear the other
   two when enabling one. Existing Claw instances and configs are
@@ -411,12 +414,12 @@ request. Only `enable_claw` unlocks the OpenClaw endpoints below.
 
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `claw-instances/` | List instances |
-| POST | `claw-instances/` | Register a new instance |
-| PATCH | `claw-instances/{id}/` | Update name / URL / type / token |
-| DELETE | `claw-instances/{id}/` | Delete |
-| POST | `claw-instances/{id}/health-check/` | Run a health probe |
-| POST | `claw-instances/{id}/test-connectivity/` | Run a connectivity probe |
+| GET | `claw/instances/` | List instances |
+| POST | `claw/instances/` | Register a new instance |
+| PATCH | `claw/instances/{id}/` | Update name / URL / type / token |
+| DELETE | `claw/instances/{id}/` | Delete |
+| POST | `claw/instances/{id}/health-check/` | Run a health probe |
+| POST | `claw/instances/{id}/test-connectivity/` | Run a connectivity probe |
 
 **Create / update body:**
 
@@ -438,9 +441,9 @@ request. Only `enable_claw` unlocks the OpenClaw endpoints below.
 | GET | `mentors/{mentor_unique_id}/claw-config/` | Read current binding (404 = not connected) |
 | POST | `mentors/{mentor_unique_id}/claw-config/` | Connect — body `{ "server": <instanceId>, "enabled": true }` |
 | DELETE | `mentors/{mentor_unique_id}/claw-config/` | Disconnect |
-| POST | `mentors/{mentor_unique_id}/claw-config/push/` | Push current agent config to the sandbox |
+| POST | `mentors/{mentor_unique_id}/claw-config/push-config/` | Push current agent config to the sandbox |
 
-`push` returns `400 No configuration to push` when every agent-config
+`push-config/` returns `400 No configuration to push` when every agent-config
 field is empty. Pre-flight by checking the agent config locally.
 
 ### Agent configuration (prompts + model)

@@ -86,13 +86,14 @@ in-chat toggle.
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1), **or** pass
   `tenantKey` / `mentorId` / `username` as props.
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0). Check with
   `pnpm why @iblai/web-containers`.
 - A real agent UUID. Ask the user; never invent one.
 - The **Incognito** sub-tab appears only when the organization allows
   user chat-privacy control (`allow_user_chat_privacy_control`). With
-  the gate off there is no Incognito to govern, and the tab shows PII
-  Filtering alone.
+  the gate off there is no Incognito to govern: below the info box the
+  tab shows the **Privacy Filtering** content (both cards and **Also
+  Filter AI Responses**) on its own, with no sub-tab switcher.
 
 ## Step 1: Check Environment
 
@@ -270,6 +271,7 @@ the mismatch.
 | Organization gate `allow_user_chat_privacy_control` off | Incognito sub-tab not offered |
 | `enableRBAC` and **no** filtering field (PII, PHI or output filter) is readable (`permissions.field`) | Privacy Filtering not offered |
 | `enableRBAC` and **either** Incognito flag is unreadable | Incognito not offered |
+| Only one sub-tab offered | It renders on its own, with no switcher (no `privacy-sub-tab-*` triggers) |
 | Nothing readable | The tab shows a single notice: *"You don't have permission to view this agent's privacy settings."* |
 
 Members typically see Incognito read-only and no Privacy Filtering. Writes
@@ -311,6 +313,12 @@ From `@iblai/iblai-js/data-layer`:
   `IP_ADDRESS`, `IBAN_CODE`, `MEDICAL_LICENSE`, `US_BANK_NUMBER`),
   `DEFAULT_PRIVACY_ACTION`, `DEFAULT_PRIVACY_RESPONSE`, and the
   `PrivacyAction` / `PrivacyEntityType` types.
+- `PHI_ENTITY_TYPES` (`DISEASE_DISORDER`, `MEDICATION`,
+  `THERAPEUTIC_PROCEDURE`, `BIOLOGICAL_STRUCTURE`, `CLINICAL_EVENT`,
+  `BIOLOGICAL_ATTRIBUTE`, `HISTORY`, `FAMILY_HISTORY`, `MEDICAL_RECORD_NUMBER`,
+  `HEALTH_PLAN_BENEFICIARY_NUMBER`, `ACCOUNT_NUMBER`, `DEVICE_SERIAL_NUMBER`),
+  `DEFAULT_PHI_ACTION` (`allow`), and the `PhiEntityType` type -- the PHI
+  card's counterparts.
 - `isPrivacyBlockedError`, `PRIVACY_BLOCKED_ERROR_KIND` -- recognise the
   `privacy_blocked` error a **Block** action sends over the chat stream, to
   style it apart from a moderation block.

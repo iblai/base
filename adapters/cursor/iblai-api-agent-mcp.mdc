@@ -194,7 +194,8 @@ existed for the same (user, provider, org, service), it is updated in place.
   ```
   - `name`, `url`, `transport`, `auth_type` are required; `auth_scope`
     defaults to `platform`. `transport` accepts `sse` and `streamable_http`
-    only: `websocket`, still offered by older UIs, answers 400.
+    only: `websocket`, still offered in the SDK's MCP connector dialog,
+    answers 400.
   - Server-level `credentials` must be the **full authorization value**
     (`<scheme> <credentials>`); it takes priority over `extra_headers`.
   - `is_featured=true` makes the server available to **other orgs** to

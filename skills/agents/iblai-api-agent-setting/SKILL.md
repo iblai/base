@@ -1,6 +1,6 @@
 ---
 name: iblai-api-agent-setting
-description: Read and write an ibl.ai agent's core settings via the platform API — name, description, category, profile image, visibility, feature flags (anonymous, featured, LTI, attachments, voice, memory, reasoning, prompt caching, incognito, forkable, additional agents) and the capability_* flags, one per capability (web search, image and video generation, code interpreter, Plan, enhanced document retrieval, grading, lesson completion, human support, screen sharing), each saved on its own. Also fork/duplicate and delete an agent. Use when configuring an agent's basic identity, or turning one capability on or off.
+description: Read and write an ibl.ai agent's core settings via the platform API — name, description, category, profile image, visibility, feature flags (anonymous, featured, LTI, attachments, voice, memory, multi-query RAG, reasoning, prompt caching, incognito, forkable, additional agents) and the capability_* flags, one per capability (web search, image and video generation, code interpreter, Plan, enhanced document retrieval, grading, lesson completion, human support, screen sharing), each saved on its own. Also fork/duplicate and delete an agent. Use when configuring an agent's basic identity, or turning one capability on or off.
 metadata:
   core: true
   kind: api

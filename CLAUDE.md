@@ -176,8 +176,12 @@ skill (raw SKILL.md: endpoints, bodies, errors). Ask `@iblai/mcp`
   call the hooks.
   REST: [profile-metadata](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/users/iblai-api-profile-metadata/SKILL.md)
 - **Agent settings** — one agent’s identity (name, description, categories,
-  image), visibility, and capability flags (anonymous, featured, LTI,
-  attachments, voice, memory, multi-query RAG, forkable). Everything saves
+  image), visibility, feature flags (anonymous, featured, LTI, attachments,
+  voice, memory, multi-query RAG, forkable) and the ten `capability_*` flags,
+  one per capability (web search, image and video generation, code
+  interpreter, Plan, enhanced document retrieval, grading, lesson completion,
+  human support, screen sharing), each saved on its own by its switch;
+  `/iblai-vibe-agent-tool` maps which tab has each switch. Everything saves
   through one `PUT …/mentors/{mentor}/settings/` (multipart, only the changed
   fields); fork copies the agent into any org you admin; delete is
   destructive. SDK: `useGetMentorSettingsQuery`, `useEditMentorMutation`

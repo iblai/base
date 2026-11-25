@@ -1,6 +1,6 @@
 ---
 name: iblai-vibe-invite
-description: Add user invitations to your Next.js app, with the SDK's Invite User dialog (invite by email or from a CSV, the invitation list, optional course and program invites), the pending-invitations dialog, the same flow inline on a page, or the Invites tab of the organization settings. Use when the user mentions inviting users, invitations, pending invites, or an Invites page. For the organization settings page see /iblai-vibe-account; for the REST endpoints see /iblai-api-invite.
+description: Add user invitations to your Next.js app, with the SDK's Invite User dialog (invite by email or from a CSV, the invitation list, optional course and program invites), the invited-users dialog, the same flow inline on a page, or the Invites tab of the organization settings. Use when the user mentions inviting users, invitations, pending invites, or an Invites page. For the organization settings page see /iblai-vibe-account; for the REST endpoints see /iblai-api-invite.
 globs:
 alwaysApply: false
 metadata:
@@ -10,8 +10,8 @@ metadata:
 # /iblai-vibe-invite
 
 Add user invitation features -- a dialog to invite new users to an
-organization by email (one at a time or from a CSV), and a dialog showing
-pending invitations with their status. The same invite flow also comes inline
+organization by email (one at a time or from a CSV), and a dialog listing
+invited users by email. The same invite flow also comes inline
 (`InviteUserContent`) and as the **Invites** tab of the organization settings,
 which needs no dialog of your own (see "The Invites tab instead of a dialog").
 
@@ -65,8 +65,10 @@ Dialog to invite users to the organization by email, one at a time or from a CSV
 
 ## `<InvitedUsersDialog>` Props
 
-Dialog showing pending invitations with their status. Render it only while
-it should show: it has no `isOpen`.
+Dialog listing the emails on the first page of the organization's invitations,
+with no status column and no pager (the invitation list in `InviteUserDialog`
+and in the **Invites** tab shows Pending, Accepted or Expired). Render it
+only while it should show: it has no `isOpen`.
 
 | Prop | Type | Description |
 |------|------|-------------|
@@ -86,23 +88,23 @@ import { resolveAppTenant } from "@/lib/iblai/tenant";
 
 export function InviteSection() {
   const [showInvite, setShowInvite] = useState(false);
-  const [showPending, setShowPending] = useState(false);
+  const [showInvited, setShowInvited] = useState(false);
   const tenant = resolveAppTenant();
 
   return (
     <div className="flex gap-2">
       <Button onClick={() => setShowInvite(true)}>Invite User</Button>
-      <Button variant="outline" onClick={() => setShowPending(true)}>
-        View Pending
+      <Button variant="outline" onClick={() => setShowInvited(true)}>
+        Invited Users
       </Button>
       <InviteUserDialog
         isOpen={showInvite}
         onClose={() => setShowInvite(false)}
         tenant={tenant}
       />
-      {showPending && (
+      {showInvited && (
         <InvitedUsersDialog
-          onClose={() => setShowPending(false)}
+          onClose={() => setShowInvited(false)}
           tenant={tenant}
         />
       )}

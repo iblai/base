@@ -7,8 +7,9 @@ import { PageHeader } from "@/components/page-header";
 import { resolveAppTenant } from "@/lib/iblai/tenant";
 
 /**
- * Users · Groups · Roles · Policies · Teams · Alerts — the SDK's Management
- * surface — plus invitations. Admin mode only (the (app) layout gates it).
+ * Users · Groups · Roles · Policies · Teams · Alerts · Applications — the
+ * SDK's Management surface — plus invitations. Admin mode only (the (app)
+ * layout gates it).
  */
 export default function AdminUsersPage() {
   const [showInvite, setShowInvite] = useState(false);

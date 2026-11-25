@@ -30,7 +30,7 @@ first save it says "No spend limit configured yet".
 ![Billing tab -- This Agent](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-billing/iblai-vibe-agent-billing-1-agent.png)
 
 **Per User** -- one row per user (email, limit and period, a status switch
-that saves at once, Exceeded / Alert Only badges) and **Add User Limit**.
+that saves at once, Limit Reached / Alert Only badges) and **Add User Limit**.
 
 ![Billing tab -- Per User](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-billing/iblai-vibe-agent-billing-2-per-user.png)
 
@@ -56,7 +56,7 @@ the same.
 
 - Auth set up (`/iblai-vibe-auth`, or vibe-starter).
 - `AgentSettingsProvider` wraps the route (`/iblai-vibe-agent` §1).
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0). Check with
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0). Check with
   `pnpm why @iblai/web-containers`.
 - A real agent UUID. Ask the user; never invent one.
 - Org admin rights: the spend-cap endpoints are admin-only. A user without

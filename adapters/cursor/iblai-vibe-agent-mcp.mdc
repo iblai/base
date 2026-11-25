@@ -24,7 +24,7 @@ in the agent-settings family; all tabs share `AgentSettingsProvider`.
 
 ![Add MCP Connector](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-mcp/iblai-vibe-agent-mcp-add.png)
 
-![Configure MCP Connector — sign-in scope and connection](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-mcp/iblai-vibe-agent-mcp-edit.png)
+![Configure MCP Connector — connector scope, who can turn it off, sign-in scope and connection](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-mcp/iblai-vibe-agent-mcp-edit.png)
 
 ![Configure — App Credentials](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-mcp/iblai-vibe-agent-mcp-configure-credentials.png)
 
@@ -42,7 +42,7 @@ in the agent-settings family; all tabs share `AgentSettingsProvider`.
 - MCP server + skills configured (`@iblai/mcp` in `.mcp.json`)
 - `AgentSettingsProvider` must wrap the route (see `/iblai-vibe-agent-setting`
   Step 2 if not already set up)
-- `@iblai/iblai-js@^3.0.0` (resolves `@iblai/web-containers` 2.0.0): the
+- `@iblai/iblai-js@^3.1.0` (resolves `@iblai/web-containers` 2.1.0): the
   Featured / Directory tabs, per-agent sign-in scope, "Allow Users to Turn
   Off", App Credentials and the chat's MCP panel arrived in
   `@iblai/web-containers` 1.58.1, the MCP switch in 2.0.0
@@ -339,21 +339,21 @@ address of an OAuth connector restarts the sign-in). For a **featured or
 directory** connector the fields are read-only; only two settings, both
 **for this agent**, and the organization's App Credentials can change:
 
-- **Authentication Scope** -- stored as the agent's override of the
-  connector's own scope; the card's pill follows it. Choosing Agent or
-  Organization while the agent has no such sign-in turns the connector off
-  until it is switched on again (which opens the sign-in).
+- **Authentication Scope** -- stored as the agent's override of the connector's
+  own scope; the card's pill follows it. Choosing Agent or Organization while
+  the agent has no such sign-in turns the connector off until it is switched on
+  again (which opens the sign-in). Read-only without a sign-in service.
 - **Allow Users to Turn Off** -- shown, but the platform refuses it for a
   featured or directory connector (404 unless your organization owns the
   connector; the tab says "Your organization can't change this setting").
   Only the owning organization can make such a connector mandatory.
 
-Under Authentication Scope, **Connection** shows Connected / Not Connected
-with **Connect** or **Disconnect** for the saved scope: the admin's own
-sign-in for User scope, the shared account otherwise. Disconnecting a
-shared sign-in also turns the connector off for the agent. **App
-Credentials** shows the organization's app for an OAuth connector (secret
-masked, "Saved. Enter a new one to replace it."), with **Remove
+Under Authentication Scope, **Connection** (only for a connector with a sign-in
+service) shows Connected / Not Connected with **Connect** or **Disconnect** for
+the saved scope: the admin's own sign-in for User scope, the shared account
+otherwise. Disconnecting a shared sign-in also turns the connector off for the
+agent. **App Credentials** shows the organization's app for an OAuth connector
+(secret masked, "Saved. Enter a new one to replace it."), with **Remove
 Credentials**; everyone who signed in through it must sign in again.
 
 ### The chat's MCP panel (for every user)
@@ -391,14 +391,15 @@ decides for itself, and the two do not always agree:
 |---|---|---|
 | The MCP switch | read / write on the agent's `mentor_tools` field (no switch without read) | the same as the per-agent switch (one settings `PUT`) |
 | Cards and the per-agent switch | read / write on the agent's `mcp_servers` field | whoever may write the agent's settings |
-| Add Connector | `/mcpservers/#create` | the same |
+| Add Connector | `/mcpservers/#create` in the provider's `rbacPermissions`, even with `enableRBAC` off (no grant, no button): load it with `useGetRbacPermissionsMutation` (`resources: ["/mcpservers/"]`) into a nested `AgentSettingsProvider`, as `/iblai-vibe-agent-dataset` Step 2 does | the same |
 | Delete | the connector's object delete permission (own connectors only) | the owning organization |
 | Authentication Scope (Configure) | write on `mcp_servers` | an **organization admin** or the Platform API Token (`mentor-auth-scope/` answers 403 "A mentor's MCP connection mode is set by platform admins." to anyone else, and 404 while the connector is off for the agent, which is why the tab stores the choice when the switch goes on) |
 | App Credentials | `/mcpservers/#create` | an **organization admin** or the Platform API Token (`credentials/` answers 403 "MCP server credentials are limited to platform admins.") |
 | Allow Users to Turn Off on a featured / directory connector | write on `mcp_servers` | the owning organization only (404 otherwise) |
 | The chat's MCP panel | signing in, plus read on `mcp_servers` when RBAC is on | the user's own preferences |
 
-With `enableRBAC` off, everything is shown; the platform's rules still apply.
+With `enableRBAC` off, the other controls hide or lock only where the platform's
+`permissions` say no (a missing entry counts as allowed); its rules still apply.
 
 ## The six switches, side by side
 
