@@ -154,6 +154,12 @@ curl -X POST \
   `xai`, `deepseek`, `perplexity` and `nvidia` hold that provider’s key. A model
   uses the organization’s own key first, then ibl.ai’s if the organization may
   borrow it (`default-llm-key-usage` above).
+- Service `vercel` (the organization's own hosting account, see
+  `/iblai-api-hosting`) holds `key` and `team_id`. A token that reaches exactly one
+  team has `team_id` filled in the first time hosting uses it; one that reaches
+  several must name it, or hosting calls answer `400` asking for `team_id`.
+  Apps deployed before the organization had this credential then have to be moved
+  onto it (`POST /dm/v1/apps/{id}/transfers`).
 - Service `drive` (Google Drive) holds `client_id` and `developer_key`.
   `client_id` must be the full Google OAuth client id,
   `<project-number>-<x>.apps.googleusercontent.com`, with the `drive.file`

@@ -1,5 +1,5 @@
 ---
-description: "Deploy and manage ibl.ai-hosted web apps headlessly via the Data Manager API — upload a build as a zip, poll the deployment until it is live, read the deployed URL, attach and verify custom domains, and delete projects. Covers the deployment lifecycle, the DNS records a domain needs, the public project-to-organization lookup a hosted app calls at boot, and the admin-only access rule. Use when deploying an app, checking a deploy's status, wiring a custom domain, or debugging a failed push; see /iblai-vibe-ops-deploy for the guided runbook."
+description: "Deploy and manage ibl.ai-hosted web apps headlessly via the Data Manager API — upload a build as a zip, poll the deployment until it is live, read the deployed URL, attach and verify custom domains, list every app of the organization, move an app onto the organization's own hosting account, and delete projects. Covers the deployment lifecycle, the DNS records a domain needs, the public project-to-organization lookup a hosted app calls at boot, and the admin-only access rule. Use when deploying an app, checking a deploy's status, wiring a custom domain, or debugging a failed push; see /iblai-vibe-ops-deploy for the guided runbook."
 globs:
 alwaysApply: false
 ---
@@ -19,6 +19,9 @@ family under `providers/vercel/hosting/` covers the whole lifecycle:
   live URL, attached domains and (on failure) the tail of the build log.
 - **Domains** — attach a custom domain, read the DNS records it needs, poll until
   verified, detach it.
+- **Apps** — every app of the organization in one paginated list with its domains,
+  and the move of an app from the ibl-supplied hosting account to the
+  organization's own.
 - **Boot lookup** — a public, unauthenticated endpoint a hosted app calls once at
   start-up to learn which organization it fronts.
 
@@ -44,7 +47,11 @@ deployed schema wins.
 - **`dm_url`** = `https://api.iblai.app/dm` — these are **Data Manager** endpoints
   reached through the gateway's `/dm` prefix.
 - **`base`** = `{dm_url}/api/ai-agent/orgs/{org}/users/{username}/providers/vercel/hosting`
-  for every endpoint except the public boot lookup.
+  for every endpoint except the public boot lookup and the two under `{dm_url}/v1/apps`.
+- **`{dm_url}/v1/apps`** — the organization-wide list and the move. No `orgs/{org}`
+  segment and no trailing slash: the organization is the token's. Send
+  `iblai-org: {org}` to state it; a value that is not the token's organization is a
+  `403`.
 - **Header:** `Authorization: Api-Token $IBLAI_API_KEY` on every request except the
   public boot lookup, which takes none.
 - **Placeholders:**
@@ -83,6 +90,8 @@ resource `/platforms/{id}/hosting-projects/`:
 | `GET dns/` | `Ibl.Mentor/HostingProjects/read` |
 | `POST dns/` | `Ibl.Mentor/HostingProjects/write` |
 | `DELETE dns/` | `Ibl.Mentor/HostingProjects/write` |
+| `GET /v1/apps` | `Ibl.Mentor/HostingProjects/list` |
+| `POST /v1/apps/{pk}/transfers` | `Ibl.Mentor/HostingProjects/write` |
 
 Note `DELETE dns/` enforces `write`, not `delete`, despite what the `delete` verb's
 registered description suggests. The table is what the server does.
@@ -116,6 +125,24 @@ registered description suggests. The table is what the server does.
   "error_message"}`. `aliases` is sorted shortest-first, so `aliases[0]` is the
   stable production host.
   → Full field tables and every response shape: [`references/fields.md`](references/fields.md).
+
+### Apps (organization-wide)
+
+- **GET** `{dm_url}/v1/apps` — every hosting project of the organization, whoever
+  owns it, newest first. Query: `page`, `page_size`; `date_filter` (`today`, `7d`,
+  `30d`, `90d`, `all_time`) or `start_date` + `end_date`, on `created_at`;
+  `transferable=true` for only the apps that have to be moved. Returns
+  `{"count", "next_page", "previous_page", "results": [...]}`. Each result is the
+  project object plus `domains[]` (`id`, `custom_domain`, `spa`, `verified_at`,
+  `lost_at`, `records[]`), `transferable` and `subdomain_available`.
+  Answered from ibl.ai's own records: no build status is fetched, so
+  `last_ready_state` is the last one seen. An app whose domain was detached stays in
+  the list.
+  `transferable: true` means the app's hosting project is still on the ibl-supplied
+  hosting account although the organization now has a hosting credential of its own —
+  see *Where the hosting project lives* in the notes. It is read from one provider
+  listing of at most 100 projects; past that an app reads `false` and its writes
+  still answer `409` `move_required`. Trust the `409`.
 
 ### Domains
 
@@ -182,6 +209,25 @@ registered description suggests. The table is what the server does.
   hosting project and every custom domain attached to it, and retires the local
   record. `204`, empty body. Deleting a project already removed upstream succeeds.
   The `id` is not reusable; the `project` slug is.
+  It works with no hosting credential configured, and on whichever hosting account
+  holds the project. When that account is out of reach the answer is `200` with
+  `{"left_behind": {"vercel_project_id", "vercel_project_name"}}`: the app is gone
+  from ibl.ai and that project is still running where it is.
+
+### Move an app
+
+- **POST** `{dm_url}/v1/apps/{pk}/transfers` — no body. Moves the app's hosting
+  project from the ibl-supplied hosting account to the organization's own. The app
+  keeps running and keeps its custom domains. Its address under the shared domain
+  is released, because that domain does not move, and `site_url` stops naming it;
+  it is put back if the move fails.
+  `200` with the project object and `moving: false` once the project is on the
+  organization's account — also when it already was. `202` with `moving: true`
+  while the provider is still moving it: call again to finish.
+  `409` with `code` `transfer_refused` (`error` carries the reason; retrying does
+  not help until it is resolved) or `nothing_to_move` (the app has no hosting
+  project on the ibl-supplied account); `409` with no `code` while a push is in
+  flight; `400` when the organization has no hosting credential.
 
 ### Domains
 
@@ -198,10 +244,15 @@ registered description suggests. The table is what the server does.
   Attaching does not make the domain live — create `required_records` at the
   registrar, then poll the domain detail read until `verified: true` and
   `misconfigured: false`. Propagation is the registrar's clock.
+  An app with no hosting project yet is given one. `left_behind` in the response
+  means the app's project was on a hosting account out of reach and a new one was
+  made in its place: deploy the app again to bring it online.
 
 - **DELETE** `{base}/dns/?project={pk}&domain={fqdn}` — **Confirm with the user
   first.** Detach a custom domain. `204`, empty body. Both query params are required.
-  Detaching a domain the provider no longer knows about succeeds.
+  Detaching a domain the provider no longer knows about succeeds. `200` with
+  `{"left_behind": {...}}` when the app's project is on a hosting account out of
+  reach: the domain is dropped here and may still be served there.
 
 ## Example
 
@@ -263,7 +314,17 @@ curl -s -X POST "$base/dns/" -H "Authorization: Api-Token $IBLAI_API_KEY" \
   `/iblai-vibe-monetization-app-paywall`.
 - **`409` on deploy means a push is already in flight** for that project. Poll until
   terminal and retry; a stuck push clears itself after about 15 minutes, after which
-  it reads as `failed` and a new deploy is accepted.
+  it reads as `failed` and a new deploy is accepted. A `409` that carries a `code` is
+  a different refusal — the next note.
+- **Where the hosting project lives decides what a write does.** On the
+  organization's current hosting account: everything above. Still on the
+  ibl-supplied account after the organization added a credential of its own
+  (`transferable: true`): a deploy, an attach, a detach and a re-verify answer `409`
+  `{"error", "code": "move_required"}` until the app is moved; delete still works.
+  On an account neither credential reaches: an attach replaces the project and names
+  the old one in `left_behind`, a re-verify answers `409` `project_unreachable`, and
+  a detach or delete drops ibl.ai's record and reports `left_behind`. A project that
+  exists nowhere is created by the next attach or deploy.
 - **`extras_error` is not `stale`.** `extras_error` set with `stale: false` means the
   build status is live and only the extra sections (domains, recent deployments)
   failed to load. `stale: true` means the whole body is a stored snapshot.

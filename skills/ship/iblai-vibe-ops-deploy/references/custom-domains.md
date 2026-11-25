@@ -56,6 +56,12 @@ needed, so it can be shown as-is.
 the organization owns: it means the records are not visible in DNS yet. Tell the
 user to add them and re-check later, do not treat it as a failure.
 
+An app that has no hosting project yet is given one by the attach. A
+`left_behind` key in the response (`{vercel_project_id, vercel_project_name}`)
+means the app's project was on a hosting account out of reach and a new one was
+made in its place — deploy the app again to bring it online, and tell the user
+the old project was left where it is.
+
 ## Choose a subdomain
 
 Send `subdomain` instead of `domain` — one label, lowercase letters, digits and
@@ -157,7 +163,9 @@ domain is re-attached to this project.
 |---|---|---|
 | 200 | Checked. Read `verified` and `misconfigured` | If `verified` is false, the records are not visible yet — wait and repeat |
 | 400 | Not a hosted domain — this row belongs to one of the ibl.ai sign-in/app domains, not a deployed site | Manage those through the custom-domains routes below |
-| 400, 404, 409 with `code` | The provider refused the check; `error` carries its reason | A 404 means the app no longer has the domain — detach it (below) and attach it again |
+| 409 with `code: "move_required"` | The app serving the domain is still on the ibl-supplied hosting account | Move the app first (see *Moving an app* below) |
+| 409 with `code: "project_unreachable"` | The app's hosting project is on a hosting account out of reach | Attach the domain to the app again — the project is replaced — or detach it |
+| 400, 404, 409 with another `code` | The provider refused the check; `error` carries its reason | A 404 means the app no longer has the domain — detach it (below) and attach it again |
 | 403 | Not the organization's API key, or hosting is admin-only for this caller | Use the admin key your operator issued |
 | 404 | No such domain for this organization | Check the `id` against the listing |
 | 429 | The provider rate-limited the check | Back off and retry; honour `Retry-After` when it is present |
@@ -187,6 +195,8 @@ organization with no deployed apps drops it without a provider call.
 | Status | Meaning | Fix |
 |---|---|---|
 | 204 | Detached at the provider and dropped | Nothing further |
+| 200 with `left_behind` | Dropped here; the app's hosting project is on a hosting account out of reach and may still serve the domain there | Tell the user |
+| 409 with `code: "move_required"` | The app serving the domain is still on the ibl-supplied hosting account | Move the app first (see *Moving an app* below) |
 | 400 | No hosting credential is configured while the organization has deployed apps (the body says so), or the row is one of the ibl.ai sign-in/app domains | Configure the credential, or manage that row through the custom-domains routes below |
 | 400, 409 with `code` | The provider refused the detach; `error` carries its reason. A domain the provider no longer knows about is not an error here — it is simply dropped | Read `error`, resolve it at the provider, retry |
 | 403, 404, 503 | As for re-verify above | As above |
@@ -221,6 +231,7 @@ Each row carries:
 | `id` | Use this as `$DOMAIN_ID` above |
 | `custom_domain` | The domain name |
 | `spa` | `vercel` for a deployed site; other values are ibl.ai's own sign-in/app domains |
+| `attached` | `true` when a deployed app serves this domain — it is then listed, and managed, with its app (`GET /dm/v1/apps`, see `/iblai-api-hosting`). Absent on a backend older than the field |
 | `verified_at` | When the organization last proved it controls the domain; `null` if never |
 | `lost_at` | When another organization claimed it; `null` while the organization still holds it |
 | `records` | The DNS records to set, structured: `[{type, name, value, reason}]` |
@@ -252,6 +263,25 @@ curl -s -X POST "$DOMAINS/$DOMAIN_ID/deleted-status/" -H "$AUTH" \
 `400` for a `spa: "vercel"` row. Restoring one — `{"is_deleted": false}` — stays
 allowed, and is the way back for a row that was hidden before the refusal
 existed.
+
+## Moving an app
+
+An organization that adds a hosting credential of its own keeps the apps it
+deployed on the ibl-supplied hosting account — they go on running — but each has
+to be moved to the organization's account before it can be redeployed or its
+domains changed (`409` with `code: "move_required"` until then):
+
+```bash
+curl -s -X POST "https://api.$DOMAIN/dm/v1/apps/$ID/transfers" -H "$AUTH" | jq '.moving'
+```
+
+`false` means it has arrived; `true` (a `202`) means the provider is still moving
+it — repeat the call. An organization admin can do the same under **Apps** in the
+ibl.ai sidebar.
+
+The move releases the app's address under the shared domain, because that domain
+stays with the ibl-supplied account. To leave visitors no gap, attach a domain the
+organization owns **before** adding the credential, and move afterwards.
 
 ## How a domain moves between organizations
 
