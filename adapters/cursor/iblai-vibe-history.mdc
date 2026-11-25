@@ -280,7 +280,7 @@ any other caller gets a 403.
 | Method | Path | Purpose |
 |---|---|---|
 | GET | `my-chat-history/` | List the user's sessions — `page`, `page_size`, plus `mentor_id`, `start_date`, `end_date`, `topic`, `sentiment` filters |
-| GET | `my-chat-history/{session_id}/` | One session with its full `messages` transcript |
+| GET | `my-chat-history/{session_id}/` | One session with its full `messages` transcript. Returns 200 for any session the user owns, including one with no messages yet (`is_conversation: false`, `messages: []`); the list omits those |
 | GET | `my-chat-history-filter/` | The sentiment/topic values available to filter by |
 | POST | `my-chat-history-report/` | Start an export — `{ format: "csv" \| "json", start_date?, end_date?, filters?: { mentor_id?: [..], topic?, sentiment? } }` (`mentor_id` is an array even for one agent) |
 | GET | `my-chat-history-report/` | List generated reports (the Exports tab) |
