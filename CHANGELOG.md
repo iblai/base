@@ -3,6 +3,16 @@
 All notable changes to the [vibe](https://github.com/iblai/base) toolkit.
 
 
+## [2.28.0] - 2026-11-26
+
+### Added
+
+- document client tools in agent-session
+
+### Documentation
+
+- client tool results move to /v1/chat/tool-results
+
 ## [2.27.2] - 2026-11-24
 
 ### Fixed
