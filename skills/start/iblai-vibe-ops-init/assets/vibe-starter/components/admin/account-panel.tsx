@@ -13,9 +13,14 @@ import { resolveAppTenant, readTenants } from "@/lib/iblai/tenant";
  * background — so several tabs can live at their own routes.
  *
  * Tabs: organization · management (Users, Groups, Roles, Policies, Teams,
- * Alerts) · api · secrets (LLMs, Services, Environment Variables) ·
- * virtualMachine (the Network page) · advanced · billing · memory ·
- * monetization. The old `integrations` id still opens Secrets.
+ * Alerts, Applications) · invites · onboarding · apps · api · secrets (LLMs,
+ * Services, Environment Variables) · virtualMachine (the Network page) ·
+ * advanced · billing · memory · monetization. The SDK shows every tab except
+ * management, invites, billing and monetization to admins only (api also
+ * needs permission to list API tokens), billing only while the org's paywall
+ * is on, and monetization only while the org has monetization turned on.
+ * Without `enableRbac` (below), invites and monetization are admin-only too.
+ * The old `integrations` id still opens Secrets.
  *
  * `enableRbac` is deliberately NOT passed. It only means anything alongside a
  * matching `rbacPermissions` object: `checkRbacPermission` returns true when
@@ -34,6 +39,9 @@ export function AccountPanel({
   tab:
     | "organization"
     | "management"
+    | "invites"
+    | "onboarding"
+    | "apps"
     | "api"
     | "secrets"
     | "virtualMachine"

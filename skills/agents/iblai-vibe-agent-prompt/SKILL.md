@@ -9,11 +9,13 @@ metadata:
 
 # /iblai-vibe-agent-prompt
 
-Add the agent **Prompts tab** -- displays four system prompts (system,
-proactive, study, guided) with edit/copy buttons and toggle switches,
-plus a suggested prompts section with add and edit modals. This is one
-tab in the wider agent-settings family. All tabs share the same
-`AgentSettingsProvider` wrapper.
+Add the agent **Prompts tab** -- a full-width **System Prompt** card, then
+**Proactive Prompt** and **Guided Prompt** side by side (stacked on
+phones), each with **Edit** and **Copy** buttons; Proactive and Guided
+each carry an Active/Inactive switch. Below them, a **Suggested Prompts**
+section with add and edit modals. This is one tab in the wider
+agent-settings family. All tabs share the same `AgentSettingsProvider`
+wrapper.
 
 ![Prompts Tab](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/skills/agents/iblai-vibe-agent-prompt/iblai-vibe-agent-prompt.png)
 
@@ -75,6 +77,11 @@ import { AgentPromptsTab } from "@iblai/iblai-js/web-containers/next";
 />;
 ```
 
+The label bundle has `header`, `prompts.system`, `prompts.proactive`,
+`prompts.guided`, `prompts.suggested`, `actions` and `toasts`. There is
+no `prompts.study` key any more: an object-literal override that still
+sets one fails to typecheck.
+
 ## Step 4: Use MCP Tools for Customization
 
 ```
@@ -97,7 +104,23 @@ From `@iblai/iblai-js/web-containers/next`:
 
 - `AGENT_PROMPTS_TAB_LABELS` -- the default agent-facing label bundle.
 - `PromptsTabLabels` -- type for the full label bundle.
-- `GreetingMethod` -- type for greeting method options.
+- `GreetingMethod` -- enum of the `greeting_method` values the Proactive
+  Prompt switch writes: `GreetingMethod.PROACTIVE_PROMPT` is
+  `"proactive_prompt"`, `GreetingMethod.PROACTIVE_RESPONSE` is
+  `"proactive_response"` (the wire values are lower case).
+
+## What Each Card Saves
+
+The three prompt cards write to the agent's settings
+(`useEditMentorMutation`), one field per save; a suggested prompt is a
+record of its own.
+
+| Card | **Edit** saves | Switch saves |
+|------|----------------|--------------|
+| System Prompt | `system_prompt` | -- (no switch) |
+| Proactive Prompt | `proactive_prompt` | `greeting_method`: `proactive_prompt` when Active (the agent answers this prompt to open the chat), `proactive_response` when Inactive (the agent's stored greeting text, no LLM call; this tab does not edit that text) |
+| Guided Prompt | `guided_prompt_instructions` (how the suggestions are written) | `enable_guided_prompts` (the chat suggests next prompts, written by the LLM from the conversation) |
+| Suggested Prompts | the prompt text, its category and visibility (**Add New Prompt** creates one, **Edit** changes it; delete is not in the tab, see `/iblai-api-agent-prompt`) | -- |
 
 ## Step 5: Verify
 
@@ -108,7 +131,7 @@ test titled `<ID> · …` in `e2e/journeys/`, listed in `e2e/coverage.json`;
 
 1. `pnpm build` -- must pass with zero errors
 2. `pnpm test` -- vitest must pass
-3. Touch test `/agents/<id>/prompt` in the browser as `/iblai-vibe-ops-test` says: open it,
+3. Touch test `/agents/<id>/prompts` in the browser as `/iblai-vibe-ops-test` says: open it,
    use every control this skill added, read the console, check the phone width.
 
 ## Important Notes

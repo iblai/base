@@ -18,10 +18,6 @@
       "reason": "drift: agent-history documents a memory path that 404s. Schema has /api/ai-mentor/orgs/{}/users/{}/sessions/{}/memory/ and /api/ai-prompt/orgs/{}/users/{}/memory/{}/. Confirm the intended one with backend, fix the skill, then remove."
     },
     {
-      "match": "* /api/ai-mentor/orgs/{}/mentors/{}/settings",
-      "reason": "drift: agent-tool documents a settings path without the users segment; live returns 404. Real path (verified 401): /api/ai-mentor/orgs/{}/users/{}/mentors/{}/settings/. Fix the skill, then remove this entry."
-    },
-    {
       "match": "* /api/ai-mentor/orgs/{}/users/{}/mentor/llms",
       "reason": "drift: iblai-api-integration documents /mentor/llms/ (two segments); live returns 404. Schema has /api/ai-mentor/orgs/{}/users/{}/mentor-llms/ (one segment) and /agent-llms/. Confirm intended one, fix the skill, then remove."
     }
