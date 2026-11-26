@@ -3,6 +3,22 @@
 All notable changes to the [vibe](https://github.com/iblai/base) toolkit.
 
 
+## [2.29.0] - 2026-11-26
+
+### Added
+
+- capability switches in their own tabs, no Tools tab, and Invites, Onboarding and Apps in organization settings; starter to @iblai/iblai-js 3.0.0
+
+### Fixed
+
+- starter to @iblai/iblai-js 3.1.0, and correct the skills after checking every claim against the SDK
+
+### Documentation
+
+- recapture the support, skills, prompts, MCP and link-service shots, and keep the released image paths
+- name the API version, not the backend service, for the capability flags
+- screenshots for the 3.0.0 agent tabs and organization settings
+
 ## [2.28.0] - 2026-11-26
 
 ### Added
