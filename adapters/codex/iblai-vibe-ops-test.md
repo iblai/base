@@ -1,6 +1,6 @@
 # iblai-vibe-ops-test
 
-> Test an ibl.ai Next.js app before showing it or saying done — pnpm build, pnpm test, then a touch test that drives the running app in a real browser (Claude in Chrome or the Chrome DevTools MCP) through every control you added, reads the console and the failed requests, and checks the phone width; the user signs in by hand, never with a password; Playwright signs in as two test accounts the skill creates. Also sets up Vitest and Playwright journeys, writes the e2e suite exhaustively (every page, control and state, both accounts, the phone) until pnpm e2e:coverage passes 95%, and keeps e2e/COVERAGE.md + coverage.json. Use when the user says "is it done", "show me", "test this", "touch test", "add tests", "write tests", "increase coverage", "set up Vitest", "set up Playwright", or "track e2e coverage". For the deployed URL see /iblai-vibe-ops-deploy.
+> Test an ibl.ai Next.js app before showing it or saying done — pnpm build, pnpm test, then a touch test that drives the running app in a real browser (Claude in Chrome or the Chrome DevTools MCP) through every control you added, reads the console and the failed requests, and checks the phone width; the user signs in by hand, never with a password; Playwright signs in as two test accounts the skill creates. On request, a headless whole-app touch test (chrome-devtools command line, those accounts) — plan first, then every workflow, journey and button, beyond the e2e. Also sets up Vitest and Playwright journeys and writes the e2e suite exhaustively until pnpm e2e:coverage passes 95% (e2e/COVERAGE.md + coverage.json). Use when the user says "is it done", "show me", "test this", "touch test", "touch test everything", "headless touch test", "add tests", "write tests", "increase coverage", "set up Vitest", "set up Playwright", or "track e2e coverage". For the deployed URL see /iblai-vibe-ops-deploy.
 
 # /iblai-vibe-ops-test
 
@@ -9,8 +9,8 @@ Two jobs. **Before you say "done"** — every change, a feature or a whole app:
 app in a real browser. **When the user asks for tests or coverage**: Steps 0–5
 set up Vitest and Playwright journeys and lift coverage above 95%.
 
-Never ask for a password. The touch test lets the user sign in by hand in the
-browser window; `pnpm test:e2e` signs in as two test accounts that
+Never ask for a password: the user signs in by hand in the browser window;
+`pnpm test:e2e` and the headless touch test sign in as two test accounts that
 `pnpm e2e:accounts` creates. Use `pnpm`; fall back to `npm` if it is not installed.
 
 ## Before you say "done"
@@ -37,7 +37,8 @@ browser window; `pnpm test:e2e` signs in as two test accounts that
 
 A change with no screen (a script, a server route nothing renders yet) reports
 "no screen to touch" in place of step 3. Never say "done", "ready" or
-"complete" without the touch-test report.
+"complete" without the touch-test report. A new app: before its first "done",
+ask the user whether to run [the whole app, headless](#the-whole-app-headless) (no e2e needed).
 
 ## Touch test in the browser
 
@@ -45,20 +46,17 @@ Tests prove the code; this proves the screen. Drive the running app in a real
 browser, use what you built, read the console. It can fail — when it does, fix
 the code and run it again.
 
-1. **Pick the tool** from your tool list (Claude Code may list MCP tools as
-   deferred; load them with ToolSearch):
+1. **Pick the tool.** Headless or the whole app: [the command line](#the-whole-app-headless),
+   never a loaded server. Otherwise the first in your tool list (Claude Code may
+   list MCP tools as deferred; load them with ToolSearch):
    - `mcp__claude-in-chrome__*` — Claude in Chrome, the user's own signed-in
      Chrome (they started `claude --chrome`, or turned it on under `/chrome`).
    - else `mcp__chrome-devtools__*` — the Chrome DevTools MCP: vibe-starter and
      the scaffold ship it in `.mcp.json`; its Chrome keeps its own profile, so
      the sign-in survives between runs.
    - else `mcp__playwright__*` — the Playwright MCP older scaffolds ship.
-   - else **stop** and say: "I can't touch test without a browser tool. Restart
-     with `claude --chrome`, or turn on the `chrome-devtools` server (`/mcp`; I
-     can add it to `.mcp.json`)." Codex and Cursor entries:
-     [references/browser-touch-test.md](references/browser-touch-test.md). No
-     screenshot script instead, no password, and never report the touch test as
-     run.
+   - else the command line, headless; if it cannot start, **stop** and say so —
+     no screenshot script instead, no password, never report it as run.
 
    The tool names below are the DevTools MCP's; the others have a matching
    tool — `/mcp` lists Claude in Chrome's. Never guess a name.
@@ -109,6 +107,19 @@ the code and run it again.
 Something broke: fix it, run `pnpm build` and `pnpm test` again, touch test
 again. After a deploy, run the same on the live URL — `/iblai-vibe-ops-deploy`
 says when.
+
+### The whole app, headless
+
+Asked to touch test everything or headless, or a yes to the new-app question.
+It runs in the background for a long while: say so, and ask the user to keep the
+computer on and awake until you report. Headless Chrome through the Chrome
+DevTools command line, as the two test accounts; its user agent must read
+`HeadlessChrome` or nothing is reported. `scripts/touch.mjs` plans every route's
+controls (`e2e` when a spec names one, else `beyond`) and drives those that only
+open, navigate or filter; you run the rest, the workflows and the states the e2e
+skips, as the admin and the member, at desktop and 412 px. It ends in the e2e:
+each ✗ and each working `beyond` line becomes a checkpoint, so every rerun starts
+from what is still `beyond`. How: [references/browser-touch-test.md](references/browser-touch-test.md#the-whole-app-headless).
 
 ## Step 0: Detect what's already there
 
@@ -470,17 +481,13 @@ reaches: add the journey (Step 4) and rerun until it passes.
 
 | Symptom | Fix |
 |---------|-----|
-| `Cannot read properties of undefined (reading 'matches')` | Add `matchMedia` polyfill to setup file (already covered above) |
-| Radix dialog crashes in jsdom | Pointer-capture polyfill — already covered above |
 | RTK Query hook returns `undefined` in tests | Module-mock the hook: `vi.mock('@iblai/iblai-js/data-layer', () => ({ useFooQuery: () => ({ data: ... }) }))` |
 | `next/navigation` errors in hook tests | `vi.mock('next/navigation', () => ({ useParams: () => ({}) }))` |
 | `pnpm e2e:coverage` under 95% | Visit the page it names from a journey (one checkpoint per page); never exclude a page |
 | `pnpm test:e2e` says nothing answers at :3000 | Start `pnpm dev` (or `pnpm build && pnpm start`) first; the suite never starts a server |
 | Playwright timeouts on first run | `pnpm exec playwright install chromium --with-deps` (Linux needs system libs) |
 | Tests pass locally but fail in CI | Set `workers: process.env.CI ? 1 : 4` and `retries: process.env.CI ? 2 : 0` — see references/playwright-setup.md |
-| Coverage report missing | Install `@vitest/coverage-v8` (not bundled with vitest) |
-| Browser tool says "No page found" | Its Chrome restarted: `list_pages`, then navigate again |
-| Sign-in never comes back to the app | The origin (port included) is missing from the organization's allowed redirect origins |
+| jsdom crashes (`matchMedia`, Radix), no coverage report | [references/test-patterns.md](references/test-patterns.md) § 9 |
 | `auth.setup.ts` says the login page offers no password sign-in it recognises | The page changed: read the controls it printed, update the four resolver rules at the top of `e2e/auth.setup.ts` (structure, never copy: a password field, a button named like password, an email field, a submit button), rerun. Never type credentials by hand |
 
 **Brand guidelines**: [BRAND.md](https://raw.githubusercontent.com/iblai/vibe/refs/heads/main/BRAND.md)

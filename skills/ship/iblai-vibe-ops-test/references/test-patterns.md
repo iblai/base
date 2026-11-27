@@ -277,3 +277,11 @@ it('matches snapshot', () => {
 ```
 
 Run `vitest -u` to update on intentional changes.
+
+## 9. jsdom and coverage symptoms
+
+| Symptom | Fix |
+|---------|-----|
+| `Cannot read properties of undefined (reading 'matches')` | The `matchMedia` polyfill in `__tests__/vitest.setup.ts` |
+| Radix dialog crashes in jsdom | The pointer-capture polyfill in the same setup file |
+| Coverage report missing | Install `@vitest/coverage-v8` (not bundled with vitest) |
