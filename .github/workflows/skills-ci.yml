@@ -34,7 +34,7 @@ jobs:
           echo "::error::Add the run-tests label to this PR — skills-ci must run and pass before it can merge."
           exit 1
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
 
@@ -69,11 +69,11 @@ jobs:
             echo "skills=$(IFS=,; echo "${skills[*]}")"; echo "api=$(IFS=,; echo "${api[*]}")"
           } >> "$GITHUB_OUTPUT"
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
         with:
           package_json_file: ${{ env.STARTER_DIR }}/package.json
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
           cache: pnpm
@@ -163,7 +163,7 @@ jobs:
           echo "::error::Add the run-tests label to this PR — skills-ci must run and pass before it can merge."
           exit 1
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
 
@@ -190,7 +190,7 @@ jobs:
           # own CI does the same.
           sudo rm -f /usr/share/dbus-1/services/org.freedesktop.portal.Desktop.service
 
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
         if: steps.changed.outputs.shell == 'true'
         with:
           components: rustfmt
@@ -199,13 +199,13 @@ jobs:
         if: steps.changed.outputs.shell == 'true'
         run: bash scripts/test-tauri-shell.sh --prepare
 
-      - uses: swatinem/rust-cache@v2
+      - uses: swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         if: steps.changed.outputs.shell == 'true'
         with:
           workspaces: .skill-tests/tauri-shell/src-tauri
           cache-on-failure: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         if: steps.changed.outputs.shell == 'true'
         with:
           node-version: 22
@@ -224,7 +224,7 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
 
@@ -239,12 +239,12 @@ jobs:
           [ -z "$changed" ] && echo "No skills changed — agent tier skipped." || true
           [ "$HAS_KEY" = "false" ] && echo "::notice::ANTHROPIC_API_KEY not available — agent tier skipped." || true
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
         if: steps.gate.outputs.changed != '' && steps.gate.outputs.has_key == 'true'
         with:
           package_json_file: ${{ env.STARTER_DIR }}/package.json
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         if: steps.gate.outputs.changed != '' && steps.gate.outputs.has_key == 'true'
         with:
           node-version: 22
@@ -269,7 +269,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Check secrets
         id: gate
@@ -279,12 +279,12 @@ jobs:
           echo "ready=$READY" >> "$GITHUB_OUTPUT"
           [ "$READY" = "false" ] && echo "::notice::live secrets not configured — live tier skipped." || true
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
         if: steps.gate.outputs.ready == 'true'
         with:
           package_json_file: ${{ env.STARTER_DIR }}/package.json
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         if: steps.gate.outputs.ready == 'true'
         with:
           node-version: 22
