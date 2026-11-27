@@ -240,6 +240,8 @@ The pass ends in the e2e, written as Step 4 writes it:
   route and in `e2e/coverage.json`. It fails until the fix lands: fix the app
   and run it again. When the fix is not yours to make, ask the user before a
   failing checkpoint is committed; `test.fixme` names the finding meanwhile.
+  Run it once without `fixme` first: it must fail while the defect is there (an
+  absence asserted before the page renders passes too early).
 - Each `beyond` line that worked becomes a checkpoint asserting what it did.
 - `pnpm e2e:coverage`, then `pnpm test:e2e`.
 

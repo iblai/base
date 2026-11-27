@@ -34,15 +34,24 @@ export const parseControls = (text) =>
     return m ? [{ uid: m[1], role: m[2], name: m[3] }] : [];
   });
 export const isHandRun = (c) => c.role === "switch" || HAND_RUN.test(c.name);
-export const inE2e = (name, specs) => {
+/** Regex locators in a spec (`name: /^About /`), so a control they match counts as covered. */
+export const specRegexes = (text) =>
+  [...text.matchAll(/\bname:\s*\/((?:\\.|[^/\\\n])+)\/([dimsuy]*)/g)].flatMap(([, src, flags]) => {
+    try {
+      return [new RegExp(src, flags)];
+    } catch {
+      return [];
+    }
+  });
+export const inE2e = (name, specs, regexes = []) => {
   const n = name.toLowerCase().replace(/\s+/g, " ").trim();
-  return n.length > 1 && specs.includes(n);
+  return (n.length > 1 && specs.includes(n)) || regexes.some((r) => r.test(name));
 };
 const isRow = (c) => c.role === "link" && c.name.split(" ").length >= 4;
 const key = (c) => `${c.role}\t${c.name}`;
 
 /** snaps: { route: snapshot text }, first route first; specs: every e2e file, lower-cased; journeys: coverage.json's. */
-export function buildPlan(snaps, specs, journeys = []) {
+export function buildPlan(snaps, specs, journeys = [], regexes = []) {
   const routes = Object.keys(snaps);
   const lists = Object.fromEntries(
     routes.map((r) => {
@@ -56,7 +65,7 @@ export function buildPlan(snaps, specs, journeys = []) {
   const shell = new Set(routes.length > 2 ? Object.keys(seen).filter((k) => seen[k] >= Math.ceil(routes.length * 0.75)) : []);
   const counts = { controls: 0, beyond: 0, byHand: 0 };
   const line = (c) => {
-    const e2e = inE2e(c.name, specs);
+    const e2e = inE2e(c.name, specs, regexes);
     counts.controls++;
     if (!e2e) counts.beyond++;
     if (isHandRun(c)) counts.byHand++;
@@ -185,9 +194,10 @@ function doPlan() {
   const files = [];
   const walk = (d) => fs.existsSync(d) && fs.readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? e.name !== "node_modules" && walk(path.join(d, e.name)) : /\.(ts|tsx|js|mjs)$/.test(e.name) && files.push(path.join(d, e.name))));
   walk("e2e");
-  const specs = files.map((f) => fs.readFileSync(f, "utf8").toLowerCase()).join("\n");
+  const texts = files.map((f) => fs.readFileSync(f, "utf8"));
+  const specs = texts.join("\n").toLowerCase();
   const journeys = fs.existsSync("e2e/coverage.json") ? JSON.parse(fs.readFileSync("e2e/coverage.json", "utf8")).journeys ?? [] : [];
-  const { md, counts } = buildPlan(snaps, specs, journeys);
+  const { md, counts } = buildPlan(snaps, specs, journeys, texts.flatMap(specRegexes));
   fs.writeFileSync(path.join(DIR, "plan.md"), md);
   console.log(`${DIR}/plan.md: ${counts.routes} routes, ${counts.controls} controls (${counts.beyond} beyond the e2e, ${counts.byHand} by hand), ${journeys.length} journeys`);
 }

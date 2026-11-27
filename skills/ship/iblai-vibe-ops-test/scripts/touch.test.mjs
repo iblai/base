@@ -4,7 +4,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { buildPlan, inE2e, isHandRun, parseControls, parsePlan } from "./touch.mjs";
+import { buildPlan, inE2e, isHandRun, parseControls, parsePlan, specRegexes } from "./touch.mjs";
 
 const snap = (...lines) => lines.map((l, i) => `  uid=1_${i} ${l}`).join("\n");
 const shell = ['button "People"', 'button "Deals"', 'switch "Admin mode"'];
@@ -57,4 +57,13 @@ test("a rerun after new checkpoints names those controls e2e", () => {
   const snaps = { people: snap('button "New person"', 'button "Filter"') };
   assert.equal(buildPlan(snaps, "").counts.beyond, 2);
   assert.equal(buildPlan(snaps, `getbyrole("button", { name: "filter" })`).counts.beyond, 1);
+});
+
+test("a regex locator in a spec counts the controls it matches as e2e", () => {
+  const rx = specRegexes(`page.getByRole("button", { name: /^About / }); getByRole("alertdialog", { name: /^Delete stage/i })`);
+  assert.equal(rx.length, 2);
+  assert.equal(inE2e("About open deals", "", rx), true);
+  assert.equal(inE2e("delete stage Won", "", rx), true);
+  assert.equal(inE2e("Open board", "", rx), false);
+  assert.equal(buildPlan({ home: snap('button "About people"', 'button "Open board"') }, "", [], rx).counts.beyond, 1);
 });
