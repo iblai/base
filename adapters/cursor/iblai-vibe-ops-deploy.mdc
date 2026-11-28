@@ -351,6 +351,7 @@ that URL. Leave `build.devUrl` alone (`tauri dev` runs the local dev server).
 | 402 | Deploy credit cost unmet | Top up platform credits |
 | 403 | `TOKEN` is not the organization's platform API key, or it belongs to another `PLATFORM` — hosting is admin-only | Use the `TOKEN` your operator issued for this `PLATFORM`; a personal sign-in token cannot deploy |
 | 409 | A push for this project is already in flight; the `project` slug collides; or the `subdomain` is taken — `error` names the host and says so | Wait for the running push to finish; pick another `project` slug; or drop the `SUBDOMAIN=` line from `iblai.env`, ask the user for a different subdomain and redeploy |
+| 409 with `code: "move_required"` | The organization now has a hosting credential of its own and this app is still on the ibl-supplied hosting account | An organization admin moves it — **Apps** in the ibl.ai sidebar, then Move (or `POST /dm/v1/apps/{id}/transfers`, see `/iblai-api-hosting`) — then redeploy |
 | 429 | Rate limited | Wait the `Retry-After` seconds, then retry |
 | 502 | Vercel rejected the organization's stored credential | Admin re-saves a valid credential in the credentials UI |
 | 503 | The deployment would have no address: this project has no custom domain of its own, and the platform's shared domain **is offered but unreachable** — or a `subdomain` was sent while no shared domain is on offer for this organization. When no shared domain is offered at all and none was sent, the deploy is accepted (202) with `site_url: null` instead | Nothing was uploaded. Either configure a custom domain for the project (see the custom-domains reference) and redeploy with `-F "domain=…"`, or ask your ibl.ai operator to fix the shared domain — the error names the setting |
@@ -359,7 +360,9 @@ that URL. Leave `build.devUrl` alone (`tauri dev` runs the local dev server).
 
 Attaching a domain, handing the user the DNS records to set, re-verifying one,
 reclaiming one and detaching it — every route and response field is in
-[references/custom-domains.md](references/custom-domains.md).
+[references/custom-domains.md](references/custom-domains.md). An organization
+admin can do the same by hand under **Apps** in the ibl.ai sidebar, which lists
+every app of the organization with its domains.
 
 ## Deploy to a server the team controls
 

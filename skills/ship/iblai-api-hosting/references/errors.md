@@ -12,6 +12,7 @@ Three envelopes are in play:
 |---|---|
 | `{"error": "<message>"}` | The hosting layer's own refusals. |
 | `{"error": "<message>", "code": "<provider code>"}` | A provider failure relayed through. |
+| `{"error": "<message>", "code": "<ibl.ai code>"}` | A `409` the hosting layer raises itself — see *Codes on a `409`*. |
 | `{"<field>": ["<message>"]}` | Request validation — the key is the offending field. |
 | `{"detail": "<message>"}` | Framework-level auth, not-found and throttling. |
 
@@ -67,6 +68,30 @@ authorization check, so an authenticated non-admin with a malformed query gets
 | 400 | `DELETE dns/` without `domain`. | It is required, despite being optional on the list read. |
 | 400 | `POST dns/` with neither `domain` nor `subdomain`, with both, or with a malformed `subdomain`; `POST deployment/` of a project with no address and no `subdomain` while a shared domain is on offer. The body has a `subdomain` key. | Send exactly one; ask the user for a subdomain — the platform never invents an address. |
 | 409 | The domain is already in use — or the chosen subdomain is taken (another organization, another of your projects, or a reserved label such as `www`). | The reservation spans **all** ibl.ai app domains, not just hosting, so this can collide with an auth, agent or analytics domain. Nothing was sent to the provider and nothing was left behind — pick another name. |
+
+## Codes on a `409`
+
+A `409` whose `code` is one of these four comes from the hosting layer, not the
+provider. Branch on `code`; `error` is a sentence for a person.
+
+| `code` | From | Condition | What to do |
+|---|---|---|---|
+| `move_required` | `POST deployment/`, `POST dns/`, `DELETE dns/`, and the organization-scoped re-verify and detach (`…/orgs/{org}/providers/vercel/hosting/domains/{id}/`, in `/iblai-vibe-ops-deploy`'s custom-domains reference) | The organization has a hosting credential of its own and this app's hosting project is still on the ibl-supplied account. | `POST /v1/apps/{pk}/transfers`, then retry. `DELETE deployment/{pk}/` is not refused. |
+| `project_unreachable` | The organization-scoped re-verify | The app's hosting project is on a hosting account neither credential reaches. | Attach the domain to the app again (the project is replaced), or detach it. |
+| `transfer_refused` | `POST /v1/apps/{pk}/transfers` | The provider refused the move; `error` carries its reason. | Not retryable as it stands. The app is unchanged and keeps its shared-domain address. |
+| `nothing_to_move` | `POST /v1/apps/{pk}/transfers` | The app has no hosting project on the ibl-supplied account. | Nothing: attach or deploy as usual. |
+
+`POST /v1/apps/{pk}/transfers` also answers `409` with no `code` while a push for
+the app is in flight, `400` when the organization has no hosting credential, and
+`404` for an id that is not one of the organization's apps.
+
+## `left_behind`
+
+Not an error. `{"left_behind": {"vercel_project_id", "vercel_project_name"}}` on a
+`200` from `DELETE deployment/{pk}/`, `DELETE dns/` or the organization-scoped
+detach — and as a key of the `201` from `POST dns/` — names a hosting project
+ibl.ai stopped tracking because it sits on a hosting account out of reach. It
+still exists and may still serve. Tell the user; nothing here can remove it.
 
 ## Provider translation
 

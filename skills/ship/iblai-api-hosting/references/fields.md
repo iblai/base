@@ -42,6 +42,24 @@ has not been touched for about 15 minutes reports `failed`, and a new deploy is
 accepted from then on. Nothing is written to make that happen — the value simply
 changes on read.
 
+## The app object
+
+`GET /v1/apps` returns `{"count", "next_page", "previous_page", "results"}`;
+`next_page` and `previous_page` are page numbers or `null`. Each result is the
+project object above plus:
+
+| Field | Type | Notes |
+|---|---|---|
+| `domains` | array | The domains attached to the app, each `{"id", "custom_domain", "spa", "verified_at", "lost_at", "records"}` — the same row, trimmed, that the organization's custom-domains listing returns. `id` is the `{id}` of the organization-scoped re-verify and detach routes. |
+| `transferable` | boolean | `true` while the app's hosting project is still on the ibl-supplied account although the organization has a hosting credential of its own. |
+| `subdomain_available` | boolean | Whether a `subdomain` under the shared domain can be chosen for this organization's apps. The same on every row. |
+
+`POST /v1/apps/{pk}/transfers` returns the project object plus `moving` (boolean):
+`true` on the `202`, `false` on the `200`.
+
+`left_behind`, where it appears, is `{"vercel_project_id": string,
+"vercel_project_name": string}`.
+
 ## `latest_deployment` — list responses only
 
 Present on `GET deployment/` only, and `null` for any project the provider did not
